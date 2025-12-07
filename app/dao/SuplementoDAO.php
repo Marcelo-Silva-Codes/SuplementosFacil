@@ -18,14 +18,14 @@ class SuplementosDAO
     public function inserir(Suplemento $s)
     {
         $sql = "INSERT INTO suplemento 
-                (nome, quantidade_produto, categoria_id, forma_apresentacao, descricao, preco, img, marca, vegano, gluten, lactose)
+                (nome, quantidade_total, categoria_id, forma_apresentacao, descricao, preco, img, marca, vegano, gluten, lactose)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conexao->prepare($sql);
 
         $stmt->execute([
             $s->getNome(),
-            $s->getQuantidadeProduto(),
+            $s->getquantidadeTotal(),
             $s->getCategoriaId(),
             $s->getFormaApresentacao(),
             $s->getDescricao(),
@@ -54,7 +54,7 @@ class SuplementosDAO
         $s = new Suplemento();
         $s->setId($row['id']);
         $s->setNome($row['nome']);
-        $s->setQuantidadeProduto($row['quantidade_produto']);
+        $s->setquantidadeTotal($row['quantidade_total']);
         $s->setCategoriaId($row['categoria_id']);
         $s->setFormaApresentacao($row['forma_apresentacao']);
         $s->setDescricao($row['descricao']);
@@ -84,7 +84,7 @@ class SuplementosDAO
             $s = new Suplemento();
             $s->setId($row['id']);
             $s->setNome($row['nome']);
-            $s->setQuantidadeProduto($row['quantidade_produto']);
+            $s->setquantidadeTotal($row['quantidade_total']);
             $s->setCategoriaId($row['categoria_id']);
             $s->setFormaApresentacao($row['forma_apresentacao']);
             $s->setDescricao($row['descricao']);
@@ -107,7 +107,7 @@ class SuplementosDAO
     public function atualizar(Suplemento $s)
     {
         $sql = "UPDATE suplemento
-                SET nome = ?, quantidade_produto = ?, categoria_id = ?, forma_apresentacao = ?, 
+                SET nome = ?, quantidade_total = ?, categoria_id = ?, forma_apresentacao = ?, 
                     descricao = ?, preco = ?, img = ?, marca = ?, vegano = ?, gluten = ?, lactose = ?
                 WHERE id = ?";
 
@@ -115,7 +115,7 @@ class SuplementosDAO
 
         $stmt->execute([
             $s->getNome(),
-            $s->getQuantidadeProduto(),
+            $s->getquantidadeTotal(),
             $s->getCategoriaId(),
             $s->getFormaApresentacao(),
             $s->getDescricao(),

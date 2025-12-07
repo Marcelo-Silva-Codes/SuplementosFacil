@@ -25,8 +25,8 @@ $nutrientes = $nutDao->listarTodos();
     <label>Nome:</label><br>
     <input type="text" name="nome" required><br><br>
 
-    <label>Quantidade do Produto:</label><br>
-    <input type="number" name="quantidade_produto" required><br><br>
+    <label>Quantidade Total do Produto:</label><br>
+    <input type="number" name="quantidade_total" required><br><br>
 
     <label>Categoria:</label><br>
     <select name="categoria_id" required>

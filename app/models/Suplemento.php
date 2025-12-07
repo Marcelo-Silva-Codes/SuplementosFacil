@@ -4,11 +4,15 @@ class Suplemento
 {
     private int $id;
     private string $nome;
-    private int $quantidadeProduto;
+    private int $quantidadeTotal;
+    private string $quantidade_total_UM;
     private int $categoriaId;
     private string $formaApresentacao;
-    private int $formaId;
+    private string $quantidade_por_porcao;
+    private string $quantidade_por_porcao_UM;
+    private String $calorias;
     private ?string $descricao;
+    private string $sabor;
     private float $preco;
     private ?string $img;
     private ?string $marca;
@@ -33,11 +37,11 @@ class Suplemento
     public function setNome(string $nome){ 
         $this->nome = $nome; }
 
-    public function getQuantidadeProduto(){
-        return $this->quantidadeProduto; 
+    public function getquantidadeTotal(){
+        return $this->quantidadeTotal; 
     }
-    public function setQuantidadeProduto(int $qtd){ 
-        $this->quantidadeProduto = $qtd; 
+    public function setquantidadeTotal(int $qtd){ 
+        $this->quantidadeTotal = $qtd; 
     }
 
     public function getCategoriaId(){ 
@@ -51,12 +55,6 @@ class Suplemento
     
     public function setFormaApresentacao(string $formaApresentacao){ 
         $this->formaApresentacao = $formaApresentacao; }
-
-    public function getFormaId(){ 
-        return $this->formaId; }
-
-    public function setFormaId(int $formaId){ 
-        $this->formaId = $formaId; }
 
     public function getDescricao(){ 
         return $this->descricao; 

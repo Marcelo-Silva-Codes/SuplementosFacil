@@ -28,7 +28,7 @@ class SuplementoController
     {
         $s = new Suplemento();
         $s->setNome($_POST['nome']);
-        $s->setQuantidadeProduto($_POST['quantidade_produto']);
+        $s->setquantidadeTotal($_POST['quantidade_total']);
         $s->setCategoriaId($_POST['categoria_id']);
         $s->setFormaApresentacao($_POST['forma_apresentacao']);
         $s->setPreco($_POST['preco']);
@@ -59,7 +59,7 @@ class SuplementoController
         $s = new Suplemento();
         $s->setId($_POST['id']);
         $s->setNome($_POST['nome']);
-        $s->setQuantidadeProduto($_POST['quantidade_produto']);
+        $s->setquantidadeTotal($_POST['quantidade_total']);
         $s->setCategoriaId($_POST['categoria_id']);
         $s->setFormaApresentacao($_POST['forma_apresentacao']);
         $s->setPreco($_POST['preco']);
