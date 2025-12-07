@@ -23,12 +23,6 @@
     <label for="senha">Senha:</label>
     <input type="password" name="senha" id="senha" required>
 
-    <label for="papel">Papel:</label>
-    <select name="papel" id="papel" required>
-      <option value="user">Usuário</option>
-      <option value="admin">Administrador</option>
-    </select>
-
     <label for="img">Imagem de perfil:</label>
     <input type="text" name="img" id="img">
 

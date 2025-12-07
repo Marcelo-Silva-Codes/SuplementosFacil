@@ -20,7 +20,6 @@ class UsuarioController {
             // Salva dados na sessão
             $_SESSION['usuario_id'] = $usuario->getId();
             $_SESSION['usuario_nome'] = $usuario->getNome();
-            $_SESSION['usuario_papel'] = $usuario->getPapel();
 
             header("Location: index.php?controller=usuario&action=listar");
         } else {
@@ -55,7 +54,6 @@ class UsuarioController {
         $usuario->setEmail($_POST['email']);
         $usuario->setTelefone($_POST['telefone']);
         $usuario->setSenha($_POST['senha']);
-        $usuario->setPapel($_POST['papel']); // 'user' ou 'admin'
         $usuario->setImg($_POST['img']);
 
         $dao = new UsuarioDAO();
@@ -89,7 +87,6 @@ class UsuarioController {
         $usuario->setEmail($_POST['email']);
         $usuario->setTelefone($_POST['telefone']);
         $usuario->setSenha($_POST['senha']);
-        $usuario->setPapel($_POST['papel']);
         $usuario->setImg($_POST['img']);
 
         $dao = new UsuarioDAO();

@@ -26,11 +26,6 @@
     <label for="senha">Senha:</label>
     <input type="password" name="senha" id="senha" value="<?= $usuario->getSenha(); ?>" required>
 
-    <label for="papel">Papel:</label>
-    <select name="papel" id="papel" required>
-      <option value="user" <?= $usuario->getPapel() === 'user' ? 'selected' : ''; ?>>Usuário</option>
-      <option value="admin" <?= $usuario->getPapel() === 'admin' ? 'selected' : ''; ?>>Administrador</option>
-    </select>
 
     <label for="img">Imagem de perfil:</label>
     <input type="text" name="img" id="img" value="<?= $usuario->getImg(); ?>">

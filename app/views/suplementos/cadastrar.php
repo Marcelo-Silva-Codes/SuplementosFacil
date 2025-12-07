@@ -43,6 +43,11 @@ $nutrientes = $nutDao->listarTodos();
     <label>Forma de Apresentação:</label><br>
     <select name="forma_apresentacao" required>
         <option value="">-- Selecione forma --</option>
+        <option value="cápsulas">Cápsulas</option>
+        <option value="pó">Pó</option>
+        <option value="líquido">Líquido</option>
+        <option value="tabletes">Tabletes</option>
+        
     </select>
     <br><br>
 
@@ -57,6 +62,7 @@ $nutrientes = $nutDao->listarTodos();
 
     <label>Descrição:</label><br>
     <textarea name="descricao"></textarea><br><br>
+
 
     <hr>
     <h3>Associar Nutrientes</h3>
@@ -75,8 +81,12 @@ $nutrientes = $nutDao->listarTodos();
     <?php else: ?>
         <p>Nenhum nutriente cadastrado. <a href="index.php?c=nutriente&a=cadastrarForm">Cadastre um nutriente primeiro</a></p>
     <?php endif; ?>
-
     <br>
+
+    <label><input type="checkbox" name="vegano"> Vegano</label><br>
+    <label><input type="checkbox" name="gluten"> Contém Glúten</label><br>
+    <label><input type="checkbox" name="lactose"> Contém Lactose</label><br><br>
+
     <button type="submit">Salvar Suplemento</button>
 </form>
 

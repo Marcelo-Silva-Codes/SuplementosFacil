@@ -12,8 +12,8 @@ class UsuarioDAO {
 
     // Inserir novo usuário
     public function inserir(Usuario $usuario) {
-        $sql = "INSERT INTO usuario (nome, sobrenome, email, telefone, senha, papel, img) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO usuario (nome, sobrenome, email, telefone, senha, img) 
+                VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([
             $usuario->getNome(),
@@ -21,7 +21,6 @@ class UsuarioDAO {
             $usuario->getEmail(),
             $usuario->getTelefone(),
             $usuario->getSenha(),
-            $usuario->getPapel(),
             $usuario->getImg()
         ]);
     }
@@ -53,7 +52,6 @@ class UsuarioDAO {
             $usuario->getEmail(),
             $usuario->getTelefone(),
             $usuario->getSenha(),
-            $usuario->getPapel(),
             $usuario->getImg(),
             $usuario->getId()
         ]);
@@ -65,6 +63,7 @@ class UsuarioDAO {
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([$id]);
     }
+
     public function buscarPorEmailSenha($email, $senha) {
     $sql = "SELECT * FROM usuario WHERE email = :email AND senha = :senha";
     $stmt = $this->conexao->prepare($sql);
@@ -80,12 +79,10 @@ class UsuarioDAO {
         $usuario->setEmail($row['email']);
         $usuario->setTelefone($row['telefone']);
         $usuario->setSenha($row['senha']);
-        $usuario->setPapel($row['papel']);
         $usuario->setImg($row['img']);
         return $usuario;
     }
     return null;
 }
-
 
 }

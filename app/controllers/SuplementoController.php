@@ -35,6 +35,9 @@ class SuplementoController
         $s->setMarca($_POST['marca']);
         $s->setImg($_POST['img']);
         $s->setDescricao($_POST['descricao']);
+        $s->setvegano(isset($_POST['vegano']) ? 1 : 0);
+        $s->setgluten(isset($_POST['gluten']) ? 1 : 0);
+        $s->setlactose(isset($_POST['lactose']) ? 1 : 0);
 
         $this->dao->inserir($s);
         header("Location: index.php?c=suplemento&a=listar");
@@ -63,6 +66,9 @@ class SuplementoController
         $s->setMarca($_POST['marca']);
         $s->setImg($_POST['img']);
         $s->setDescricao($_POST['descricao']);
+        $s->setvegano(isset($_POST['vegano']) ? 1 : 0);
+        $s->setgluten(isset($_POST['gluten']) ? 1 : 0);
+        $s->setlactose(isset($_POST['lactose']) ? 1 : 0);
 
         $this->dao->atualizar($s);
         header("Location: index.php?c=suplemento&a=listar");

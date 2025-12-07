@@ -8,18 +8,7 @@
 <body>
       <p>Bem-vindo, <?= $_SESSION['usuario_nome']; ?>!</p>
 
- <?php if ($_SESSION['usuario_papel'] === 'admin'): ?>
-    <a href="index.php?controller=usuario&action=cadastro">Cadastrar novo usuário</a>
-<?php endif; ?>
-
-
-
-<?php if ($_SESSION['usuario_papel'] === 'admin'): ?>
-<?php endif; ?>
-
 <a href="index.php?controller=usuario&action=logout">Sair</a>
-
-
 
     <br>
   <h2>Usuários cadastrados</h2>
@@ -31,7 +20,6 @@
         <th>Sobrenome</th>
         <th>Email</th>
         <th>Telefone</th>
-        <th>Papel</th>
         <th>Imagem</th>
         <th>Ações</th>
       </tr>
@@ -45,7 +33,6 @@
             <td><?= $usuario->getSobrenome(); ?></td>
             <td><?= $usuario->getEmail(); ?></td>
             <td><?= $usuario->getTelefone(); ?></td>
-            <td><?= $usuario->getPapel(); ?></td>
             <td><?= $usuario->getImg(); ?></td>
             <td>
               <a href="index.php?controller=usuario&action=editar&id=<?= $usuario->getId(); ?>">Editar</a> |

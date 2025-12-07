@@ -5,8 +5,7 @@ class Usuario {
     private $sobrenome;
     private $email;
     private $telefone;
-    private $senha;
-    private $papel;   
+    private $senha; 
     private $img;    
 
     // --- Getters e Setters ---
@@ -50,13 +49,6 @@ class Usuario {
     }
     public function setSenha($senha) {
         $this->senha = $senha;
-    }
-
-    public function getPapel() {
-        return $this->papel;
-    }
-    public function setPapel($papel) {
-        $this->papel = $papel;
     }
 
     public function getImg() {

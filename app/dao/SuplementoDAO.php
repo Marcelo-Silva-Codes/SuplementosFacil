@@ -18,8 +18,8 @@ class SuplementosDAO
     public function inserir(Suplemento $s)
     {
         $sql = "INSERT INTO suplemento 
-                (nome, quantidade_produto, categoria_id, forma_apresentacao, descricao, preco, img, marca)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                (nome, quantidade_produto, categoria_id, forma_apresentacao, descricao, preco, img, marca, vegano, gluten, lactose)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conexao->prepare($sql);
 
@@ -31,7 +31,10 @@ class SuplementosDAO
             $s->getDescricao(),
             $s->getPreco(),
             $s->getImg(),
-            $s->getMarca()
+            $s->getMarca(),
+            $s->getvegano(),
+            $s->getgluten(),
+            $s->getlactose()
         ]);
     }
 
@@ -58,6 +61,9 @@ class SuplementosDAO
         $s->setPreco($row['preco']);
         $s->setImg($row['img']);
         $s->setMarca($row['marca']);
+        $s->setvegano($row['vegano']);
+        $s->setgluten($row['gluten']);
+        $s->setlactose($row['lactose']);
 
         return $s;
     }
@@ -85,6 +91,9 @@ class SuplementosDAO
             $s->setPreco($row['preco']);
             $s->setImg($row['img']);
             $s->setMarca($row['marca']);
+            $s->setvegano($row['vegano']);
+            $s->setgluten($row['gluten']);
+            $s->setlactose($row['lactose']);
 
             $suplementos[] = $s;
         }
@@ -99,7 +108,7 @@ class SuplementosDAO
     {
         $sql = "UPDATE suplemento
                 SET nome = ?, quantidade_produto = ?, categoria_id = ?, forma_apresentacao = ?, 
-                    descricao = ?, preco = ?, img = ?, marca = ?
+                    descricao = ?, preco = ?, img = ?, marca = ?, vegano = ?, gluten = ?, lactose = ?
                 WHERE id = ?";
 
         $stmt = $this->conexao->prepare($sql);
@@ -113,7 +122,10 @@ class SuplementosDAO
             $s->getPreco(),
             $s->getImg(),
             $s->getMarca(),
-            $s->getId()
+            $s->getId(),
+            $s->getvegano(),
+            $s->getgluten(),
+            $s->getlactose()
         ]);
     }
 

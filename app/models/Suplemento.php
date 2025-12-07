@@ -14,7 +14,7 @@ class Suplemento
     private ?string $marca;
 
     // flags de restrição alimentar
-    private bool $vegano     = false;
+    private bool $vegano = false;
     private bool $gluten = false;
     private bool $lactose = false;
   
@@ -72,7 +72,7 @@ class Suplemento
 
     public function getImg(){ 
         return $this->img; }
-        
+
     public function setImg(?string $img){ 
         $this->img = $img; }
 
