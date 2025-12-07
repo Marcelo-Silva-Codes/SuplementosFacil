@@ -20,7 +20,7 @@
 </form>
 
 <br>
-<a href="index.php?controller=nutriente&action=listar">Voltar para suplementos</a>
+<a href="index.php?controller=suplemento&action=listar">Voltar para suplementos</a>
 
 </body>
 </html>

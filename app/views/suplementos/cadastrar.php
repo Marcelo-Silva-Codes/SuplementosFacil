@@ -37,7 +37,7 @@ $nutrientes = $nutDao->listarTodos();
             </option>
         <?php endforeach; ?>
     </select>
-    <a href="index.php?c=categoria&a=cadastrarForm">Cadastrar nova categoria</a>
+   <a href="index.php?controller=categoria&action=cadastrarForm">Nova Categoria</a>
     <br><br>
 
     <label>Forma de Apresentação:</label><br>
@@ -47,7 +47,7 @@ $nutrientes = $nutDao->listarTodos();
         <option value="pó">Pó</option>
         <option value="líquido">Líquido</option>
         <option value="tabletes">Tabletes</option>
-        
+
     </select>
     <br><br>
 

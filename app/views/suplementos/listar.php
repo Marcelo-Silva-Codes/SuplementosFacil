@@ -14,6 +14,8 @@ $snDao = new SuplementoNutrienteDAO();
 
 <h1>Suplementos Cadastrados</h1>
 <a href="index.php?controller=suplemento&action=cadastrarForm"> Novo Suplemento</a>
+<a href="index.php?controller=categoria&action=cadastrarForm">Nova Categoria</a>
+<a href="index.php?controller=nutriente&action=cadastrarForm">Novo Nutriente</a>
 <br><br>
 
 <table border="1" cellpadding="8" cellspacing="0">
@@ -50,6 +52,17 @@ $snDao = new SuplementoNutrienteDAO();
                 }
                 ?>
             </td>
+            <?php if ($sup->isVegano()): ?>
+    <span>✔ Vegano</span><br>
+<?php endif; ?>
+
+<?php if ($sup->isSemGluten()): ?>
+    <span>✔ Sem glúten</span><br>
+<?php endif; ?>
+
+<?php if ($sup->isSemLactose()): ?>
+    <span>✔ Sem lactose</span><br>
+<?php endif; ?>
             <td>
                 <a href="index.php?c=suplemento&a=editarForm&id=<?= $s->getId() ?>">Editar</a> |
                 <a href="index.php?c=suplemento&a=deletar&id=<?= $s->getId() ?>"

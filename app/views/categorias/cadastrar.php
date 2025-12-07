@@ -17,7 +17,9 @@
 </form>
 
 <br>
-<a href="index.php?controller=categoria&action=listar">Voltar para suplementos</a>
+<a href="index.php?controller=suplemento&action=listar">Voltar para suplementos</a>
+<a href="index.php?controller=categoria&action=listar">Ver Categorias</a>
+
 
 </body>
 </html>
