@@ -8,6 +8,7 @@ $action     = $_GET['action'] ?? 'listar';
 $controllerClass = ucfirst($controller) . 'Controller';
 $controllerPath  = __DIR__ . '/app/controllers/' . $controllerClass . '.php';
 
+
 if (file_exists($controllerPath)) {
     require_once $controllerPath;
     $controllerObj = new $controllerClass();

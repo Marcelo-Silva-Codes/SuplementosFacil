@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../config/banco.php';
+require_once __DIR__ . '/../../config/banco.php';
 require_once __DIR__ . '/../models/Categoria.php';
 
-class CategoriasDAO
+class CategoriaDAO
 {
     private $conexao;
 
@@ -14,7 +14,7 @@ class CategoriasDAO
 
     public function inserir(Categoria $c)
     {
-        $sql = "INSERT INTO categorias (nome) VALUES (?)";
+        $sql = "INSERT INTO categoria (nome) VALUES (?)";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([$c->getNome()]);
@@ -22,7 +22,7 @@ class CategoriasDAO
 
     public function listarTodos()
     {
-        $sql = "SELECT * FROM categorias ORDER BY nome ASC";
+        $sql = "SELECT * FROM categoria ORDER BY nome ASC";
         $stmt = $this->conexao->query($sql);
 
         $lista = [];
@@ -39,7 +39,7 @@ class CategoriasDAO
 
     public function buscarPorId($id)
     {
-        $sql = "SELECT * FROM categorias WHERE id = ?";
+        $sql = "SELECT * FROM categoria WHERE id = ?";
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([$id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -55,14 +55,14 @@ class CategoriasDAO
 
     public function atualizar(Categoria $c)
     {
-        $sql = "UPDATE categorias SET nome = ? WHERE id = ?";
+        $sql = "UPDATE categoria SET nome = ? WHERE id = ?";
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([$c->getNome(), $c->getId()]);
     }
 
     public function deletar($id)
     {
-        $sql = "DELETE FROM categorias WHERE id = ?";
+        $sql = "DELETE FROM categoria WHERE id = ?";
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([$id]);
     }

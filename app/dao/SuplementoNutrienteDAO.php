@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../config/banco.php';
 class SuplementoNutrienteDAO
 {
     private $conexao;
+
     public function __construct() {
         $this->conexao = getConnection(); // usa a função do config/database.php
     }
@@ -26,12 +27,35 @@ class SuplementoNutrienteDAO
         ]);
     }
 
-    public function buscarNutrientesPorSuplementos($suplementosId) {
-        $sql = "SELECT * FROM suplemento_nutriente WHERE suplemento_id = ?";
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->execute([$suplementosId]);
-        return $stmt->fetchObject('SuplementoNutriente');
+   public function buscarNutrientesPorSuplemento(int $supId): array
+{
+    $sql = "
+      SELECT n.nome AS nutriente_nome, sn.quantidade, sn.unidade_medida
+      FROM suplemento_nutriente sn
+      JOIN nutrientes n ON n.id = sn.nutriente_id
+      WHERE sn.suplemento_id = ?
+    ";
+    $stmt = $this->conexao->prepare($sql);
+    $stmt->execute([$supId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+ public function listarTodasRelacoes(): array
+    {
+        $sql = "
+          SELECT sn.suplemento_id, sn.nutriente_id,
+                 n.nome AS nutriente_nome,
+                 sn.quantidade,
+                 sn.unidade_medida
+          FROM suplemento_nutriente sn
+          JOIN nutrientes n ON (n.id = sn.nutriente_id)
+          ORDER BY sn.suplemento_id
+        ";
+        $stmt = $this->conexao->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
 
     public function buscarSuplementosPorNutriente($nutrienteId)
 {

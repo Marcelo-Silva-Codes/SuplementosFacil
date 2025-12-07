@@ -11,15 +11,17 @@ class SuplementoController
         $this->dao = new SuplementosDAO();
     }
 
-    public function listar()
-    {
-        $lista = $this->dao->listarTodos();
-        require __DIR__ . '/../views/suplementos/listar.php';
-    }
+  public function listar()
+{
+    $lista = $this->dao->listarTodos(); 
+    // Vai carregar os suplementos como objetos Suplemento
+    require __DIR__ . '/../views/suplementos/listar.php';
+}
 
     public function cadastrarForm()
     {
-        require __DIR__ . '/../views/suplementos/cadastrar.php';
+    require __DIR__ . '/../views/suplementos/cadastrar.php';
+
     }
 
     public function cadastrar()
@@ -28,7 +30,7 @@ class SuplementoController
         $s->setNome($_POST['nome']);
         $s->setQuantidadeProduto($_POST['quantidade_produto']);
         $s->setCategoriaId($_POST['categoria_id']);
-        $s->setFormaId($_POST['forma_id']);
+        $s->setFormaApresentacao($_POST['forma_apresentacao']);
         $s->setPreco($_POST['preco']);
         $s->setMarca($_POST['marca']);
         $s->setImg($_POST['img']);
@@ -56,7 +58,7 @@ class SuplementoController
         $s->setNome($_POST['nome']);
         $s->setQuantidadeProduto($_POST['quantidade_produto']);
         $s->setCategoriaId($_POST['categoria_id']);
-        $s->setFormaId($_POST['forma_id']);
+        $s->setFormaApresentacao($_POST['forma_apresentacao']);
         $s->setPreco($_POST['preco']);
         $s->setMarca($_POST['marca']);
         $s->setImg($_POST['img']);

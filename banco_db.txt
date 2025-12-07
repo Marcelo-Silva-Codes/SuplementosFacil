@@ -1,43 +1,42 @@
 CREATE DATABASE suplementosfacil;
 USE suplementosfacil;
 
-CREATE TABLE usuarios (
+CREATE TABLE usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     sobrenome VARCHAR(100) DEFAULT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     telefone VARCHAR(30) DEFAULT NULL,
-    senha VARCHAR(255) NOT NULL,                
-    papel VARCHAR(30),
-    img VARCHAR(255) DEFAULT NULL         
+    senha VARCHAR(255) NOT NULL,                      
 );
 
-CREATE TABLE categorias (
+CREATE TABLE categoria (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE forma_apresentacao (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,     
-    dose VARCHAR(100) DEFAULT NULL
-);
-
-CREATE TABLE nutrientes (
+CREATE TABLE nutriente (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL unique,
     tipo VARCHAR(100) DEFAULT NULL
 );
 
-CREATE TABLE restricao_alimentar (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    vegetariano TINYINT(1) DEFAULT 0,
+
+CREATE TABLE suplemento ( 
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+     VARCHAR(150) NOT NULL, 
+     quantidade_produto int, 
+     categoria_id INT,  
+     forma_apresentacao VARCHAR(50),
+     descricao TEXT, preco DECIMAL(10,2), 
+     img VARCHAR(255), 
+     marca varchar(50),
+     vegetariano TINYINT(1) DEFAULT 0,
     vegano TINYINT(1) DEFAULT 0,
     lactose TINYINT(1) DEFAULT 0,
-    gluten TINYINT(1) DEFAULT 0
-);
-
-CREATE TABLE suplementos ( id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(150) NOT NULL, quantidade_produto int, categoria_id INT, forma_id INT, descricao TEXT, preco DECIMAL(10,2), img VARCHAR(255), marca varchar(50), FOREIGN KEY (categoria_id) REFERENCES categorias(id), FOREIGN KEY (forma_id) REFERENCES forma_apresentacao(id) );
+    gluten TINYINT(1) DEFAULT 0 
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id), 
+     );
 
 CREATE TABLE suplemento_nutriente (
     id INT AUTO_INCREMENT PRIMARY KEY,
