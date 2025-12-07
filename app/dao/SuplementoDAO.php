@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../config/banco.php';
+require_once __DIR__ . '/../../config/banco.php';
 require_once __DIR__ . '/../models/Suplemento.php';
 
 class SuplementosDAO

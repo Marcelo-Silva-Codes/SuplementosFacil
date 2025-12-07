@@ -1,9 +1,9 @@
 <?php
-session_start();
+//session_start();
 
 
-$controller = $_GET['controller'] ?? 'usuario';
-$action     = $_GET['action'] ?? 'login';
+$controller = $_GET['controller'] ?? 'suplemento';
+$action     = $_GET['action'] ?? 'listar';
 
 $controllerClass = ucfirst($controller) . 'Controller';
 $controllerPath  = __DIR__ . '/app/controllers/' . $controllerClass . '.php';
