@@ -11,16 +11,10 @@ class Suplemento
     private float $preco;
     private ?string $img;
     private ?string $marca;
-    /** @var Nutriente[] */
-    private array $nutrientes = [];
   
 
     // Getters e Setters
 
-public function addNutriente(SuplementoNutriente $sn): void
-{
-    $this->nutrientes[] = $sn;
-}
 
     public function getId(){
          return $this->id; }
@@ -75,45 +69,5 @@ public function addNutriente(SuplementoNutriente $sn): void
         $this->marca = $marca; 
     }
     
-    // ---------------------------
-    // 🌱 RELACIONAMENTO COM NUTRIENTES
-    // ---------------------------
-
-    /**
-     * @return Nutrientes[]
-     */
-    public function getNutrientes(): array
-    {
-        return $this->nutrientes;
-    }
-
-    /**
-     * @param Nutrientes $nutriente
-     */
-    public function addNutriente(Nutrientes $nutriente)
-    {
-        $this->nutrientes[] = $nutriente;
-    }
-
-    /**
-     * Remove nutriente pelo ID.
-     */
-    public function removeNutriente(int $nutrienteId): void
-    {
-        foreach ($this->nutrientes as $key => $nutriente) {
-            if ($nutriente->getId() === $nutrienteId) {
-                unset($this->nutrientes[$key]);
-                break;
-            }
-        }
-
-        // Reorganiza o array
-        $this->nutrientes = array_values($this->nutrientes);
-    }
-
-    public function clearNutrientes(): void
-    {
-        $this->nutrientes = [];
-    }
 }
 
