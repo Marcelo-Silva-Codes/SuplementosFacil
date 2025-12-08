@@ -71,8 +71,8 @@ $nutrientes = $nutDao->listarTodos();
     <label>Imagem (URL ou caminho):</label><br>
     <input type="text" name="img"><br><br>
 
-    <label>Descrição:</label><br>
-    <textarea name="descricao"></textarea><br><br>
+    <label>link:</label><br>
+    <input type="text" name="link"><br><br>
 
 
     <hr>

@@ -39,6 +39,8 @@ public function cadastrar()
     $s->setPreco((float) $_POST['preco']);
     $s->setMarca($_POST['marca'] ?? null);
     $s->setImg($_POST['img'] ?? null);
+    $s->setLink($_POST['link'] ?? null);
+
 
     // flags booleanas
     $s->setVegano(   isset($_POST['vegano'])   ? true : false);
@@ -76,6 +78,7 @@ public function cadastrar()
     $s->setPreco((float) $_POST['preco']);
     $s->setMarca($_POST['marca'] ?? null);
     $s->setImg($_POST['img'] ?? null);
+    $s->setLink($_POST['link'] ?? null);
 
     // flags booleanas
     $s->setVegano(   isset($_POST['vegano'])   ? true : false);

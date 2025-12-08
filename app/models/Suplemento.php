@@ -15,6 +15,7 @@ class Suplemento
     private float $preco;
     private ?string $img;
     private ?string $marca;
+    private ?string $link;
 
     // flags de restrição alimentar
    private bool $vegano = false;
@@ -22,6 +23,7 @@ class Suplemento
     private bool $lactose = false;
 
     // Getters e Setters
+
 
 
     public function getId(){
@@ -112,6 +114,13 @@ class Suplemento
 
     public function isLactose(): bool { return $this->lactose; }
     public function setLactose(bool $l): void { $this->lactose = $l; }
+
+    public function getLink(){ 
+        return $this->link; }
+    
+    public function setLink(?string $link){ 
+        $this->link = $link;
+    }
     
 }
 

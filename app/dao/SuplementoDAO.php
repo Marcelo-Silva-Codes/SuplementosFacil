@@ -30,11 +30,12 @@ class SuplementosDAO
             sabor,
             preco,
             img,
+            link,
             marca,
             vegano,
             gluten,
             lactose
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 
         $stmt = $this->conexao->prepare($sql);
@@ -54,7 +55,8 @@ class SuplementosDAO
     $s->getMarca(),
     $s->isvegano()?1:0,
     $s->isgluten()?1:0,
-    $s->islactose()?1:0
+    $s->islactose()?1:0,
+    $s->getLink()
 ]);
 $snDao = new SuplementoNutrienteDAO();
 $novoId = $this->conexao->lastInsertId();  // obtém o id gerado pelo auto_increment
@@ -102,6 +104,7 @@ if (!empty($_POST['nutrientes'])) {
     $s->setVegano((bool)$row['vegano']);
     $s->setGluten((bool)$row['gluten']);
     $s->setLactose((bool)$row['lactose']);
+    $s->setLink($row['link']);
 
     return $s;
 }
@@ -129,6 +132,7 @@ if (!empty($_POST['nutrientes'])) {
         $s->setVegano((bool)$row['vegano']);
         $s->setGluten((bool)$row['gluten']);
         $s->setLactose((bool)$row['lactose']);
+        $s->setLink($row['link']);
         $lista[] = $s;
     }
     return $lista;
@@ -148,10 +152,11 @@ if (!empty($_POST['nutrientes'])) {
                 forma_apresentacao = ?,
                 preco = ?,
                 img = ?,
+                link = ?,
                 marca = ?,
                 vegano = ?,
                 gluten = ?,
-                lactose = ?
+                lactose = ?                
             WHERE id = ?";
     $stmt = $this->conexao->prepare($sql);
     $stmt->execute([
@@ -170,7 +175,8 @@ if (!empty($_POST['nutrientes'])) {
         $s->isvegano()    ? 1 : 0,
         $s->isgluten()   ? 1 : 0,
         $s->islactose()  ? 1 : 0,
-        $s->getId()
+        $s->getId(),
+        $s->getLink()
     ]);
 }
 

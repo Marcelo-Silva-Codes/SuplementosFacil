@@ -52,6 +52,9 @@
     <label>Imagem (URL ou caminho):</label><br>
     <input type="text" name="img" value="<?= htmlspecialchars($supl->getImg()) ?>"><br><br>
 
+    <label>Link:</label><br>
+    <input type="text" name="link" value="<?= htmlspecialchars($supl->getLink()) ?>"><br><br>
+
     <h3>Restrições / Propriedades Alimentares</h3>
     <label>
         <input type="checkbox" name="vegano" value="1" <?= $supl->isVegano() ? 'checked' : '' ?>>
