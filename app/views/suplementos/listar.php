@@ -41,6 +41,7 @@ $snDao = new SuplementoNutrienteDAO();
         <td>R$ <?= number_format($s->getPreco(), 2, ',', '.') ?></td>
         <td>
           <?php
+
             $rels = $snDao->buscarNutrientesPorSuplemento($s->getId());
             if (!empty($rels)) {
               echo "<ul>";
