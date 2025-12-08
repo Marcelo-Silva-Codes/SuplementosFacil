@@ -11,7 +11,6 @@ class Suplemento
     private string $quantidadePorPorcao;
     private string $quantidadePorPorcaoUM;
     private String $calorias;
-   
     private string $sabor;
     private float $preco;
     private ?string $img;

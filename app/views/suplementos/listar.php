@@ -29,6 +29,7 @@ $snDao = new SuplementoNutrienteDAO();
         <th>Nome</th>
         <th>Preço (R$)</th>
         <th>Composição (Nutrientes)</th>
+        <th>Calorias</th>
         <th>Restrições Alimentares</th>
         <th>Ações</th>
       </tr>
@@ -58,6 +59,7 @@ $snDao = new SuplementoNutrienteDAO();
             }
           ?>
         </td>
+        <td><?= htmlspecialchars($s->getCalorias()) ?></td>
         <td class="restricoes">
           <?php if ($s->isVegano()): ?>
             <span>Vegano</span>
