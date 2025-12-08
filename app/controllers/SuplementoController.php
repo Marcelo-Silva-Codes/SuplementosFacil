@@ -24,22 +24,28 @@ class SuplementoController
 
     }
 
-    public function cadastrar()
-    {
-        $s = new Suplemento();
-        $s->setNome($_POST['nome']);
-        $s->setquantidadeTotal($_POST['quantidade_total']);
-        $s->setCategoriaId($_POST['categoria_id']);
-        $s->setFormaApresentacao($_POST['forma_apresentacao']);
-        $s->setPreco($_POST['preco']);
-        $s->setMarca($_POST['marca']);
-        $s->setImg($_POST['img']);
-        $s->setDescricao($_POST['descricao']);
-        $s->setvegano(isset($_POST['vegano']) ? 1 : 0);
-        $s->setgluten(isset($_POST['gluten']) ? 1 : 0);
-        $s->setlactose(isset($_POST['lactose']) ? 1 : 0);
+public function cadastrar()
+{
+    $s = new Suplemento();
+    $s->setNome($_POST['nome']);
+    $s->setQuantidadeTotal($_POST['quantidade_total']);
+    $s->setCategoriaId((int)$_POST['categoria_id']);
+    $s->setFormaApresentacao($_POST['forma_apresentacao']);
+    $s->setQuantidadeTotalUM($_POST['quantidade_total_UM']);
+    $s->setQuantidadePorPorcao($_POST['quantidade_por_porcao']);
+    $s->setQuantidadePorPorcaoUM($_POST['quantidade_por_porcao_UM']);
+    $s->setCalorias($_POST['calorias']);
+    $s->setSabor($_POST['sabor']);
+    $s->setPreco((float) $_POST['preco']);
+    $s->setMarca($_POST['marca'] ?? null);
+    $s->setImg($_POST['img'] ?? null);
 
-        $this->dao->inserir($s);
+    // flags booleanas
+    $s->setVegano(   isset($_POST['vegano'])   ? true : false);
+    $s->setGluten(  isset($_POST['gluten'])  ? true : false);
+    $s->setLactose( isset($_POST['lactose']) ? true : false);
+
+    $this->dao->inserir($s);
         header("Location: index.php?c=suplemento&a=listar");
         exit;
     }
@@ -55,22 +61,28 @@ class SuplementoController
     }
 
     public function atualizar()
-    {
-        $s = new Suplemento();
-        $s->setId($_POST['id']);
-        $s->setNome($_POST['nome']);
-        $s->setquantidadeTotal($_POST['quantidade_total']);
-        $s->setCategoriaId($_POST['categoria_id']);
-        $s->setFormaApresentacao($_POST['forma_apresentacao']);
-        $s->setPreco($_POST['preco']);
-        $s->setMarca($_POST['marca']);
-        $s->setImg($_POST['img']);
-        $s->setDescricao($_POST['descricao']);
-        $s->setvegano(isset($_POST['vegano']) ? 1 : 0);
-        $s->setgluten(isset($_POST['gluten']) ? 1 : 0);
-        $s->setlactose(isset($_POST['lactose']) ? 1 : 0);
+{
+    $s = new Suplemento();
+    $s->setId((int) $_POST['id']);
+    $s->setNome($_POST['nome']);
+    $s->setQuantidadeTotal($_POST['quantidade_total']);
+    $s->setQuantidadeTotalUM($_POST['quantidade_total_UM']);
+    $s->setQuantidadePorPorcao($_POST['quantidade_por_porcao']);
+    $s->setQuantidadePorPorcaoUM($_POST['quantidade_por_porcao_UM']);
+    $s->setCalorias($_POST['calorias']);
+    $s->setSabor($_POST['sabor']);
+    $s->setCategoriaId((int)$_POST['categoria_id']);
+    $s->setFormaApresentacao($_POST['forma_apresentacao']);
+    $s->setPreco((float) $_POST['preco']);
+    $s->setMarca($_POST['marca'] ?? null);
+    $s->setImg($_POST['img'] ?? null);
 
-        $this->dao->atualizar($s);
+    // flags booleanas
+    $s->setVegano(   isset($_POST['vegano'])   ? true : false);
+    $s->setGluten(  isset($_POST['gluten'])  ? true : false);
+    $s->setLactose( isset($_POST['lactose']) ? true : false);
+
+    $this->dao->atualizar($s);
         header("Location: index.php?c=suplemento&a=listar");
         exit;
     }

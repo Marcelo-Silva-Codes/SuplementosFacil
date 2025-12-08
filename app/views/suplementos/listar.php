@@ -1,6 +1,7 @@
 <?php
 // Supondo que $lista (array de objetos Suplemento) já foi definido no controller
 require_once __DIR__ . '/../../dao/SuplementoNutrienteDAO.php';
+
 $snDao = new SuplementoNutrienteDAO();
 ?>
 
@@ -25,7 +26,10 @@ $snDao = new SuplementoNutrienteDAO();
             <th>Nome</th>
             <th>Preço (R$)</th>
             <th>Nutrientes / Composição</th>
+            <th>Restrição Alimentar</th>
+            <th> </th>    
             <th>Ações</th>
+
         </tr>
     </thead>
     <tbody>

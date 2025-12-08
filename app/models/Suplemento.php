@@ -5,23 +5,22 @@ class Suplemento
     private int $id;
     private string $nome;
     private int $quantidadeTotal;
-    private string $quantidade_total_UM;
+    private string $quantidadeTotalUM;
     private int $categoriaId;
     private string $formaApresentacao;
-    private string $quantidade_por_porcao;
-    private string $quantidade_por_porcao_UM;
+    private string $quantidadePorPorcao;
+    private string $quantidadePorPorcaoUM;
     private String $calorias;
-    private ?string $descricao;
+   
     private string $sabor;
     private float $preco;
     private ?string $img;
     private ?string $marca;
 
     // flags de restrição alimentar
-    private bool $vegano = false;
+   private bool $vegano = false;
     private bool $gluten = false;
     private bool $lactose = false;
-  
 
     // Getters e Setters
 
@@ -43,23 +42,23 @@ class Suplemento
     public function setquantidadeTotal(int $qtd){ 
         $this->quantidadeTotal = $qtd; 
     }
-    public function getquantidade_total_UM(){ 
-        return $this->quantidade_total_UM; 
+    public function getquantidadeTotalUM(){ 
+        return $this->quantidadeTotalUM; 
     }
-    public function setquantidade_total_UM(string $um){ 
-        $this->quantidade_total_UM = $um; 
+    public function setquantidadeTotalUM(string $um){ 
+        $this->quantidadeTotalUM = $um; 
     }
-    public function getquantidade_por_porcao(){
-        return $this->quantidade_por_porcao; 
+    public function getquantidadePorPorcao(){
+        return $this->quantidadePorPorcao; 
     }
-    public function setquantidade_por_porcao(string $qtd){ 
-        $this->quantidade_por_porcao = $qtd; 
+    public function setquantidadePorPorcao(string $qtd){ 
+        $this->quantidadePorPorcao = $qtd; 
     }
-    public function getquantidade_por_porcao_UM(){ 
-        return $this->quantidade_por_porcao_UM; 
+    public function getquantidadePorPorcaoUM(){ 
+        return $this->quantidadePorPorcaoUM; 
     }
-    public function setquantidade_por_porcao_UM(string $um){ 
-        $this->quantidade_por_porcao_UM = $um; 
+    public function setquantidadePorPorcaoUM(string $um){ 
+        $this->quantidadePorPorcaoUM = $um; 
     }
     public function getcalorias(){ 
         return $this->calorias; 
@@ -87,12 +86,6 @@ class Suplemento
     public function setFormaApresentacao(string $formaApresentacao){ 
         $this->formaApresentacao = $formaApresentacao; }
 
-    public function getDescricao(){ 
-        return $this->descricao; 
-    }
-    public function setDescricao(?string $descricao){ 
-        $this->descricao = $descricao; }
-
     public function getPreco(){ 
         return $this->preco; }
 
@@ -112,24 +105,14 @@ class Suplemento
         $this->marca = $marca; 
     }
 
-    public function getvegano() {
-        return $this->vegano;
-    }
-    public function setvegano(bool $vegano) {
-        $this->vegano = $vegano;
-    }
-    public function getgluten() {
-        return $this->gluten;
-    }
-    public function setgluten(bool $gluten) {
-        $this->gluten = $gluten;
-    }
-    public function getlactose() {
-        return $this->lactose;
-    }
-    public function setlactose(bool $lactose) {
-        $this->lactose = $lactose;
-    }
+    public function isVegano(): bool { return $this->vegano; }
+    public function setVegano(bool $v): void { $this->vegano = $v; }
+
+    public function isGluten(): bool { return $this->gluten; }
+    public function setGluten(bool $g): void { $this->gluten = $g; }
+
+    public function isLactose(): bool { return $this->lactose; }
+    public function setLactose(bool $l): void { $this->lactose = $l; }
     
 }
 

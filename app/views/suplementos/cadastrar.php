@@ -50,6 +50,17 @@ $nutrientes = $nutDao->listarTodos();
 
     </select>
     <br><br>
+    <label>Unidade de Medida da Quantidade Total:</label><br>
+    <input type="text" name="quantidade_total_UM" required><br><br>
+    <label>Quantidade por Porção:</label><br>
+    <input type="number" name="quantidade_por_porcao" required>
+<br><br>
+    <label>Unidade de Medida da Quantidade por Porção:</label><br>
+    <input type="text" name="quantidade_por_porcao_UM" required><br><br>
+    <label>Calorias por Porção:</label><br>
+    <input type="text" name="calorias" required><br><br>
+    <label>Sabor:</label><br>
+    <input type="text" name="sabor" required><br><br>
 
     <label>Preço (R$):</label><br>
     <input type="number" step="0.01" name="preco" required><br><br>
