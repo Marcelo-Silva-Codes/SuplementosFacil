@@ -32,7 +32,7 @@ class SuplementoNutrienteDAO
     $sql = "
       SELECT n.nome AS nutriente_nome, sn.quantidade, sn.unidade_medida
       FROM suplemento_nutriente sn
-      JOIN nutrientes n ON n.id = sn.nutriente_id
+      JOIN nutriente n ON (n.id = sn.nutriente_id)
       WHERE sn.suplemento_id = ?
     ";
     $stmt = $this->conexao->prepare($sql);
@@ -48,7 +48,7 @@ class SuplementoNutrienteDAO
                  sn.quantidade,
                  sn.unidade_medida
           FROM suplemento_nutriente sn
-          JOIN nutrientes n ON (n.id = sn.nutriente_id)
+          JOIN nutriente n ON (n.id = sn.nutriente_id)
           ORDER BY sn.suplemento_id
         ";
         $stmt = $this->conexao->query($sql);
