@@ -32,6 +32,8 @@ $snDao = new SuplementoNutrienteDAO();
         <th>Calorias</th>
         <th>link</th>
         <th>IMG</th>
+        <th>quantidade total</th>
+        <th>unidade</th>
         <th>Restrições Alimentares</th>
         <th>Ações</th>
       </tr>
@@ -62,13 +64,25 @@ $snDao = new SuplementoNutrienteDAO();
           ?>
         </td>
         <td><?= htmlspecialchars($s->getCalorias()) ?></td>
-        <td><?= htmlspecialchars($s->getLink()) ?></td>
+        <td><?php 
+  $url = $s->getLink();
+  if (!empty($url)):
+?>
+  <a href="<?= htmlspecialchars($url) ?>" target="_blank"> Link do Suplemento</a>
+<?php else: ?>
+  <em>—</em>
+<?php endif; ?>
+</td>
         <td>
           <?php if ($s->getImg()): ?>
             <img src="<?= htmlspecialchars($s->getImg()) ?>" alt="Imagem de <?= htmlspecialchars($s->getNome()) ?>" style="max-width:100px; max-height:100px;">
           <?php else: ?>
             <em>Sem imagem</em>
           <?php endif; ?>
+        </td>
+        
+        <td><?= htmlspecialchars($s->getQuantidadeTotal()) ?></td>
+        <td><?= htmlspecialchars($s->getQuantidadeTotalUM()) ?></td>
         <td class="restricoes">
           <?php if ($s->isVegano()): ?>
             <span>Vegano</span>
