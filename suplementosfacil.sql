@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/12/2025 às 02:08
+-- Tempo de geração: 08/12/2025 às 03:19
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -84,6 +84,14 @@ CREATE TABLE `suplemento` (
   `quantidade_total_UM` varchar(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `suplemento`
+--
+
+INSERT INTO `suplemento` (`id`, `nome`, `marca`, `categoria_id`, `forma_apresentacao`, `quantidade_por_porcao`, `quantidade_total`, `calorias`, `sabor`, `preco`, `img`, `vegano`, `gluten`, `lactose`, `quantidade_por_porcao_UM`, `quantidade_total_UM`) VALUES
+(1, 'Whey Protein Isolado', 'Growth', 1, 'pó', '39', '1', '122', 'morango', 22.00, '', 1, 0, 0, 'g', 'Kg'),
+(2, 'mill', 'Growth', 1, 'cápsulas', '22', '22', '122', 'morango', 11.00, '', 0, 0, 0, 'g', 'Kg');
+
 -- --------------------------------------------------------
 
 --
@@ -96,6 +104,13 @@ CREATE TABLE `suplemento_nutriente` (
   `unidade_medida` varchar(30) DEFAULT NULL,
   `quantidade` decimal(10,3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `suplemento_nutriente`
+--
+
+INSERT INTO `suplemento_nutriente` (`suplemento_id`, `nutriente_id`, `unidade_medida`, `quantidade`) VALUES
+(2, 1, 'g', 22.000);
 
 -- --------------------------------------------------------
 
@@ -143,15 +158,7 @@ ALTER TABLE `nutriente`
 -- Índices de tabela `suplemento`
 --
 ALTER TABLE `suplemento`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_suplemento_categoria` (`categoria_id`);
-
---
--- Índices de tabela `suplemento_nutriente`
---
-ALTER TABLE `suplemento_nutriente`
-  ADD PRIMARY KEY (`suplemento_id`,`nutriente_id`),
-  ADD KEY `fk_sn_nutriente` (`nutriente_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `usuario`
@@ -180,32 +187,13 @@ ALTER TABLE `nutriente`
 -- AUTO_INCREMENT de tabela `suplemento`
 --
 ALTER TABLE `suplemento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Restrições para tabelas despejadas
---
-
---
--- Restrições para tabelas `suplemento`
---
-ALTER TABLE `suplemento`
-  ADD CONSTRAINT `fk_suplemento_categoria` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_suplemento_forma` FOREIGN KEY (`forma_apresentacao`) REFERENCES `forma_apresentacao` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_suplemento_restricao` FOREIGN KEY (`restricao_id`) REFERENCES `restricao_alimentar` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Restrições para tabelas `suplemento_nutriente`
---
-ALTER TABLE `suplemento_nutriente`
-  ADD CONSTRAINT `fk_sn_nutriente` FOREIGN KEY (`nutriente_id`) REFERENCES `nutriente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_sn_suplemento` FOREIGN KEY (`suplemento_id`) REFERENCES `suplemento` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
