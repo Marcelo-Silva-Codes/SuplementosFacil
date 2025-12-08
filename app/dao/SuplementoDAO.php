@@ -18,8 +18,8 @@ class SuplementosDAO
     public function inserir(Suplemento $s)
     {
         $sql = "INSERT INTO suplemento 
-                (nome, quantidade_total, categoria_id, forma_apresentacao, descricao, preco, img, marca, vegano, gluten, lactose)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (nome, quantidade_total, categoria_id, forma_apresentacao, quantidade_por_porcao, quantidade_total_UM , quantidade_por_porcao_UM, descricao, calorias, ,sabor ,preco, img, marca, vegano, gluten, lactose)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conexao->prepare($sql);
 
@@ -29,6 +29,11 @@ class SuplementosDAO
             $s->getCategoriaId(),
             $s->getFormaApresentacao(),
             $s->getDescricao(),
+            $s->getquantidade_total_UM(),
+            $s->getquantidade_por_porcao(),
+            $s->getquantidade_por_porcao_UM(),
+            $s->getCalorias(),
+            $s->getSabor(),
             $s->getPreco(),
             $s->getImg(),
             $s->getMarca(),
@@ -55,6 +60,11 @@ class SuplementosDAO
         $s->setId($row['id']);
         $s->setNome($row['nome']);
         $s->setquantidadeTotal($row['quantidade_total']);
+        $s->setquantidade_total_UM($row['quantidade_total_UM']);
+        $s->setquantidade_por_porcao($row['quantidade_por_porcao']);
+        $s->setquantidade_por_porcao_UM($row['quantidade_por_porcao_UM']);
+        $s->setcalorias($row['calorias']);
+        $s->setSabor($row['sabor']);
         $s->setCategoriaId($row['categoria_id']);
         $s->setFormaApresentacao($row['forma_apresentacao']);
         $s->setDescricao($row['descricao']);
@@ -85,6 +95,11 @@ class SuplementosDAO
             $s->setId($row['id']);
             $s->setNome($row['nome']);
             $s->setquantidadeTotal($row['quantidade_total']);
+            $s->setquantidade_total_UM($row['quantidade_total_UM']);
+            $s->setquantidade_por_porcao($row['quantidade_por_porcao']);
+            $s->setquantidade_por_porcao_UM($row['quantidade_por_porcao_UM']);
+            $s->setcalorias($row['calorias']);
+            $s->setSabor($row['sabor']);
             $s->setCategoriaId($row['categoria_id']);
             $s->setFormaApresentacao($row['forma_apresentacao']);
             $s->setDescricao($row['descricao']);
@@ -107,8 +122,9 @@ class SuplementosDAO
     public function atualizar(Suplemento $s)
     {
         $sql = "UPDATE suplemento
-                SET nome = ?, quantidade_total = ?, categoria_id = ?, forma_apresentacao = ?, 
-                    descricao = ?, preco = ?, img = ?, marca = ?, vegano = ?, gluten = ?, lactose = ?
+                SET nome = ?, quantidade_total = ?, quantidade_total_UM = ? , quantidade_por_porcao = ?, quantidade_por_porcao_UM = ? , calorias = ?, sabor = ?,
+                categoria_id = ?, forma_apresentacao = ?, 
+                    descricao = ?, preco = ?, img = ?, marca = ?, vegano = ?, gluten = ?, lactose = ? 
                 WHERE id = ?";
 
         $stmt = $this->conexao->prepare($sql);
@@ -116,6 +132,11 @@ class SuplementosDAO
         $stmt->execute([
             $s->getNome(),
             $s->getquantidadeTotal(),
+            $s->getquantidade_total_UM(),
+            $s->getquantidade_por_porcao(),
+            $s->getquantidade_por_porcao_UM(),
+            $s->getCalorias(),
+            $s->getSabor(),
             $s->getCategoriaId(),
             $s->getFormaApresentacao(),
             $s->getDescricao(),

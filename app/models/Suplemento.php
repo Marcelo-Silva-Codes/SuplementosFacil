@@ -43,6 +43,37 @@ class Suplemento
     public function setquantidadeTotal(int $qtd){ 
         $this->quantidadeTotal = $qtd; 
     }
+    public function getquantidade_total_UM(){ 
+        return $this->quantidade_total_UM; 
+    }
+    public function setquantidade_total_UM(string $um){ 
+        $this->quantidade_total_UM = $um; 
+    }
+    public function getquantidade_por_porcao(){
+        return $this->quantidade_por_porcao; 
+    }
+    public function setquantidade_por_porcao(string $qtd){ 
+        $this->quantidade_por_porcao = $qtd; 
+    }
+    public function getquantidade_por_porcao_UM(){ 
+        return $this->quantidade_por_porcao_UM; 
+    }
+    public function setquantidade_por_porcao_UM(string $um){ 
+        $this->quantidade_por_porcao_UM = $um; 
+    }
+    public function getcalorias(){ 
+        return $this->calorias; 
+    }
+    public function setcalorias(string $calorias){ 
+        $this->calorias = $calorias; 
+    }
+
+    public function getSabor(){ 
+        return $this->sabor; 
+    }
+    public function setSabor(string $sabor){ 
+        $this->sabor = $sabor; 
+    }
 
     public function getCategoriaId(){ 
         return $this->categoriaId; 
