@@ -171,12 +171,13 @@ if (!empty($_POST['nutrientes'])) {
         $s->getFormaApresentacao(),
         $s->getPreco(),
         $s->getImg(),
+        $s->getLink(),
         $s->getMarca(),
         $s->isvegano()    ? 1 : 0,
         $s->isgluten()   ? 1 : 0,
         $s->islactose()  ? 1 : 0,
-        $s->getId(),
-        $s->getLink()
+        $s->getId()
+       
     ]);
 }
 

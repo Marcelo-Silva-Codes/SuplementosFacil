@@ -15,7 +15,7 @@ class Suplemento
     private float $preco;
     private ?string $img;
     private ?string $marca;
-    private ?string $link;
+    private ?string $link = null;
 
     // flags de restrição alimentar
    private bool $vegano = false;
