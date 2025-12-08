@@ -38,8 +38,8 @@ class NutrienteController
         if ($id <= 0) {
             die("Nutriente inválido.");
         }
-        $nut = $this->dao->buscarPorId($id);
-        if (!$nut) {
+        $nutriente = $this->dao->buscarPorId($id);
+        if (!$nutriente) {
             die("Nutriente não encontrado.");
         }
         require __DIR__ . '/../views/nutrientes/editar.php';
