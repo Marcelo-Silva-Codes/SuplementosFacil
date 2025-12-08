@@ -55,6 +55,12 @@ class SuplementoNutrienteDAO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+public function inserirRelacao(int $suplementoId, int $nutrienteId, float $qtd, string $um) {
+    $sql = "INSERT INTO suplemento_nutriente (suplemento_id, nutriente_id, quantidade, unidade_medida)
+            VALUES (?, ?, ?, ?)";
+    $stmt = $this->conexao->prepare($sql);
+    $stmt->execute([$suplementoId, $nutrienteId, $qtd, $um]);
+}
 
 
     public function buscarSuplementosPorNutriente($nutrienteId)

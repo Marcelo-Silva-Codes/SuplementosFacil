@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../../config/banco.php';
 require_once __DIR__ . '/../models/Suplemento.php';
+require_once __DIR__ . '/SuplementoNutrienteDAO.php';
 
 class SuplementosDAO
 {
@@ -55,6 +56,18 @@ class SuplementosDAO
     $s->isgluten()?1:0,
     $s->islactose()?1:0
 ]);
+$snDao = new SuplementoNutrienteDAO();
+$novoId = $this->conexao->lastInsertId();  // obtém o id gerado pelo auto_increment
+
+if (!empty($_POST['nutrientes'])) {
+    foreach ($_POST['nutrientes'] as $nutrienteId) {
+        $quantidade = $_POST["qtd_$nutrienteId"];
+        $unidade    = $_POST["un_$nutrienteId"];
+        // chamar DAO para inserir na tabela intermediária:
+        $snDao->inserirRelacao($novoId, $nutrienteId, $quantidade, $unidade);
+    }
+}
+
 
     }
 
