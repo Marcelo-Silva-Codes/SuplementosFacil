@@ -27,7 +27,7 @@ class UsuarioController {
             $_SESSION['usuario_id'] = $usuario->getId();
             $_SESSION['usuario_nome'] = $usuario->getNome();
 
-            header("Location: index.php?controller=usuario&action=listar");
+            header("Location: index.php?controller=suplemento&action=listar");
         } else {
             echo "Login inválido!";
         }

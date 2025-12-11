@@ -97,7 +97,7 @@
 <body>
   <nav class="navbar">
   <div class="logo">
-    <a href="index.php?controller=suplemento&action=home">SuplementosFácil</a>
+    <a href="index.php?controller=suplemento&action=home">SuplementosFacil</a>
   </div>
   <ul class="nav-links">
     <li><a href="index.php?controller=suplemento&action=home">Home</a></li>
