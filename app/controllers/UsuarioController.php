@@ -5,6 +5,7 @@ require_once __DIR__ . '/../models/Usuario.php';
 
 class UsuarioController {
 
+
       public function login() {
         require_once __DIR__ . '/../views/usuario/login.php';
     }

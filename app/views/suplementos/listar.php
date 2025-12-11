@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../../dao/SuplementoNutrienteDAO.php';
 $snDao = new SuplementoNutrienteDAO();
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>

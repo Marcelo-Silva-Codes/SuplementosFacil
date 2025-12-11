@@ -1,9 +1,12 @@
 <?php
+session_start();
+
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 $controller  = $_GET['controller'] ?? 'suplemento';
-$action      = $_GET['action']   ?? 'listar';
+$action      = $_GET['action']   ?? 'home';
 
 $controllerClass = ucfirst($controller) . 'Controller';
 $controllerPath  = __DIR__ . '/app/controllers/' . $controllerClass . '.php';

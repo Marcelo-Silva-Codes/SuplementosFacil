@@ -11,6 +11,7 @@ class SuplementoController
         $this->dao = new SuplementosDAO();
     }
 
+ 
   public function listar()
 {
     $lista = $this->dao->listarTodos(); 
@@ -97,4 +98,60 @@ public function cadastrar()
         header("Location: index.php?c=suplemento&a=listar");
         exit;
     }
+
+
+    public function home() {
+        $lista = $this->dao->listarTodos();
+        require_once __DIR__ . '/../views/tela/home.php';
+        
+    }
+
+    public function adicionarComparador() {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        if (!isset($_SESSION['comparador'])) {
+            $_SESSION['comparador'] = [];
+        }
+        // Evita duplicados
+        if (!in_array($id, $_SESSION['comparador'])) {
+            $_SESSION['comparador'][] = $id;
+        }
+    }
+    header("Location: index.php?controller=suplemento&action=home");
+}
+
+public function removerComparador() {
+        $id = $_POST['id'] ?? null;
+        if ($id && isset($_SESSION['comparador'])) {
+            $_SESSION['comparador'] = array_values(
+                array_filter($_SESSION['comparador'], fn($x) => $x != $id)
+            );
+        }
+        header("Location: index.php?controller=suplemento&action=home");
+    }
+
+    public function limparComparador() {
+        unset($_SESSION['comparador']);
+        header("Location: index.php?controller=suplemento&action=home");
+    }
+
+
+    public function comparar() {
+        $ids = $_SESSION['comparador'] ?? [];
+        if (count($ids) < 2) {
+            echo "Selecione pelo menos 2 suplementos para comparar.";
+            return;
+        }
+
+        $suplementosComparar = [];
+        foreach ($ids as $id) {
+            $item = $this->dao->buscarPorId($id);
+            if ($item) $suplementosComparar[] = $item;
+        }
+
+        require __DIR__ . '/../views/tela/comparar.php';
+    }
+
+ 
+
 }
