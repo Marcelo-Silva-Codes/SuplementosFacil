@@ -94,6 +94,13 @@ INSERT INTO `suplemento` (`id`, `nome`, `marca`, `categoria_id`, `forma_apresent
 
 -- --------------------------------------------------------
 
+INSERT INTO `suplemento` (`id`, `nome`, `marca`, `categoria_id`, `forma_apresentacao`, `quantidade_por_porcao`, `quantidade_total`, `calorias`, `sabor`, `preco`, `img`, `link`, `vegano`, `gluten`, `lactose`, `quantidade_por_porcao_UM`, `quantidade_total_UM`) VALUES
+(4, 'Creatina Creapure', 'Max Titanium', 2, 'pó', '3', '250', '0', 'sem sabor', 142.78, 'https://lojamaxtitanium.vtexassets.com/arquivos/ids/157977-1920-0/Creatina-Creapure-250g.png?v=638470625756800000', 'Max Titanium', 0, 0, 0, 'g', 'g'),
+(5, 'Creatina Monohidratada', 'Growth', 2, 'pó', '3', '250', '0', 'sem sabor', 49.90, 'https://www.gsuplementos.com.br/upload/produto/layout/72/produto1-mono-250-v4.webp', 'Growth', 0, 0, 0, 'g', 'g'),
+(6, 'Creatina 100% Pura', 'Integral Medica', 2, 'pó', '3', '300', '0', 'sem sabor', 54.00, 'https://integralmedica.vtexassets.com/arquivos/ids/168402-1600-auto?v=638987481255700000&width=1600&height=auto&aspect=true', 'Integral Medica', 0, 0, 0, 'g', 'g');
+
+--
+
 --
 -- Estrutura para tabela `suplemento_nutriente`
 --
