@@ -20,7 +20,6 @@
         <th>Sobrenome</th>
         <th>Email</th>
         <th>Telefone</th>
-        <th>Imagem</th>
         <th>Ações</th>
       </tr>
     </thead>
@@ -33,7 +32,6 @@
             <td><?= $usuario->getSobrenome(); ?></td>
             <td><?= $usuario->getEmail(); ?></td>
             <td><?= $usuario->getTelefone(); ?></td>
-            <td><?= $usuario->getImg(); ?></td>
             <td>
               <a href="index.php?controller=usuario&action=editar&id=<?= $usuario->getId(); ?>">Editar</a> |
               <a href="index.php?controller=usuario&action=excluir&id=<?= $usuario->getId(); ?>">Excluir</a>

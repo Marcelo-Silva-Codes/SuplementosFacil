@@ -12,16 +12,15 @@ class UsuarioDAO {
 
     // Inserir novo usuário
     public function inserir(Usuario $usuario) {
-        $sql = "INSERT INTO usuario (nome, sobrenome, email, telefone, senha, img) 
-                VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO usuario (nome, sobrenome, email, telefone, senha) 
+                VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([
             $usuario->getNome(),
             $usuario->getSobrenome(),
             $usuario->getEmail(),
             $usuario->getTelefone(),
-            $usuario->getSenha(),
-            $usuario->getImg()
+            $usuario->getSenha()
         ]);
     }
 
@@ -43,7 +42,7 @@ class UsuarioDAO {
     // Atualizar usuário
     public function atualizar(Usuario $usuario) {
         $sql = "UPDATE usuario 
-                   SET nome = ?, sobrenome = ?, email = ?, telefone = ?, senha = ?, papel = ?, img = ? 
+                   SET nome = ?, sobrenome = ?, email = ?, telefone = ?, senha = ?, papel = ?
                  WHERE id = ?";
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([
@@ -52,7 +51,6 @@ class UsuarioDAO {
             $usuario->getEmail(),
             $usuario->getTelefone(),
             $usuario->getSenha(),
-            $usuario->getImg(),
             $usuario->getId()
         ]);
     }
@@ -79,7 +77,6 @@ class UsuarioDAO {
         $usuario->setEmail($row['email']);
         $usuario->setTelefone($row['telefone']);
         $usuario->setSenha($row['senha']);
-        $usuario->setImg($row['img']);
         return $usuario;
     }
     return null;

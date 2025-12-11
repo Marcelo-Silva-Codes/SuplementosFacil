@@ -23,8 +23,6 @@
     <label for="senha">Senha:</label>
     <input type="password" name="senha" id="senha" required>
 
-    <label for="img">Imagem de perfil:</label>
-    <input type="text" name="img" id="img">
 
     <button type="submit">Cadastrar</button>
   </form>

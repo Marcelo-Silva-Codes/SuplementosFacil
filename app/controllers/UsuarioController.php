@@ -10,6 +10,11 @@ class UsuarioController {
         require_once __DIR__ . '/../views/usuario/login.php';
     }
 
+    public function cadastro() {
+
+    require_once __DIR__ . '/../views/usuario/cadastro.php';
+    }
+
     public function autenticar() {
         $email = $_POST['email'];
         $senha = $_POST['senha'];
@@ -55,7 +60,6 @@ class UsuarioController {
         $usuario->setEmail($_POST['email']);
         $usuario->setTelefone($_POST['telefone']);
         $usuario->setSenha($_POST['senha']);
-        $usuario->setImg($_POST['img']);
 
         $dao = new UsuarioDAO();
         $dao->inserir($usuario);
@@ -88,7 +92,6 @@ class UsuarioController {
         $usuario->setEmail($_POST['email']);
         $usuario->setTelefone($_POST['telefone']);
         $usuario->setSenha($_POST['senha']);
-        $usuario->setImg($_POST['img']);
 
         $dao = new UsuarioDAO();
         $dao->atualizar($usuario);
@@ -109,15 +112,5 @@ class UsuarioController {
 
         header("Location: index.php?controller=usuario&action=listar");
     }
-
-  public function cadastro() {
-    if (!isset($_SESSION['usuario_id'])) {
-        header("Location: index.php?controller=usuario&action=login");
-        exit;
-    }
-
-    require_once __DIR__ . '/../views/usuario/cadastro.php';
-}
-
 
 }

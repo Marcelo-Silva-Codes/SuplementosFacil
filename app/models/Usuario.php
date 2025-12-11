@@ -5,8 +5,7 @@ class Usuario {
     private $sobrenome;
     private $email;
     private $telefone;
-    private $senha; 
-    private $img;    
+    private $senha;    
 
     // --- Getters e Setters ---
     public function getId() {
@@ -51,11 +50,6 @@ class Usuario {
         $this->senha = $senha;
     }
 
-    public function getImg() {
-        return $this->img;
-    }
-    public function setImg($img) {
-        $this->img = $img;
-    }
+
 }
 

@@ -23,6 +23,19 @@ $snDao = new SuplementoNutrienteDAO();
   </style>
 </head>
 <body>
+
+<div style="background:#333; padding:10px; text-align:right;">
+  <a href="index.php?controller=usuario&action=login" 
+     style="color:#fff; margin-right:15px; text-decoration:none; font-weight:bold;">
+     Login
+  </a>
+  <a href="index.php?controller=usuario&action=cadastro" 
+     style="color:#fff; text-decoration:none; font-weight:bold;">
+     Registrar
+  </a>
+</div>
+
+
   <h1>Suplementos Disponíveis</h1>
 
 <!-- Barra da cesta -->
@@ -49,7 +62,7 @@ $snDao = new SuplementoNutrienteDAO();
 <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:20px;">
   <?php foreach ($lista as $s): ?>
     <div style="border:1px solid #ccc; padding:15px; text-align:center;">
-        
+
       <img src="<?= htmlspecialchars($s->getImg()) ?>" alt="<?= htmlspecialchars($s->getNome()) ?>" style="max-width:100%; height:150px; object-fit:cover;">
 
       <h3><?= htmlspecialchars($s->getNome()) ?></h3>

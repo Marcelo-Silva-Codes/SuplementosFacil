@@ -26,10 +26,6 @@
     <label for="senha">Senha:</label>
     <input type="password" name="senha" id="senha" value="<?= $usuario->getSenha(); ?>" required>
 
-
-    <label for="img">Imagem de perfil:</label>
-    <input type="text" name="img" id="img" value="<?= $usuario->getImg(); ?>">
-
     <button type="submit">Salvar alterações</button>
   </form>
 </body>
