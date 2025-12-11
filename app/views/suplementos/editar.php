@@ -1,79 +1,194 @@
 <?php
 // Supondo que $supl (objeto Suplemento) já foi carregado no controller antes de incluir esta view
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Editar Suplemento</title>
+  <meta charset="UTF-8">
+  <title>Editar Suplemento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    form label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    form input[type="text"],
+    form input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: border-color 0.3s;
+    }
+
+    form input[type="text"]:focus,
+    form input[type="number"]:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    h3 {
+      margin-top: 25px;
+      color: #555;
+    }
+
+    .checkbox-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: normal;
+      color: #333;
+    }
+
+    button {
+      background: #007bff;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.3s;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 15px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.4);
+  outline: none;
+}
+
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Editar Suplemento: <?= htmlspecialchars($supl->getNome()) ?></h1>
 
-<h1>Editar Suplemento: <?= htmlspecialchars($supl->getNome()) ?></h1>
+    <form action="index.php?controller=suplemento&action=atualizar" method="POST">
+      <input type="hidden" name="id" value="<?= $supl->getId() ?>">
 
-<form action="index.php?controller=suplemento&action=atualizar" method="POST">
-    <!-- id escondido -->
-    <input type="hidden" name="id" value="<?= $supl->getId() ?>">
+      <label>Nome:</label>
+      <input type="text" name="nome" value="<?= htmlspecialchars($supl->getNome()) ?>" required>
 
-    <label>Nome:</label><br>
-    <input type="text" name="nome" value="<?= htmlspecialchars($supl->getNome()) ?>" required><br><br>
+      <label>Quantidade total:</label>
+      <input type="text" name="quantidade_total" value="<?= htmlspecialchars($supl->getQuantidadeTotal()) ?>">
 
-    <label>Quantidade total:</label><br>
-    <input type="text" name="quantidade_total" value="<?= htmlspecialchars($supl->getQuantidadeTotal()) ?>"><br><br>
+      <label>Unidade total (UM):</label>
+      <input type="text" name="quantidade_total_UM" value="<?= htmlspecialchars($supl->getQuantidadeTotalUM()) ?>">
 
-    <label>Unidade total (UM):</label><br>
-    <input type="text" name="quantidade_total_UM" value="<?= htmlspecialchars($supl->getQuantidadeTotalUM()) ?>"><br><br>
+      <label>Quantidade por porção:</label>
+      <input type="text" name="quantidade_por_porcao" value="<?= htmlspecialchars($supl->getQuantidadePorPorcao()) ?>">
 
-    <label>Quantidade por porção:</label><br>
-    <input type="text" name="quantidade_por_porcao" value="<?= htmlspecialchars($supl->getQuantidadePorPorcao()) ?>"><br><br>
+      <label>Unidade por porção (UM):</label>
+      <input type="text" name="quantidade_por_porcao_UM" value="<?= htmlspecialchars($supl->getQuantidadePorPorcaoUM()) ?>">
 
-    <label>Unidade por porção (UM):</label><br>
-    <input type="text" name="quantidade_por_porcao_UM" value="<?= htmlspecialchars($supl->getQuantidadePorPorcaoUM()) ?>"><br><br>
+      <label>Calorias:</label>
+      <input type="text" name="calorias" value="<?= htmlspecialchars($supl->getCalorias()) ?>">
 
-    <label>Calorias:</label><br>
-    <input type="text" name="calorias" value="<?= htmlspecialchars($supl->getCalorias()) ?>"><br><br>
+      <label>Sabor:</label>
+      <input type="text" name="sabor" value="<?= htmlspecialchars($supl->getSabor()) ?>">
 
-    <label>Sabor:</label><br>
-    <input type="text" name="sabor" value="<?= htmlspecialchars($supl->getSabor()) ?>"><br><br>
+<label for="categoria_id">Categoria:</label>
+<select id="categoria_id" name="categoria_id" required>
+  <!-- Placeholder sem variável fora do foreach -->
+  <option value="" <?= !$supl->getCategoriaId() ? 'selected' : '' ?> disabled>Selecione...</option>
 
-    <label>Categoria (ID):</label><br>
-    <input type="number" name="categoria_id" value="<?= htmlspecialchars($supl->getCategoriaId()) ?>" required><br><br>
+  <?php foreach ($categorias as $c): ?>
+    <option value="<?= $c->getId() ?>"
+            <?= ($supl->getCategoriaId() == $c->getId()) ? 'selected' : '' ?>>
+      <?= htmlspecialchars($c->getNome()) ?>
+    </option>
+  <?php endforeach; ?>
+</select>
 
-    <label>Forma de apresentação:</label><br>
-    <input type="text" name="forma_apresentacao" value="<?= htmlspecialchars($supl->getFormaApresentacao()) ?>" required><br><br>
 
-    <label>Preço (R$):</label><br>
-    <input type="number" step="0.01" name="preco" value="<?= htmlspecialchars($supl->getPreco()) ?>" required><br><br>
+      <label>Forma de apresentação:</label>
+      <input type="text" name="forma_apresentacao" value="<?= htmlspecialchars($supl->getFormaApresentacao()) ?>" required>
 
-    <label>Marca:</label><br>
-    <input type="text" name="marca" value="<?= htmlspecialchars($supl->getMarca()) ?>"><br><br>
+      <label>Preço (R$):</label>
+      <input type="number" step="0.01" name="preco" value="<?= htmlspecialchars($supl->getPreco()) ?>" required>
 
-    <label>Imagem (URL ou caminho):</label><br>
-    <input type="text" name="img" value="<?= htmlspecialchars($supl->getImg()) ?>"><br><br>
+      <label>Marca:</label>
+      <input type="text" name="marca" value="<?= htmlspecialchars($supl->getMarca()) ?>">
 
-    <label>Link:</label><br>
-    <input type="text" name="link" value="<?= htmlspecialchars($supl->getLink()) ?>"><br><br>
+      <label>Imagem (URL ou caminho):</label>
+      <input type="text" name="img" value="<?= htmlspecialchars($supl->getImg()) ?>">
 
-    <h3>Restrições / Propriedades Alimentares</h3>
-    <label>
-        <input type="checkbox" name="vegano" value="1" <?= $supl->isVegano() ? 'checked' : '' ?>>
-        Vegano
-    </label><br>
-    <label>
-        <input type="checkbox" name="gluten" value="1" <?= $supl->isGluten() ? 'checked' : '' ?>>
-        Contém glúten
-    </label><br>
-    <label>
-        <input type="checkbox" name="lactose" value="1" <?= $supl->isLactose() ? 'checked' : '' ?>>
-        Contém lactose
-    </label><br><br>
+      <label>Link:</label>
+      <input type="text" name="link" value="<?= htmlspecialchars($supl->getLink()) ?>">
 
-    <button type="submit">Salvar Alterações</button>
-</form>
+      <h3>Restrições / Propriedades Alimentares</h3>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="vegano" value="1" <?= $supl->isVegano() ? 'checked' : '' ?>>
+          Vegano
+        </label>
+        <label>
+          <input type="checkbox" name="gluten" value="1" <?= $supl->isGluten() ? 'checked' : '' ?>>
+          Contém glúten
+        </label>
+        <label>
+          <input type="checkbox" name="lactose" value="1" <?= $supl->isLactose() ? 'checked' : '' ?>>
+          Contém lactose
+        </label>
+      </div>
 
-<br>
-<a href="index.php?controller=suplemento&action=listar">Voltar à lista de suplementos</a>
+      <button type="submit">Salvar Alterações</button>
+    </form>
 
+    <a href="index.php?controller=suplemento&action=listar" class="back-link">Voltar à lista de suplementos</a>
+  </div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../dao/SuplementoDAO.php';
+require_once __DIR__ . '/../dao/CategoriaDAO.php';
 require_once __DIR__ . '/../models/Suplemento.php';
 
 class SuplementoController
@@ -57,8 +58,14 @@ public function cadastrar()
     {
         $id = $_GET['id'];
         $supl = $this->dao->buscarPorId($id);
+        $categoriaDao = new CategoriaDAO();
+        $categorias = $categoriaDao->listarTodos();
         if (!$supl) {
             die("Suplemento não encontrado.");
+
+            if (!empty($categorias)) {
+                die("Categorias não encontradas.");
+            }
         }
         require __DIR__ . '/../views/suplementos/editar.php';
     }
