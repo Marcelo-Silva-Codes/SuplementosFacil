@@ -3,25 +3,86 @@
 require_once __DIR__ . '/../../dao/SuplementoNutrienteDAO.php';
 $snDao = new SuplementoNutrienteDAO();
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Lista de Suplementos</title>
-    <style>
-      table { border-collapse: collapse; width: 100%; }
-      th, td { border: 1px solid #666; padding: 8px; text-align: left; }
-      ul { margin: 0; padding-left: 20px; }
-      .restricoes span { display: inline-block; margin-right: 8px; background: #dff0d8; padding: 2px 6px; border-radius: 4px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Lista de Suplementos</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .navbar {
+      background: #333;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar .logo a {
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    .nav-links li a:hover { color: #ddd; }
+
+    h1 { margin: 20px; }
+    table { border-collapse: collapse; width: 100%; margin: 20px; }
+    th, td { border: 1px solid #666; padding: 8px; text-align: left; }
+    ul { margin: 0; padding-left: 20px; }
+    .restricoes span {
+      display: inline-block;
+      margin-right: 8px;
+      background: #dff0d8;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .actions { margin: 20px; }
+    .actions a {
+      margin-right: 15px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #333;
+    }
+    .actions a:hover { text-decoration: underline; }
+  </style>
 </head>
 <body>
+
+  <!-- Navbar padrão -->
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.php?controller=suplemento&action=home">SuplementosFácil</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.php?controller=suplemento&action=home">Home</a></li>
+      <li><a href="index.php?controller=suplemento&action=comparar">Comparador</a></li>
+      <li><a href="index.php?controller=suplemento&action=listar">Admin</a></li>
+      <li><a href="index.php?controller=usuario&action=login">Login</a></li>
+      <li><a href="index.php?controller=usuario&action=cadastro">Registrar</a></li>
+    </ul>
+  </nav>
+
   <h1>Suplementos Cadastrados</h1>
-  <a href="index.php?controller=suplemento&action=cadastrarForm">Novo Suplemento</a> |
-  <a href="index.php?controller=categoria&action=cadastrarForm">Nova Categoria</a> |
-  <a href="index.php?controller=nutriente&action=cadastrarForm">Novo Nutriente</a>
-  <br><br>
+
+  <div class="actions">
+    <a href="index.php?controller=suplemento&action=cadastrarForm">Novo Suplemento</a>
+    <a href="index.php?controller=categoria&action=cadastrarForm">Nova Categoria</a>
+    <a href="index.php?controller=nutriente&action=cadastrarForm">Novo Nutriente</a>
+  </div>
 
   <table>
     <thead>
@@ -31,10 +92,10 @@ $snDao = new SuplementoNutrienteDAO();
         <th>Preço (R$)</th>
         <th>Composição (Nutrientes)</th>
         <th>Calorias</th>
-        <th>link</th>
+        <th>Link</th>
         <th>IMG</th>
-        <th>quantidade total</th>
-        <th>unidade</th>
+        <th>Quantidade total</th>
+        <th>Unidade</th>
         <th>Restrições Alimentares</th>
         <th>Ações</th>
       </tr>
@@ -47,14 +108,13 @@ $snDao = new SuplementoNutrienteDAO();
         <td>R$ <?= number_format($s->getPreco(), 2, ',', '.') ?></td>
         <td>
           <?php
-
             $rels = $snDao->buscarNutrientesPorSuplemento($s->getId());
             if (!empty($rels)) {
               echo "<ul>";
               foreach ($rels as $r) {
                 echo "<li>"
                    . htmlspecialchars($r['nutriente_nome'])
-                   . " — " . htmlspecialchars($r['quantidade'])
+                   . " — " . number_format((float)$r['quantidade'], 1, ',', '.')
                    . " " . htmlspecialchars($r['unidade_medida'])
                    . "</li>";
               }
@@ -65,15 +125,14 @@ $snDao = new SuplementoNutrienteDAO();
           ?>
         </td>
         <td><?= htmlspecialchars($s->getCalorias()) ?></td>
-        <td><?php 
-  $url = $s->getLink();
-  if (!empty($url)):
-?>
-  <a href="<?= htmlspecialchars($url) ?>" target="_blank"> Link do Suplemento</a>
-<?php else: ?>
-  <em>—</em>
-<?php endif; ?>
-</td>
+        <td>
+          <?php $url = $s->getLink(); ?>
+          <?php if (!empty($url)): ?>
+            <a href="<?= htmlspecialchars($url) ?>" target="_blank">Link do Suplemento</a>
+          <?php else: ?>
+            <em>—</em>
+          <?php endif; ?>
+        </td>
         <td>
           <?php if ($s->getImg()): ?>
             <img src="<?= htmlspecialchars($s->getImg()) ?>" alt="Imagem de <?= htmlspecialchars($s->getNome()) ?>" style="max-width:100px; max-height:100px;">
@@ -81,19 +140,12 @@ $snDao = new SuplementoNutrienteDAO();
             <em>Sem imagem</em>
           <?php endif; ?>
         </td>
-        
         <td><?= htmlspecialchars($s->getQuantidadeTotal()) ?></td>
         <td><?= htmlspecialchars($s->getQuantidadeTotalUM()) ?></td>
         <td class="restricoes">
-          <?php if ($s->isVegano()): ?>
-            <span>Vegano</span>
-          <?php endif; ?>
-          <?php if ($s->isGluten()): ?>
-            <span>Contém glúten</span>
-          <?php endif; ?>
-          <?php if ($s->isLactose()): ?>
-            <span>Contém lactose</span>
-          <?php endif; ?>
+          <?php if ($s->isVegano()): ?><span>Vegano</span><?php endif; ?>
+          <?php if ($s->isGluten()): ?><span>Contém glúten</span><?php endif; ?>
+          <?php if ($s->isLactose()): ?><span>Contém lactose</span><?php endif; ?>
         </td>
         <td>
           <a href="index.php?controller=suplemento&action=editarForm&id=<?= $s->getId() ?>">Editar</a> |
