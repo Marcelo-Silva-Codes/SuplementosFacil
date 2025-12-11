@@ -69,7 +69,6 @@ $snDao = new SuplementoNutrienteDAO();
     </div>
     <ul class="nav-links">
       <li><a href="index.php?controller=suplemento&action=home">Home</a></li>
-      <li><a href="index.php?controller=suplemento&action=comparar">Comparador</a></li>
       <li><a href="index.php?controller=suplemento&action=listar">Admin</a></li>
       <li><a href="index.php?controller=usuario&action=login">Login</a></li>
       <li><a href="index.php?controller=usuario&action=cadastro">Registrar</a></li>
