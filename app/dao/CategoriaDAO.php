@@ -22,7 +22,7 @@ class CategoriaDAO
 
     public function listarTodos()
     {
-        $sql = "SELECT * FROM categoria ORDER BY nome ASC";
+        $sql = "SELECT * FROM categoria ORDER BY id ASC";
         $stmt = $this->conexao->query($sql);
 
         $lista = [];

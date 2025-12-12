@@ -42,9 +42,6 @@ public function cadastrar()
     $s->setMarca($_POST['marca'] ?? null);
     $s->setImg($_POST['img'] ?? null);
     $s->setLink($_POST['link'] ?? null);
-
-
-    // flags booleanas
     $s->setVegano(   isset($_POST['vegano'])   ? true : false);
     $s->setGluten(  isset($_POST['gluten'])  ? true : false);
     $s->setLactose( isset($_POST['lactose']) ? true : false);
@@ -87,14 +84,12 @@ public function cadastrar()
     $s->setMarca($_POST['marca'] ?? null);
     $s->setImg($_POST['img'] ?? null);
     $s->setLink($_POST['link'] ?? null);
-
-    // flags booleanas
     $s->setVegano(   isset($_POST['vegano'])   ? true : false);
     $s->setGluten(  isset($_POST['gluten'])  ? true : false);
     $s->setLactose( isset($_POST['lactose']) ? true : false);
 
     $this->dao->atualizar($s);
-        header("Location: index.php?c=suplemento&a=listar");
+        header("Location: index.php?controller=suplemento&action=listar");
         exit;
     }
 
@@ -102,7 +97,7 @@ public function cadastrar()
     {
         $id = $_GET['id'];
         $this->dao->deletar($id);
-        header("Location: index.php?c=suplemento&a=listar");
+        header("Location: index.php?controller=suplemento&action=listar");
         exit;
     }
 

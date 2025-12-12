@@ -7,81 +7,148 @@ $snDao = new SuplementoNutrienteDAO();
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Lista de Suplementos</title>
+  <title>Painel ADM - Suplementos</title>
+  <script src="public/js/menu_accordion.js" defer></script>
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f6f9; }
+
+    /* Navbar */
     .navbar {
       background: #333;
       color: #fff;
-      padding: 10px 20px;
+      padding: 12px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .navbar .logo a {
-      color: #fff;
+    .navbar .logo {
       font-size: 20px;
       font-weight: bold;
-      text-decoration: none;
     }
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 15px;
-      margin: 0;
-      padding: 0;
-    }
-    .nav-links li a {
+    .navbar .logout a {
       color: #fff;
       text-decoration: none;
       font-weight: bold;
-      transition: color 0.3s;
     }
-    .nav-links li a:hover { color: #ddd; }
+    .navbar .logout a:hover { color: #ddd; }
 
-    h1 { margin: 20px; }
-    table { border-collapse: collapse; width: 100%; margin: 20px; }
-    th, td { border: 1px solid #666; padding: 8px; text-align: left; }
-    ul { margin: 0; padding-left: 20px; }
+
+    h1 { margin: 30px 20px; color: #333; }
+
+    /* Table */
+    table {
+      border-collapse: collapse;
+      width: calc(100% - 40px);
+      margin: 0 20px 40px;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    thead {
+      background: #007bff;
+      color: #fff;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    tr:nth-child(even) { background: #f9f9f9; }
+    tr:hover { background: #f1f1f1; }
+
+    ul { margin: 0; padding-left: 20px; text-align: left; }
+
     .restricoes span {
       display: inline-block;
-      margin-right: 8px;
+      margin: 3px;
       background: #dff0d8;
-      padding: 2px 6px;
+      padding: 4px 8px;
       border-radius: 4px;
+      font-size: 12px;
     }
-    .actions { margin: 20px; }
-    .actions a {
-      margin-right: 15px;
+
+    .table-actions a {
+      margin: 0 5px;
       text-decoration: none;
       font-weight: bold;
-      color: #333;
+      color: #007bff;
     }
-    .actions a:hover { text-decoration: underline; }
+    .table-actions a:hover { text-decoration: underline; }
+
+       .accordion {
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+      padding: 14px;
+      width: 100%;
+      text-align: left;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      border-radius: 4px;
+      transition: background 0.3s;
+      margin-bottom: 8px;
+    }
+    .accordion:hover {
+      background: #0056b3;
+    }
+
+    .panel {
+      padding: 0 18px;
+      display: none;
+      background-color: #f9f9f9;
+      overflow: hidden;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .panel a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+    .panel a:hover {
+      background: #eef3f9;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navbar padrão -->
+  <!-- Navbar ADM -->
   <nav class="navbar">
     <div class="logo">
-      <a href="index.php?controller=suplemento&action=home">SuplementosFácil</a>
+      <a href="index.php?controller=usuario&action=home_adm">Painel ADM</a></div>
+    <div class="logout">
+      <a href="index.php?controller=usuario&action=logout">Sair</a>
     </div>
-    <ul class="nav-links">
-      <li><a href="index.php?controller=suplemento&action=home">Home</a></li>
-      <li><a href="index.php?controller=suplemento&action=listar">Admin</a></li>
-      <li><a href="index.php?controller=usuario&action=login">Login</a></li>
-      <li><a href="index.php?controller=usuario&action=cadastro">Registrar</a></li>
-    </ul>
   </nav>
+    <!-- Menu expansível -->
+    <button class="accordion">📦 Suplementos</button>
+    <div class="panel">
+      <a href="index.php?controller=suplemento&action=listar">Listar Suplementos</a>
+      <a href="index.php?controller=suplemento&action=cadastrarForm">Cadastrar Suplemento</a>
+    </div>
+
+    <button class="accordion">📂 Categorias</button>
+    <div class="panel">
+      <a href="index.php?controller=categoria&action=listar">Listar Categorias</a>
+      <a href="index.php?controller=categoria&action=cadastrarForm">Cadastrar Categoria</a>
+    </div>
+
+    <button class="accordion">💊 Nutrientes</button>
+    <div class="panel">
+      <a href="index.php?controller=nutriente&action=listar">Listar Nutrientes</a>
+      <a href="index.php?controller=nutriente&action=cadastrarForm">Cadastrar Nutriente</a>
+    </div>
+  </div>
+
+  
 
   <h1>Suplementos Cadastrados</h1>
-
-  <div class="actions">
-    <a href="index.php?controller=suplemento&action=cadastrarForm">Novo Suplemento</a>
-    <a href="index.php?controller=categoria&action=cadastrarForm">Nova Categoria</a>
-    <a href="index.php?controller=nutriente&action=cadastrarForm">Novo Nutriente</a>
-  </div>
 
   <table>
     <thead>
@@ -92,10 +159,10 @@ $snDao = new SuplementoNutrienteDAO();
         <th>Composição (Nutrientes)</th>
         <th>Calorias</th>
         <th>Link</th>
-        <th>IMG</th>
-        <th>Quantidade total</th>
+        <th>Imagem</th>
+        <th>Qtd Total</th>
         <th>Unidade</th>
-        <th>Restrições Alimentares</th>
+        <th>Restrições</th>
         <th>Ações</th>
       </tr>
     </thead>
@@ -127,14 +194,14 @@ $snDao = new SuplementoNutrienteDAO();
         <td>
           <?php $url = $s->getLink(); ?>
           <?php if (!empty($url)): ?>
-            <a href="<?= htmlspecialchars($url) ?>" target="_blank">Link do Suplemento</a>
+            <a href="<?= htmlspecialchars($url) ?>" target="_blank">Abrir</a>
           <?php else: ?>
             <em>—</em>
           <?php endif; ?>
         </td>
         <td>
           <?php if ($s->getImg()): ?>
-            <img src="<?= htmlspecialchars($s->getImg()) ?>" alt="Imagem de <?= htmlspecialchars($s->getNome()) ?>" style="max-width:100px; max-height:100px;">
+            <img src="<?= htmlspecialchars($s->getImg()) ?>" alt="Imagem de <?= htmlspecialchars($s->getNome()) ?>" style="max-width:80px; max-height:80px; border-radius:4px;">
           <?php else: ?>
             <em>Sem imagem</em>
           <?php endif; ?>
@@ -146,10 +213,10 @@ $snDao = new SuplementoNutrienteDAO();
           <?php if ($s->isGluten()): ?><span>Contém glúten</span><?php endif; ?>
           <?php if ($s->isLactose()): ?><span>Contém lactose</span><?php endif; ?>
         </td>
-        <td>
-          <a href="index.php?controller=suplemento&action=editarForm&id=<?= $s->getId() ?>">Editar</a> |
+        <td class="table-actions">
+          <a href="index.php?controller=suplemento&action=editarForm&id=<?= $s->getId() ?>">✏️ Editar</a> |
           <a href="index.php?controller=suplemento&action=deletar&id=<?= $s->getId() ?>"
-             onclick="return confirm('Confirma exclusão?')">Excluir</a>
+             onclick="return confirm('Confirma exclusão?')">🗑️ Excluir</a>
         </td>
       </tr>
     <?php endforeach; ?>
