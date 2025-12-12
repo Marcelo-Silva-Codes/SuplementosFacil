@@ -76,21 +76,28 @@ $snDao = new SuplementoNutrienteDAO();
       font-weight: bold;
       color: #007bff;
     }
-    .table-actions a:hover { text-decoration: underline; }
+    .table-actions a:hover { 
+      text-decoration: underline; 
+    }
+.container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-       .accordion {
+
+    }
+
+    .accordion {
       background: #007bff;
       color: #fff;
-      cursor: pointer;
-      padding: 14px;
-      width: 100%;
-      text-align: left;
       border: none;
-      outline: none;
-      font-size: 16px;
       border-radius: 4px;
-      transition: background 0.3s;
-      margin-bottom: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+      padding: 14px;
+      width: 200px;
+
     }
     .accordion:hover {
       background: #0056b3;
@@ -120,32 +127,32 @@ $snDao = new SuplementoNutrienteDAO();
 
   <!-- Navbar ADM -->
   <nav class="navbar">
-    <div class="logo">
-      <a href="index.php?controller=usuario&action=home_adm">Painel ADM</a></div>
+    <div class="logo">Painel ADM</div>
     <div class="logout">
       <a href="index.php?controller=usuario&action=logout">Sair</a>
     </div>
   </nav>
     <!-- Menu expansível -->
-    <button class="accordion">📦 Suplementos</button>
+     <div class="container">
+    <button class="accordion"> Suplementos</button>
     <div class="panel">
       <a href="index.php?controller=suplemento&action=listar">Listar Suplementos</a>
       <a href="index.php?controller=suplemento&action=cadastrarForm">Cadastrar Suplemento</a>
-    </div>
+     </div>
 
-    <button class="accordion">📂 Categorias</button>
+    <button class="accordion"> Categorias</button>
     <div class="panel">
       <a href="index.php?controller=categoria&action=listar">Listar Categorias</a>
       <a href="index.php?controller=categoria&action=cadastrarForm">Cadastrar Categoria</a>
-    </div>
+ 
+  </div>
 
-    <button class="accordion">💊 Nutrientes</button>
+    <button class="accordion"> Nutrientes</button>
     <div class="panel">
       <a href="index.php?controller=nutriente&action=listar">Listar Nutrientes</a>
       <a href="index.php?controller=nutriente&action=cadastrarForm">Cadastrar Nutriente</a>
     </div>
   </div>
-
   
 
   <h1>Suplementos Cadastrados</h1>
