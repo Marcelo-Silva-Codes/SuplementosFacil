@@ -139,7 +139,7 @@ $snDao = new SuplementoNutrienteDAO();
     <!-- Grid de suplementos -->
     <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:20px;">
         <?php foreach ($lista as $s): ?>
-            <div style="border:1px solid #ccc; padding:15px; text-align:center;">
+            <div style="border:none; padding:15px; text-align:center;">
 
                 <img src="<?= htmlspecialchars($s->getImg()) ?>" alt="<?= htmlspecialchars($s->getNome()) ?>" style="max-width:100%; height:150px; object-fit:cover;">
 
