@@ -48,11 +48,12 @@ $snDao = new SuplementoNutrienteDAO();
     h1 {
       margin: 30px 20px;
       color: #333;
+      text-align: center;
     }
 
     /* Table */
 
-    
+
 
     table {
       border-collapse: collapse;
@@ -75,14 +76,6 @@ $snDao = new SuplementoNutrienteDAO();
       padding: 12px;
       text-align: center;
       vertical-align: middle;
-    }
-
-    tr:nth-child(even) {
-      background: #f9f9f9;
-    }
-
-    tr:hover {
-      background: #f1f1f1;
     }
 
     ul {
@@ -195,7 +188,7 @@ $snDao = new SuplementoNutrienteDAO();
 
 
   <h1>Suplementos Cadastrados</h1>
-
+<div class="container">
   <table>
     <thead>
       <tr>
@@ -268,6 +261,7 @@ $snDao = new SuplementoNutrienteDAO();
       <?php endforeach; ?>
     </tbody>
   </table>
+</div>
 </body>
 
 </html>
