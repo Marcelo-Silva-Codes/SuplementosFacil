@@ -1,6 +1,6 @@
 
     // Script para abrir/fechar os menus
-    const acc = document.getElementsByClassName("accordion");
+    const acc = document.getElementsByClassName("buttons");
     for (let i = 0; i < acc.length; i++) {
       acc[i].addEventListener("click", function() {
         this.classList.toggle("active");
