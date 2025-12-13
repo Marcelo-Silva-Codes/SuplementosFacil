@@ -103,16 +103,12 @@
   <strong>Cesta de comparação:</strong>
   <div id="cesta-itens"><em>Nenhum suplemento na cesta</em></div>
   <button onclick="limparCesta()" class="btn">Limpar cesta</button>
-  <a href="#" onclick="return abrirComparacao()" class="btn">Comparar agora</a>
+ <a href="#" class="btn" onclick="return abrirComparacao()">Comparar agora</a>
 </div>
-
 <script>
 function abrirComparacao() {
   const itens = JSON.parse(localStorage.getItem('comparador')) || [];
-  if (itens.length === 0) {
-    alert("Nenhum suplemento na cesta!");
-    return false;
-  }
+  if (itens.length === 0) { alert("Nenhum suplemento na cesta!"); return false; }
   const ids = itens.map(i => i.id).join(",");
   window.location.href = "index.php?controller=tela&action=comparar&ids=" + ids;
   return false;

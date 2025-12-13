@@ -1,69 +1,61 @@
-
 <?php
 require_once __DIR__ . '/../dao/SuplementoDAO.php';
 require_once __DIR__ . '/../dao/CategoriaDAO.php';
-require_once __DIR__ . '/../models/Suplemento.php';
 require_once __DIR__ . '/../dao/NutrienteDAO.php';
+require_once __DIR__ . '/../dao/SuplementoNutrienteDAO.php'; // ADICIONE
+require_once __DIR__ . '/../models/Suplemento.php';
 
 class TelaController {
     private $suplementoDao;
     private $categoriaDao;
     private $nutrienteDao;
+    private $suplementoNutrienteDao;
 
     public function __construct() {
-        $this->suplementoDao = new SuplementoDAO();
-        $this->categoriaDao = new CategoriaDAO();
-        $this->nutrienteDao = new NutrienteDAO();
+        $this->suplementoDao        = new SuplementoDAO();
+        $this->categoriaDao         = new CategoriaDAO();
+        $this->nutrienteDao         = new NutrienteDAO();
+        $this->suplementoNutrienteDao = new SuplementoNutrienteDAO();
     }
+
+    private function protegerPainel() {
+        if (empty($_SESSION['usuario_id'])) {
+            header("Location: index.php?controller=usuario&action=login");
+            exit;
+        }
+    }
+
+
     public function home() {
         $lista = $this->suplementoDao->listarTodos();
         $categorias = $this->categoriaDao->listarTodos();
         require_once __DIR__ . '/../views/tela/home.php';
-        
     }
 
-    public function adicionarComparador() {
-    $id = $_POST['id'] ?? null;
-    if ($id) {
-        if (!isset($_SESSION['comparador'])) {
-            $_SESSION['comparador'] = [];
+    public function comparar() {
+        $ids = isset($_GET['ids']) ? explode(",", $_GET['ids']) : [];
+        $suplementosComparar = [];
+
+        foreach ($ids as $id) {
+            $s = $this->suplementoDao->buscarPorId((int)$id);
+            if ($s) {
+                // carrega vínculos N:N com JOIN para trazer nome do nutriente
+                $rels = $this->suplementoNutrienteDao->buscarNutrientesPorSuplemento($s->getId());
+                // injeta no objeto para a view consumir
+                $s->setNutrientes($rels);
+                $suplementosComparar[] = $s;
+            }
         }
-        // Evita duplicados
-        if (!in_array($id, $_SESSION['comparador'])) {
-            $_SESSION['comparador'][] = $id;
-        }
+        // junta todos os nomes de nutrientes
+        $allNutrientes = [];
+    foreach ($suplementosComparar as $s) {
+    foreach ($s->getNutrientes() as $n) {
+        $allNutrientes[$n['nutriente_id']] = $n['nutriente_nome'];
     }
-    header("Location: index.php?controller=suplemento&action=home");
-}
-
-public function removerComparador() {
-        $id = $_POST['id'] ?? null;
-        if ($id && isset($_SESSION['comparador'])) {
-            $_SESSION['comparador'] = array_values(
-                array_filter($_SESSION['comparador'], fn($x) => $x != $id)
-            );
-        }
-        header("Location: index.php?controller=suplemento&action=home");
     }
 
-    public function limparComparador() {
-        unset($_SESSION['comparador']);
-        header("Location: index.php?controller=suplemento&action=home");
+        // Atenção ao caminho da view no seu projeto
+        require_once __DIR__ . '/../views/tela/comparar.php';
     }
 
-
-public function comparar() {
-    $ids = isset($_GET['ids']) ? explode(",", $_GET['ids']) : [];
-    $suplementosComparar = [];
-
-    foreach ($ids as $id) {
-        $s = $this->suplementoDao->buscarPorId((int)$id);
-        if ($s) {
-            $suplementosComparar[] = $s;
-        }
-    }
-
-    // Passa para a view
-    require 'app/views/tela/comparar.php';
-}
 }

@@ -2,38 +2,57 @@
 require_once __DIR__ . '/../dao/UsuarioDAO.php';
 require_once __DIR__ . '/../models/Usuario.php';
 
-
 class UsuarioController {
+    private $usuarioDao;
+
+    public function __construct() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $this->usuarioDao = new UsuarioDAO();
 
 
-      public function login() {
+    }
+
+    // 🔒 método privado para proteger rotas
+    private function proteger() {
+        if (empty($_SESSION['usuario_id'])) {
+            header("Location: index.php?controller=usuario&action=login");
+            exit;
+        }
+    }
+
+    public function login() {
         require_once __DIR__ . '/../views/usuario/login.php';
     }
 
-    public function cadastro() {
-
-    require_once __DIR__ . '/../views/usuario/cadastro.php';
+    public function cadastrarForm() {
+        require_once __DIR__ . '/../views/usuario/cadastro.php';
     }
 
-    public function autenticar() {
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
-
-        $dao = new UsuarioDAO();
-        $usuario = $dao->buscarPorEmailSenha($email, $senha);
-
-        if ($usuario) {
-            // Salva dados na sessão
-            $_SESSION['usuario_id'] = $usuario->getId();
-            $_SESSION['usuario_nome'] = $usuario->getNome();
-            header("Location: index.php?controller=suplemento&action=listar");
-            exit;
-        } else {
-             echo "<script>alert('Email ou senha inválidos!');</script> ";
-             require_once __DIR__ . '/../views/usuario/login.php';
-           
-        }
+   public function autenticar() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
+
+    $email = $_POST['email'] ?? '';
+    $senha = $_POST['senha'] ?? '';
+
+    $usuario = $this->usuarioDao->buscarPorEmailSenha($email, $senha);
+
+   if ($usuario) {
+        $_SESSION['usuario_id']   = $usuario->getId();
+        $_SESSION['usuario_nome'] = $usuario->getNome();
+
+        header("Location: index.php?controller=suplemento&action=listar");
+        exit;
+    } else {
+        $erro = "Usuário ou senha inválidos";
+        require_once __DIR__ . '/../views/usuario/login.php';
+    }
+
+
+}
 
     public function logout() {
         session_destroy();
@@ -41,52 +60,31 @@ class UsuarioController {
     }
 
     public function listar() {
-        if (!isset($_SESSION['usuario_id'])) {
-            header("Location: index.php?controller=usuario&action=login");
-            exit;
-        }
-
-        $dao = new UsuarioDAO();
-        $usuarios = $dao->listar();
+        $this->proteger(); // protege a rota
+        $usuarios = $this->usuarioDao->listar();
         require_once __DIR__ . '/../views/usuario/listar.php';
     }
 
-
-
-    // Recebe os dados do formulário e insere no banco
     public function criar() {
-      
         $usuario = new Usuario();
         $usuario->setNome($_POST['nome']);
         $usuario->setSobrenome($_POST['sobrenome']);
         $usuario->setEmail($_POST['email']);
         $usuario->setTelefone($_POST['telefone']);
-        $usuario->setSenha($_POST['senha']);
+        $usuario->setSenha($_POST['senha']); // ideal: usar password_hash
 
-        $dao = new UsuarioDAO();
-        $dao->inserir($usuario);
-
-        // Depois de cadastrar, redireciona para a lista de usuários
+        $this->usuarioDao->inserir($usuario);
         header("Location: index.php?controller=usuario&action=listar");
     }
 
-
-    // Editar usuário (carrega formulário com dados)
     public function editar($id) {
-    if (!isset($_SESSION['usuario_id'])) {
-        header("Location: index.php?controller=usuario&action=login");
-        exit;
-    }
-
-
-        $dao = new UsuarioDAO();
-        $usuario = $dao->buscarPorId($id);
-
+        $this->proteger();
+        $usuario = $this->usuarioDao->buscarPorId($id);
         require_once __DIR__ . '/../views/usuario/editar.php';
     }
 
-    // Atualiza usuário no banco
     public function atualizar() {
+        $this->proteger();
         $usuario = new Usuario();
         $usuario->setId($_POST['id']);
         $usuario->setNome($_POST['nome']);
@@ -95,24 +93,13 @@ class UsuarioController {
         $usuario->setTelefone($_POST['telefone']);
         $usuario->setSenha($_POST['senha']);
 
-        $dao = new UsuarioDAO();
-        $dao->atualizar($usuario);
-
+        $this->usuarioDao->atualizar($usuario);
         header("Location: index.php?controller=usuario&action=listar");
     }
 
-    // Excluir usuário
     public function excluir($id) {
-        if (!isset($_SESSION['usuario_id'])) {
-        header("Location: index.php?controller=usuario&action=login");
-        exit;
-    }
-
-
-        $dao = new UsuarioDAO();
-        $dao->excluir($id);
-
+        $this->proteger();
+        $this->usuarioDao->excluir($id);
         header("Location: index.php?controller=usuario&action=listar");
     }
-
 }

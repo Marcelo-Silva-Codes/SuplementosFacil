@@ -22,6 +22,7 @@ class SuplementoController
 
  
 public function listar() {
+    $this->protegerPainel();
     $lista = $this->dao->listarTodos();
     $snController = new SuplementosNutrientesController();
 
@@ -35,6 +36,7 @@ public function listar() {
 
     public function cadastrarForm()
     {
+        
     require __DIR__ . '/../views/suplementos/cadastrar.php';
 
     }
@@ -131,5 +133,15 @@ if (!empty($_POST['nutrientes'])) {
         header("Location: index.php?controller=suplemento&action=listar");
         exit;
     }
+private function protegerPainel() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (empty($_SESSION['usuario_id'])) {
+        header("Location: index.php?controller=usuario&action=login");
+        exit;
+    }
+}
+
 
 }

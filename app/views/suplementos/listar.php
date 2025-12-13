@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -180,6 +178,12 @@
     <div class="panel">
       <a href="index.php?controller=nutriente&action=listar">Listar Nutrientes</a>
       <a href="index.php?controller=nutriente&action=cadastrarForm">Cadastrar Nutriente</a>
+    </div>
+
+    <button class="buttons"> Usuarios</button>
+    <div class="panel">
+      <a href="index.php?controller=usuario&action=listar">Listar Usuarios</a>
+      <a href="index.php?controller=usuario&action=cadastrarForm">Cadastrar Usuario</a>
     </div>
   </div>
 

@@ -1,111 +1,116 @@
+<?php
+// cadastro.php — formulário de cadastro de usuários
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Cadastro de Usuário</title>
-  <link rel="stylesheet" href="/public/css/style.css">
+  <title>Painel ADM - Cadastro de Usuário</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f4f6f9;
       margin: 0;
       padding: 0;
     }
+
+    /* Navbar */
+  .navbar {
+      background: #333;
+      color: #fff;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .navbar .logout a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .navbar .logout a:hover {
+      color: #ddd;
+    }
+
+    /* Container */
     .container {
-      max-width: 400px;
-      margin: 50px auto;
+      max-width: 500px;
+      margin: 40px auto;
       background: #fff;
       padding: 30px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      color: #333;
+      margin-bottom: 25px;
     }
+
     label {
       display: block;
-      margin-top: 10px;
+      margin-top: 12px;
       font-weight: bold;
+      color: #333;
     }
+
     input {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      padding: 10px;
+      margin-top: 6px;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+
     button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin-top: 20px;
-      background: #333;
+      background: #007bff;
       color: #fff;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
+      font-weight: bold;
+      transition: background 0.3s;
     }
     button:hover {
-      background: #555;
+      background: #0056b3;
     }
+
     .links {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 20px;
     }
     .links a {
-      color: #333;
+      color: #007bff;
       text-decoration: none;
       margin: 0 10px;
+      font-weight: bold;
     }
     .links a:hover {
       text-decoration: underline;
     }
-
-  .navbar {
-    background: #333;
-    color: #fff;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .navbar .logo a {
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    text-decoration: none;
-  }
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-    margin: 0;
-    padding: 0;
-  }
-  .nav-links li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-  }
-  .nav-links li a:hover {
-    color: #ddd;
-  }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-  <div class="logo">
-    <a href="index.php?controller=tela&action=home">SuplementosFacil</a>
-  </div>
-  <ul class="nav-links">
-    <li><a href="index.php?controller=tela&action=home">Home</a></li>
-    <li><a href="index.php?controller=suplemento&action=listar">Admin</a></li>
-    <li><a href="index.php?controller=usuario&action=login">Login</a></li>
-    <li><a href="index.php?controller=usuario&action=cadastro">Registrar</a></li>
-  </ul>
-</nav>
+  <!-- Navbar -->
+ <nav class="navbar">
+    <div class="logo">Painel ADM</div>
+    <div class="logout">
+      <a href="index.php?controller=usuario&action=logout">Sair</a>
+    </div>
+  </nav>
+
   <div class="container">
     <h2>Cadastro de Usuário</h2>
     <form action="index.php?controller=usuario&action=criar" method="POST">
