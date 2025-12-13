@@ -3,8 +3,10 @@
 require_once __DIR__ . '/../../config/banco.php';
 require_once __DIR__ . '/../models/Suplemento.php';
 require_once __DIR__ . '/SuplementoNutrienteDAO.php';
+require_once __DIR__ . '/../models/SuplementoNutriente.php';
+require_once __DIR__ . '/../models/Nutriente.php';
 
-class SuplementosDAO
+class SuplementoDAO
 {
     private $conexao;
 
@@ -105,6 +107,8 @@ if (!empty($_POST['nutrientes'])) {
     $s->setGluten((bool)$row['gluten']);
     $s->setLactose((bool)$row['lactose']);
     $s->setLink($row['link']);
+    
+    
 
     return $s;
 }
@@ -137,6 +141,40 @@ if (!empty($_POST['nutrientes'])) {
     }
     return $lista;
 }
+
+ public function listarTodosTUDO(): array
+{
+    $sql = "SELECT s.* , sn.*, n.* FROM suplemento as s
+            join suplemento_nutriente as sn on (s.id = sn_id)
+            join nutriente as n on (sn.nutriente_id = n.id)
+             ORDER BY s.nome ASC";
+    $stmt = $this->conexao->query($sql);
+
+    $lista = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $s = new Suplemento();
+        $s->setId((int)$row['id']);
+        $s->setNome($row['nome']);
+        $s->setQuantidadeTotal($row['quantidade_total']);
+        $s->setQuantidadeTotalUM($row['quantidade_total_UM']);
+        $s->setQuantidadePorPorcao($row['quantidade_por_porcao']);
+        $s->setQuantidadePorPorcaoUM($row['quantidade_por_porcao_UM']);
+        $s->setCalorias($row['calorias']);
+        $s->setSabor($row['sabor']);
+        $s->setCategoriaId((int)$row['categoria_id']);
+        $s->setFormaApresentacao($row['forma_apresentacao']);
+        $s->setPreco((float)$row['preco']);
+        $s->setImg($row['img']);
+        $s->setMarca($row['marca']);
+        $s->setVegano((bool)$row['vegano']);
+        $s->setGluten((bool)$row['gluten']);
+        $s->setLactose((bool)$row['lactose']);
+        $s->setLink($row['link']);
+        $lista[] = $s;
+    }
+    return $lista;
+}
+
 
  public function atualizar(Suplemento $s)
 {

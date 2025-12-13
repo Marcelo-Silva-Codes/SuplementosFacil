@@ -5,7 +5,7 @@ session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$controller  = $_GET['controller'] ?? 'suplemento';
+$controller  = $_GET['controller'] ?? 'tela';
 $action      = $_GET['action']   ?? 'home';
 
 $controllerClass = ucfirst($controller) . 'Controller';

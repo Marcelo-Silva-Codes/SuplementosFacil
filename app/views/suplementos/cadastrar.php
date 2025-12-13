@@ -128,9 +128,6 @@ $nutrientes = $nutDao->listarTodos();
       <label>Nome:</label>
       <input type="text" name="nome" required>
 
-      <label>Quantidade Total do Produto:</label>
-      <input type="number" name="quantidade_total" required>
-
       <label>Categoria:</label>
       <select name="categoria_id" required>
         <option value="">-- Selecione categoria --</option>
@@ -150,6 +147,9 @@ $nutrientes = $nutDao->listarTodos();
         <option value="líquido">Líquido</option>
         <option value="tabletes">Tabletes</option>
       </select>
+
+      <label>Quantidade Total do Produto:</label>
+      <input type="number" name="quantidade_total" required>
 
       <label>Unidade de Medida da Quantidade Total:</label>
       <input type="text" name="quantidade_total_UM" required>
@@ -203,6 +203,9 @@ $nutrientes = $nutDao->listarTodos();
       
 
       <button type="submit">Salvar Suplemento</button>
+      <br><br>
+      <button type="reset">Limpar Formulário</button>
+
     </form>
   </div>
 </body>

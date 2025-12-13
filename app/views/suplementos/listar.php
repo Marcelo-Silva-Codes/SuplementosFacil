@@ -1,8 +1,5 @@
-<?php
-// app/views/suplementos/listar.php
-require_once __DIR__ . '/../../dao/SuplementoNutrienteDAO.php';
-$snDao = new SuplementoNutrienteDAO();
-?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -212,23 +209,21 @@ $snDao = new SuplementoNutrienteDAO();
           <td><?= htmlspecialchars($s->getNome()) ?></td>
           <td>R$ <?= number_format($s->getPreco(), 2, ',', '.') ?></td>
           <td>
-            <?php
-            $rels = $snDao->buscarNutrientesPorSuplemento($s->getId());
-            if (!empty($rels)) {
-              echo "<ul>";
-              foreach ($rels as $r) {
-                echo "<li>"
-                  . htmlspecialchars($r['nutriente_nome'])
-                  . " — " . number_format((float)$r['quantidade'], 1, ',', '.')
-                  . " " . htmlspecialchars($r['unidade_medida'])
-                  . "</li>";
-              }
-              echo "</ul>";
-            } else {
-              echo "<em>—</em>";
-            }
-            ?>
-          </td>
+  <?php if (!empty($s->getNutrientes())): ?>
+    <ul>
+     <?php foreach ($s->getNutrientes() as $n): ?>
+  <li><?= htmlspecialchars($n['nutriente_nome']) ?> —
+      <?= number_format((float)$n['quantidade'], 1, ',', '.') ?>
+      <?= htmlspecialchars($n['unidade_medida']) ?>
+  </li>
+<?php endforeach; ?>
+
+
+    </ul>
+  <?php else: ?>
+    <em>Sem nutrientes cadastrados</em>
+  <?php endif; ?>
+</td>
           <td><?= htmlspecialchars($s->getCalorias()) ?></td>
           <td>
             <?php $url = $s->getLink(); ?>
@@ -249,8 +244,8 @@ $snDao = new SuplementoNutrienteDAO();
           <td><?= htmlspecialchars($s->getQuantidadeTotalUM()) ?></td>
           <td class="restricoes">
             <?php if ($s->isVegano()): ?><span>Vegano</span><?php endif; ?>
-            <?php if ($s->isGluten()): ?><span>Contém glúten</span><?php endif; ?>
-            <?php if ($s->isLactose()): ?><span>Contém lactose</span><?php endif; ?>
+            <?php if ($s->isGluten()): ?><span>Sem glúten</span><?php endif; ?>
+            <?php if ($s->isLactose()): ?><span>Sem lactose</span><?php endif; ?>
           </td>
           <td class="table-actions">
             <a href="index.php?controller=suplemento&action=editarForm&id=<?= $s->getId() ?>">✏️ Editar</a> |

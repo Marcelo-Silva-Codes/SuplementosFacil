@@ -112,43 +112,7 @@
     }
     .navbar .logout a:hover { color: #ddd; }
 
-    /* Hamburger menu */
-    .hamburger-menu {
-      position: relative;
-      display: inline-block;
-      margin: 20px;
-    }
-    .menu-icon {
-      font-size: 26px;
-      cursor: pointer;
-      color: #333;
-    }
-    #menu-toggle { display: none; }
-    .menu {
-      display: none;
-      position: absolute;
-      top: 35px;
-      left: 0;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      min-width: 180px;
-      z-index: 1000;
-    }
-    .menu a {
-      display: block;
-      padding: 10px 20px;
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-    .menu a:hover {
-      background: #f4f6f9;
-    }
-    #menu-toggle:checked + .menu-icon + .menu {
-      display: block;
-    }
+
 
   </style>
 </head>
@@ -161,16 +125,6 @@
     </div>
   </nav>
 
-  <!-- Menu Hambúrguer -->
-  <div class="hamburger-menu">
-    <input type="checkbox" id="menu-toggle">
-    <label for="menu-toggle" class="menu-icon">&#9776;</label>
-    <div class="menu">
-      <a href="index.php?controller=suplemento&action=listar">Suplementos</a>
-      <a href="index.php?controller=categoria&action=listar">Categorias</a>
-      <a href="index.php?controller=nutriente&action=listar">Nutrientes</a>
-    </div>
-  </div>
   <div class="container">
     <h1>Categorias</h1>
     <a href="index.php?controller=categoria&action=cadastrarForm" class="new-link">+ Nova Categoria</a>

@@ -140,6 +140,37 @@ select:focus {
       <label>Sabor:</label>
       <input type="text" name="sabor" value="<?= htmlspecialchars($supl->getSabor()) ?>">
 
+<h3>Nutrientes</h3>
+<?php if (!empty($nutrientes)): ?>
+  <?php foreach ($nutrientes as $n): 
+    // procura se este nutriente já está vinculado
+    $vinculo = null;
+    foreach ($supl->getNutrientes() as $nut) {
+        if ($nut['nutriente_id'] == $n->getId()) {
+            $vinculo = $nut;
+            break;
+        }
+    }
+  ?>
+    <div class="nutriente-item">
+      <input type="checkbox" name="nutrientes[]" value="<?= $n->getId(); ?>"
+             id="nut_<?= $n->getId(); ?>"
+             <?= $vinculo ? 'checked' : '' ?>>
+      <label for="nut_<?= $n->getId(); ?>"><?= htmlspecialchars($n->getNome()); ?></label>
+      <span>Qtd:</span>
+      <input type="number" name="qtd_<?= $n->getId(); ?>" step="any" style="width:80px;"
+             value="<?= $vinculo['quantidade'] ?? '' ?>">
+      <span>Uni.Med.:</span>
+      <input type="text" name="un_<?= $n->getId(); ?>" style="width:80px;"
+             value="<?= $vinculo['unidade_medida'] ?? '' ?>">
+    </div>
+  <?php endforeach; ?>
+<?php else: ?>
+  <p>Nenhum nutriente cadastrado.</p>
+<?php endif; ?>
+
+
+
 <label for="categoria_id">Categoria:</label>
 <select id="categoria_id" name="categoria_id" required>
   <!-- Placeholder sem variável fora do foreach -->

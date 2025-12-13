@@ -20,6 +20,25 @@ class Suplemento
     private bool $gluten = false;
     private bool $lactose = false;
 
+    private $nutrientes = [];
+
+    public function setNutrientes(array $nutrientes) {
+        $this->nutrientes = $nutrientes;
+    }
+
+    public function getNutrientes(): array {
+        return $this->nutrientes;
+    }
+
+public function addNutriente($nutrienteId, $quantidade, $unidade) {
+        $this->nutrientes[] = [
+            'nutriente_id'   => $nutrienteId,
+            'quantidade'     => $quantidade,
+            'unidade_medida' => $unidade
+        ];
+    }
+
+
     // Getters e Setters
     public function getId()
     {

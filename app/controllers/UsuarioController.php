@@ -15,12 +15,6 @@ class UsuarioController {
     require_once __DIR__ . '/../views/usuario/cadastro.php';
     }
 
-   public function home_adm() {
-        require_once __DIR__ . '/../views/tela/home_adm.php';
-    
-   }
-
-
     public function autenticar() {
         $email = $_POST['email'];
         $senha = $_POST['senha'];
@@ -32,8 +26,8 @@ class UsuarioController {
             // Salva dados na sessão
             $_SESSION['usuario_id'] = $usuario->getId();
             $_SESSION['usuario_nome'] = $usuario->getNome();
-
-            require_once __DIR__ . '/../views/tela/home_adm.php';
+            header("Location: index.php?controller=suplemento&action=listar");
+            exit;
         } else {
              echo "<script>alert('Email ou senha inválidos!');</script> ";
              require_once __DIR__ . '/../views/usuario/login.php';

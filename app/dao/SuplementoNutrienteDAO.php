@@ -27,14 +27,17 @@ class SuplementoNutrienteDAO
         ]);
     }
 
+
    public function buscarNutrientesPorSuplemento(int $supId): array
 {
     $sql = "
-      SELECT n.nome AS nutriente_nome, sn.quantidade, sn.unidade_medida
-      FROM suplemento_nutriente sn
-      JOIN nutriente n ON (n.id = sn.nutriente_id)
-      WHERE sn.suplemento_id = ?
-    ";
+      SELECT n.id as nutriente_id,
+                   n.nome as nutriente_nome,
+                   sn.quantidade,
+                   sn.unidade_medida
+            FROM suplemento_nutriente sn
+            JOIN nutriente n ON n.id = sn.nutriente_id
+            WHERE sn.suplemento_id = ?";
     $stmt = $this->conexao->prepare($sql);
     $stmt->execute([$supId]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -63,6 +66,8 @@ public function inserirRelacao(int $suplementoId, int $nutrienteId, float $qtd, 
 }
 
 
+
+
     public function buscarSuplementosPorNutriente($nutrienteId)
 {
     $sql = "SELECT * 
@@ -75,5 +80,18 @@ public function inserirRelacao(int $suplementoId, int $nutrienteId, float $qtd, 
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'SuplementoNutriente');
 }
 
+    public function vincular($suplementoId, $nutrienteId, $quantidade, $unidade) {
+        $sql = "INSERT INTO suplemento_nutriente (suplemento_id, nutriente_id, quantidade, unidade_medida)
+                VALUES (?, ?, ?, ?)";
+        $stmt = $this->conexao->prepare($sql);
+        $stmt->execute([$suplementoId, $nutrienteId, $quantidade, $unidade]);
+    }
+
+
+ public function removerTodosPorSuplemento($Id) {
+        $sql = "DELETE FROM suplemento_nutriente WHERE suplemento_id = ?";
+        $stmt = $this->conexao->prepare($sql);
+        $stmt->execute([$Id]);
+    }
 
 }

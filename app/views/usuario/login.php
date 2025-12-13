@@ -97,10 +97,10 @@
 <body>
   <nav class="navbar">
   <div class="logo">
-    <a href="index.php?controller=suplemento&action=home">SuplementosFácil</a>
+    <a href="index.php?controller=tela&action=home">SuplementosFácil</a>
   </div>
   <ul class="nav-links">
-    <li><a href="index.php?controller=suplemento&action=home">Home</a></li>
+    <li><a href="index.php?controller=tela&action=home">Home</a></li>
     <li><a href="index.php?controller=suplemento&action=listar">Admin</a></li>
     <li><a href="index.php?controller=usuario&action=login">Login</a></li>
     <li><a href="index.php?controller=usuario&action=cadastro">Registrar</a></li>
