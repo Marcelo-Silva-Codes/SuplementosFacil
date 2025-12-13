@@ -123,7 +123,7 @@ $nutrientes = $nutDao->listarTodos();
   <div class="container">
     <h1>Cadastrar Novo Suplemento</h1>
 
-    <form action="index.php?controller=suplemento&action=cadastrar" method="POST">
+    <form action="index.php?controller=suplemento&action=cadastrar" method="POST"  enctype="multipart/form-data">
 
       <label>Nome:</label>
       <input type="text" name="nome" required>
@@ -172,8 +172,8 @@ $nutrientes = $nutDao->listarTodos();
       <label>Marca:</label>
       <input type="text" name="marca">
 
-      <label>Imagem (URL ou caminho):</label>
-      <input type="text" name="img">
+      <label>Imagem:</label>
+      <input type="file" name="img">
 
       <label>Link:</label>
       <input type="text" name="link">

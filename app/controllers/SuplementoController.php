@@ -20,49 +20,71 @@ class SuplementoController
         $this->nutrienteDao = new NutrienteDAO();
     }
 
- 
-public function listar() {
-    $this->protegerPainel();
-    $lista = $this->dao->listarTodos();
-    $snController = new SuplementosNutrientesController();
 
-    foreach ($lista as $s) {
-        $s->setNutrientes($snController->listarPorSuplemento($s->getId()));
+    public function listar()
+    {
+        $this->protegerPainel();
+        $lista = $this->dao->listarTodos();
+        $snController = new SuplementosNutrientesController();
+
+        foreach ($lista as $s) {
+            $s->setNutrientes($snController->listarPorSuplemento($s->getId()));
+        }
+
+        require 'app/views/suplementos/listar.php';
     }
-
-    require 'app/views/suplementos/listar.php';
-}
 
 
     public function cadastrarForm()
     {
-        
-    require __DIR__ . '/../views/suplementos/cadastrar.php';
 
+        require __DIR__ . '/../views/suplementos/cadastrar.php';
     }
 
-public function cadastrar()
-{
-    $s = new Suplemento();
-    $s->setNome($_POST['nome']);
-    $s->setQuantidadeTotal($_POST['quantidade_total']);
-    $s->setCategoriaId((int)$_POST['categoria_id']);
-    $s->setFormaApresentacao($_POST['forma_apresentacao']);
-    $s->setQuantidadeTotalUM($_POST['quantidade_total_UM']);
-    $s->setQuantidadePorPorcao($_POST['quantidade_por_porcao']);
-    $s->setQuantidadePorPorcaoUM($_POST['quantidade_por_porcao_UM']);
-    $s->setCalorias($_POST['calorias']);
-    $s->setSabor($_POST['sabor']);
-    $s->setPreco((float) $_POST['preco']);
-    $s->setMarca($_POST['marca'] ?? null);
-    $s->setImg($_POST['img'] ?? null);
-    $s->setLink($_POST['link'] ?? null);
-    $s->setVegano(   isset($_POST['vegano'])   ? true : false);
-    $s->setGluten(  isset($_POST['gluten'])  ? true : false);
-    $s->setLactose( isset($_POST['lactose']) ? true : false);
+    public function cadastrar()
+    {
+        $s = new Suplemento();
+        $s->setNome($_POST['nome']);
+        $s->setQuantidadeTotal($_POST['quantidade_total']);
+        $s->setCategoriaId((int)$_POST['categoria_id']);
+        $s->setFormaApresentacao($_POST['forma_apresentacao']);
+        $s->setQuantidadeTotalUM($_POST['quantidade_total_UM']);
+        $s->setQuantidadePorPorcao($_POST['quantidade_por_porcao']);
+        $s->setQuantidadePorPorcaoUM($_POST['quantidade_por_porcao_UM']);
+        $s->setCalorias($_POST['calorias']);
+        $s->setSabor($_POST['sabor']);
+        $s->setPreco((float) $_POST['preco']);
+        $s->setMarca($_POST['marca'] ?? null);
+        // Upload da imagem
+        $imgPath = null;
+        if (!empty($_FILES['img']['name'])) {
+            $uploadDir = __DIR__ . '/../../public/imagens/'; // pasta onde salvar
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
 
-    $this->dao->inserir($s);
-        header("Location: index.php?c=suplemento&a=listar");
+            $fileName = uniqid() . "_" . basename($_FILES['img']['name']); // evita conflito
+            $targetFile = $uploadDir . $fileName;
+
+            if (move_uploaded_file($_FILES['img']['tmp_name'], $targetFile)) {
+                // Caminho relativo para salvar no banco
+                $imgPath = 'public/imagens/' . $fileName;
+            } else {
+                echo "Erro ao enviar imagem.";
+            }
+        }
+
+        // Agora usa o caminho do upload
+        $s->setImg($imgPath);
+
+
+        $s->setLink($_POST['link'] ?? null);
+        $s->setVegano(isset($_POST['vegano'])   ? true : false);
+        $s->setGluten(isset($_POST['gluten'])  ? true : false);
+        $s->setLactose(isset($_POST['lactose']) ? true : false);
+
+        $this->dao->inserir($s);
+        header("Location: index.php?controller=suplemento&action=listar");
         exit;
     }
 
@@ -70,9 +92,9 @@ public function cadastrar()
     {
         $id = $_GET['id'];
         $supl = $this->dao->buscarPorId($id);
-         $nutrientes = $this->nutrienteDao->listarTodos();
-    $nutrientesSupl = $this->suplementoNutrienteDao->buscarNutrientesPorSuplemento($id);
-    $supl->setNutrientes($nutrientesSupl);
+        $nutrientes = $this->nutrienteDao->listarTodos();
+        $nutrientesSupl = $this->suplementoNutrienteDao->buscarNutrientesPorSuplemento($id);
+        $supl->setNutrientes($nutrientesSupl);
 
         $categoriaDao = new CategoriaDAO(); //precisa para listar categorias no select
         $categorias = $categoriaDao->listarTodos();
@@ -87,38 +109,60 @@ public function cadastrar()
     }
 
     public function atualizar()
-{
-    $id = $_POST['id'];
-    $s = new Suplemento();
-    $s->setId((int) $_POST['id']);
-    $s->setNome($_POST['nome']);
-    $s->setQuantidadeTotal($_POST['quantidade_total']);
-    $s->setQuantidadeTotalUM($_POST['quantidade_total_UM']);
-    $s->setQuantidadePorPorcao($_POST['quantidade_por_porcao']);
-    $s->setQuantidadePorPorcaoUM($_POST['quantidade_por_porcao_UM']);
-    $s->setCalorias($_POST['calorias']);
-    $s->setSabor($_POST['sabor']);
-    $s->setCategoriaId((int)$_POST['categoria_id']);
-    $s->setFormaApresentacao($_POST['forma_apresentacao']);
-    $s->setPreco((float) $_POST['preco']);
-    $s->setMarca($_POST['marca'] ?? null);
-    $s->setImg($_POST['img'] ?? null);
-    $s->setLink($_POST['link'] ?? null);
-    $s->setVegano(   isset($_POST['vegano'])   ? true : false);
-    $s->setGluten(  isset($_POST['gluten'])  ? true : false);
-    $s->setLactose( isset($_POST['lactose']) ? true : false);
+    {
+        $id = $_POST['id'];
+        $s = new Suplemento();
+        $s->setId((int) $_POST['id']);
+        $s->setNome($_POST['nome']);
+        $s->setQuantidadeTotal($_POST['quantidade_total']);
+        $s->setQuantidadeTotalUM($_POST['quantidade_total_UM']);
+        $s->setQuantidadePorPorcao($_POST['quantidade_por_porcao']);
+        $s->setQuantidadePorPorcaoUM($_POST['quantidade_por_porcao_UM']);
+        $s->setCalorias($_POST['calorias']);
+        $s->setSabor($_POST['sabor']);
+        $s->setCategoriaId((int)$_POST['categoria_id']);
+        $s->setFormaApresentacao($_POST['forma_apresentacao']);
+        $s->setPreco((float) $_POST['preco']);
+        $s->setMarca($_POST['marca'] ?? null);
 
+        $imgPath = null;
+        if (!empty($_FILES['img']['name'])) {
+            $uploadDir = __DIR__ . '/../../public/imagens/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
 
+            $fileName = uniqid() . "_" . basename($_FILES['img']['name']);
+            $targetFile = $uploadDir . $fileName;
 
-    $this->dao->atualizar($s);
-$this->suplementoNutrienteDao->removerTodosPorSuplemento($id);
-if (!empty($_POST['nutrientes'])) {
-        foreach ($_POST['nutrientes'] as $nutrienteId) {
-            $qtd = $_POST['qtd_'.$nutrienteId] ?? null;
-            $un  = $_POST['un_'.$nutrienteId] ?? null;
-            $this->suplementoNutrienteDao->vincular($id, $nutrienteId, $qtd, $un);
+            if (move_uploaded_file($_FILES['img']['tmp_name'], $targetFile)) {
+                $imgPath = 'public/imagens/' . $fileName;
+            }
         }
-    }
+
+        // Se não enviou nova imagem, mantém a antiga
+        if ($imgPath) {
+            $s->setImg($imgPath);
+        } else {
+            $s->setImg($_POST['img'] ?? null);
+        }
+
+        $s->setLink($_POST['link'] ?? null);
+        $s->setVegano(isset($_POST['vegano'])   ? true : false);
+        $s->setGluten(isset($_POST['gluten'])  ? true : false);
+        $s->setLactose(isset($_POST['lactose']) ? true : false);
+
+
+
+        $this->dao->atualizar($s);
+        $this->suplementoNutrienteDao->removerTodosPorSuplemento($id);
+        if (!empty($_POST['nutrientes'])) {
+            foreach ($_POST['nutrientes'] as $nutrienteId) {
+                $qtd = $_POST['qtd_' . $nutrienteId] ?? null;
+                $un  = $_POST['un_' . $nutrienteId] ?? null;
+                $this->suplementoNutrienteDao->vincular($id, $nutrienteId, $qtd, $un);
+            }
+        }
 
 
 
@@ -133,15 +177,14 @@ if (!empty($_POST['nutrientes'])) {
         header("Location: index.php?controller=suplemento&action=listar");
         exit;
     }
-private function protegerPainel() {
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+    private function protegerPainel()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (empty($_SESSION['usuario_id'])) {
+            header("Location: index.php?controller=usuario&action=login");
+            exit;
+        }
     }
-    if (empty($_SESSION['usuario_id'])) {
-        header("Location: index.php?controller=usuario&action=login");
-        exit;
-    }
-}
-
-
 }

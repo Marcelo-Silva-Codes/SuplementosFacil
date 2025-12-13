@@ -116,7 +116,7 @@ select:focus {
   <div class="container">
     <h1>Editar Suplemento: <?= htmlspecialchars($supl->getNome()) ?></h1>
 
-    <form action="index.php?controller=suplemento&action=atualizar" method="POST">
+    <form action="index.php?controller=suplemento&action=atualizar" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="id" value="<?= $supl->getId() ?>">
 
       <label>Nome:</label>
@@ -194,8 +194,23 @@ select:focus {
       <label>Marca:</label>
       <input type="text" name="marca" value="<?= htmlspecialchars($supl->getMarca()) ?>">
 
-      <label>Imagem (URL ou caminho):</label>
-      <input type="text" name="img" value="<?= htmlspecialchars($supl->getImg()) ?>">
+      <label>Imagem atual:</label><br>
+  <?php if ($supl->getImg()): ?>
+      <img src="<?= htmlspecialchars($supl->getImg()); ?>" 
+           alt="Imagem atual" 
+           style="max-width:150px; height:auto; border:1px solid #ccc; margin-bottom:10px;">
+  <?php else: ?>
+      <em>Sem imagem cadastrada</em>
+  <?php endif; ?>
+  <br>
+
+  <label>Trocar imagem:</label>
+  <input type="file" name="img" accept="image/*">
+
+  <!-- mantém o caminho antigo caso não troque -->
+  <input type="hidden" name="img" value="<?= htmlspecialchars($supl->getImg()); ?>">
+
+
 
       <label>Link:</label>
       <input type="text" name="link" value="<?= htmlspecialchars($supl->getLink()) ?>">
