@@ -31,28 +31,23 @@ class UsuarioController {
     }
 
    public function autenticar() {
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
-    $email = $_POST['email'] ?? '';
-    $senha = $_POST['senha'] ?? '';
+    $usuario = $this->usuarioDao->buscarPorEmail($email);
 
-    $usuario = $this->usuarioDao->buscarPorEmailSenha($email, $senha);
-
-   if ($usuario) {
+    if ($usuario && password_verify($senha, $usuario->getSenha())) {
         $_SESSION['usuario_id']   = $usuario->getId();
         $_SESSION['usuario_nome'] = $usuario->getNome();
-
         header("Location: index.php?controller=suplemento&action=listar");
         exit;
     } else {
         $erro = "Usuário ou senha inválidos";
         require_once __DIR__ . '/../views/usuario/login.php';
     }
-
-
 }
+
+
 
     public function logout() {
         session_destroy();
@@ -65,17 +60,24 @@ class UsuarioController {
         require_once __DIR__ . '/../views/usuario/listar.php';
     }
 
-    public function criar() {
-        $usuario = new Usuario();
-        $usuario->setNome($_POST['nome']);
-        $usuario->setSobrenome($_POST['sobrenome']);
-        $usuario->setEmail($_POST['email']);
-        $usuario->setTelefone($_POST['telefone']);
-        $usuario->setSenha($_POST['senha']); // ideal: usar password_hash
 
-        $this->usuarioDao->inserir($usuario);
-        header("Location: index.php?controller=usuario&action=listar");
-    }
+    public function criar() {
+    $usuario = new Usuario();
+    $usuario->setNome($_POST['nome']);
+    $usuario->setSobrenome($_POST['sobrenome']);
+    $usuario->setEmail($_POST['email']);
+    $usuario->setTelefone($_POST['telefone']);
+
+    // Criptografa a senha antes de salvar
+    $hash = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+    $usuario->setSenha($hash);
+
+    $this->usuarioDao->inserir($usuario);
+
+    header("Location: index.php?controller=usuario&action=login");
+    exit;
+}
+
 
     public function editar($id) {
         $this->proteger();

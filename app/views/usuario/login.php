@@ -120,7 +120,7 @@
     </form>
 
     <div class="links">
-      <a href="index.php?controller=usuario&action=cadastro">Não tem conta? Cadastre-se</a>
+      <a href="index.php?controller=usuario&action=cadastrarForm">Não tem conta? Cadastre-se</a>
     </div>
   </div>
 </body>

@@ -62,11 +62,10 @@ class UsuarioDAO {
         $stmt->execute([$id]);
     }
 
-    public function buscarPorEmailSenha($email, $senha) {
-    $sql = "SELECT * FROM usuario WHERE email = :email AND senha = :senha";
+    public function buscarPorEmail($email) {
+    $sql = "SELECT * FROM usuario WHERE email = :email";
     $stmt = $this->conexao->prepare($sql);
     $stmt->bindValue(':email', $email);
-    $stmt->bindValue(':senha', $senha);
     $stmt->execute();
 
     if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
