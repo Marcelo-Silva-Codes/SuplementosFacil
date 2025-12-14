@@ -7,10 +7,8 @@ function abrirComparacao() {
   return false;
 }
 
-
-
     // Carregar cesta
-    function carregarCesta() {
+function carregarCesta() {
       const itens = JSON.parse(localStorage.getItem('comparador')) || [];
       const cestaDiv = document.getElementById('cesta-itens');
       if (itens.length === 0) {
@@ -21,7 +19,7 @@ function abrirComparacao() {
            <button onclick="removerItem(${item.id})">❌</button>`
         ).join(" ");
       }
-    }
+}
 
     // Adicionar item
 function adicionarItem(id, nome) {
@@ -38,29 +36,30 @@ function adicionarItem(id, nome) {
     localStorage.setItem('comparador', JSON.stringify(itens));
     mostrarFeedback(`${nome} adicionado!`);
     carregarCesta();
-  } else {
+  }    
+  else {
     mostrarFeedback(`${nome} já está na cesta!`);
   }
 }
 
 
-
     // Remover item
-    function removerItem(id) {
+function removerItem(id) {
       let itens = JSON.parse(localStorage.getItem('comparador')) || [];
       itens = itens.filter(item => item.id !== id);
       localStorage.setItem('comparador', JSON.stringify(itens));
       carregarCesta();
-    }
+        mostrarFeedback("Item removido!"); 
+}
 
     // Limpar cesta
-    function limparCesta() {
+function limparCesta() {
       localStorage.removeItem('comparador');
       carregarCesta();
-    }
+}
 
     // Feedback visual
-    function mostrarFeedback(msg) {
+function mostrarFeedback(msg) {
       const feedback = document.createElement("div");
       feedback.className = "feedback";
       feedback.textContent = msg;
