@@ -12,6 +12,9 @@
       background: #f4f6f9;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .container {
@@ -21,6 +24,7 @@
       padding: 30px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      flex: 1;
     }
 
     h1 {
@@ -47,6 +51,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 10px;
     }
 
     thead {
@@ -92,7 +97,7 @@
       text-decoration: underline;
     }
 
-     /* Navbar */
+    /* Navbar */
     .navbar {
       background: #333;
       color: #fff;
@@ -112,12 +117,49 @@
     }
     .navbar .logout a:hover { color: #ddd; }
 
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+    }
 
-
+    /* 📱 Responsividade */
+    @media (max-width: 700px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead {
+        display: none;
+      }
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 10px;
+        background: #fff;
+      }
+      td {
+        text-align: left;
+        border: none;
+        padding: 6px;
+      }
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+      }
+    }
   </style>
 </head>
 <body>
-     <!-- Navbar ADM -->
+  <!-- Navbar ADM -->
   <nav class="navbar">
     <div class="logo">Painel ADM</div>
     <div class="logout">
@@ -140,9 +182,9 @@
       <tbody>
         <?php foreach ($lista as $c): ?>
         <tr>
-          <td><?= htmlspecialchars($c->getId()) ?></td>
-          <td><?= htmlspecialchars($c->getNome()) ?></td>
-          <td class="actions">
+          <td data-label="ID"><?= htmlspecialchars($c->getId()) ?></td>
+          <td data-label="Nome"><?= htmlspecialchars($c->getNome()) ?></td>
+          <td data-label="Ações" class="actions">
             <a href="index.php?controller=categoria&action=editarForm&id=<?= $c->getId() ?>">Editar</a> |
             <a href="index.php?controller=categoria&action=deletar&id=<?= $c->getId() ?>"
                onclick="return confirm('Confirma exclusão?')">Excluir</a>
@@ -154,5 +196,9 @@
 
     <a href="index.php?controller=suplemento&action=listar" class="back-link">Voltar aos suplementos</a>
   </div>
+
+  <footer>
+    <p>&copy; 2025 SuplementosFacil - Painel ADM</p>
+  </footer>
 </body>
 </html>

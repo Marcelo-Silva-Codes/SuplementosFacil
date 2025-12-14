@@ -14,6 +14,32 @@
       padding: 0;
     }
 
+        /* Navbar */
+    header nav.navbar {
+      background: #333;
+      color: #fff;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .navbar .logout a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .navbar .logout a:hover {
+      color: #ddd;
+    }
+
+
     .container {
       max-width: 700px;
       margin: 40px auto;
@@ -110,35 +136,97 @@ select:focus {
   outline: none;
 }
 
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+    }
+
+@media (max-width: 600px) {
+  .container {
+    margin: 20px;
+    padding: 20px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  form input[type="text"],
+  form input[type="number"],
+  form select {
+    font-size: 14px;
+    padding: 8px;
+  }
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+.nutriente-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+@media (max-width: 600px) {
+  .nutriente-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
   </style>
 </head>
 <body>
+ <header>
+    <!-- Navbar ADM -->
+    <nav class="navbar">
+      <div class="logo">Painel ADM</div>
+      <div class="logout">
+        <a href="index.php?controller=usuario&action=logout">Sair</a>
+      </div>
+    </nav>
+  </header>
+
   <div class="container">
     <h1>Editar Suplemento: <?= htmlspecialchars($supl->getNome()) ?></h1>
 
     <form action="index.php?controller=suplemento&action=atualizar" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="id" value="<?= $supl->getId() ?>">
 
-      <label>Nome:</label>
+
+<label>Nome:</label>
       <input type="text" name="nome" value="<?= htmlspecialchars($supl->getNome()) ?>" required>
 
-      <label>Quantidade total:</label>
-      <input type="text" name="quantidade_total" value="<?= htmlspecialchars($supl->getQuantidadeTotal()) ?>">
+   <label>Quantidade total:</label>
+  <input type="number" id="quantidade_total" name="quantidade_total" value="<?= htmlspecialchars($supl->getQuantidadeTotal()) ?>" min="1">
 
-      <label>Unidade total (UM):</label>
-      <input type="text" name="quantidade_total_UM" value="<?= htmlspecialchars($supl->getQuantidadeTotalUM()) ?>">
 
-      <label>Quantidade por porção:</label>
-      <input type="text" name="quantidade_por_porcao" value="<?= htmlspecialchars($supl->getQuantidadePorPorcao()) ?>">
 
-      <label>Unidade por porção (UM):</label>
-      <input type="text" name="quantidade_por_porcao_UM" value="<?= htmlspecialchars($supl->getQuantidadePorPorcaoUM()) ?>">
 
-      <label>Calorias:</label>
-      <input type="text" name="calorias" value="<?= htmlspecialchars($supl->getCalorias()) ?>">
+     <label>Unidade total (UM):</label>
+  <input type="text" id="quantidade_total_UM" name="quantidade_total_UM" value="<?= htmlspecialchars($supl->getQuantidadeTotalUM()) ?>">
 
-      <label>Sabor:</label>
-      <input type="text" name="sabor" value="<?= htmlspecialchars($supl->getSabor()) ?>">
+
+
+     <label>Quantidade por porção:</label>
+  <input type="number" id="quantidade_por_porcao" name="quantidade_por_porcao" value="<?= htmlspecialchars($supl->getQuantidadePorPorcao()) ?>" min="1">
+
+
+   <label>Unidade por porção (UM):</label>
+  <input type="text" id="quantidade_por_porcao_UM" name="quantidade_por_porcao_UM" value="<?= htmlspecialchars($supl->getQuantidadePorPorcaoUM()) ?>">
+
+
+  <label>Calorias:</label>
+  <input type="number" id="calorias" name="calorias" value="<?= htmlspecialchars($supl->getCalorias()) ?>" min="0">
+
+
+ <label>Sabor:</label>
+  <input type="text" id="sabor" name="sabor" value="<?= htmlspecialchars($supl->getSabor()) ?>" required>
+
 
 <h3>Nutrientes</h3>
 <?php if (!empty($nutrientes)): ?>
@@ -188,8 +276,8 @@ select:focus {
       <label>Forma de apresentação:</label>
       <input type="text" name="forma_apresentacao" value="<?= htmlspecialchars($supl->getFormaApresentacao()) ?>" required>
 
-      <label>Preço (R$):</label>
-      <input type="number" step="0.01" name="preco" value="<?= htmlspecialchars($supl->getPreco()) ?>" required>
+     <label>Preço (R$):</label>
+  <input type="number" id="preco" step="0.01" name="preco" value="<?= htmlspecialchars($supl->getPreco()) ?>" required min="0.01">
 
       <label>Marca:</label>
       <input type="text" name="marca" value="<?= htmlspecialchars($supl->getMarca()) ?>">
@@ -236,5 +324,43 @@ select:focus {
 
     <a href="index.php?controller=suplemento&action=listar" class="back-link">Voltar à lista de suplementos</a>
   </div>
+  
+  <footer>
+    <p>&copy; 2025 SuplementosFacil - Painel ADM</p>
+  </footer>
 </body>
+<script>
+  document.getElementById("formEditarSuplemento").addEventListener("submit", function(e) {
+    const nome = document.getElementById("nome").value.trim();
+    const preco = parseFloat(document.getElementById("preco").value);
+    const qtdTotal = parseInt(document.getElementById("quantidade_total").value);
+    const qtdPorcao = parseInt(document.getElementById("quantidade_por_porcao").value);
+    const calorias = parseInt(document.getElementById("calorias").value);
+
+    let mensagens = [];
+
+    if (nome.length < 3) {
+      mensagens.push("O nome deve ter pelo menos 3 caracteres.");
+    }
+    if (isNaN(preco) || preco <= 0) {
+      mensagens.push("Preço deve ser maior que zero.");
+    }
+    if (!isNaN(qtdTotal) && qtdTotal <= 0) {
+      mensagens.push("Quantidade total deve ser maior que zero.");
+    }
+    if (!isNaN(qtdPorcao) && qtdPorcao <= 0) {
+      mensagens.push("Quantidade por porção deve ser maior que zero.");
+    }
+    if (!isNaN(calorias) && calorias < 0) {
+      mensagens.push("Calorias não podem ser negativas.");
+    }
+
+    if (mensagens.length > 0) {
+      e.preventDefault();
+      alert(mensagens.join("\n"));
+    }
+  });
+</script>
+
+
 </html>

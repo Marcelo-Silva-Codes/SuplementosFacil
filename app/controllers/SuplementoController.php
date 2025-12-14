@@ -37,6 +37,11 @@ class SuplementoController
 
     public function cadastrarForm()
     {
+           $catDao = new CategoriaDAO();
+    $nutDao = new NutrienteDAO();
+
+    $categorias = $catDao->listarTodos();
+    $nutrientes = $nutDao->listarTodos();
 
         require __DIR__ . '/../views/suplementos/cadastrar.php';
     }

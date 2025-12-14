@@ -310,7 +310,7 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 SuplementosFácil - Painel ADM</p>
+    <p>&copy; 2025 SuplementosFacil - Painel ADM</p>
   </footer>
 </body>
 </html>

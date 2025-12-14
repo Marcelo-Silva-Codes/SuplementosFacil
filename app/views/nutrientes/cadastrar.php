@@ -4,12 +4,16 @@
   <meta charset="UTF-8">
   <title>Painel ADM - Cadastrar Nutriente</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      margin: 0;
-      padding: 0;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;              /* altura mínima da tela */
+    display: flex;
+    flex-direction: column;         /* organiza em coluna */
+  }
+
 
     .navbar {
       background: #333;
@@ -42,6 +46,7 @@
       padding: 30px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+         flex: 1; 
     }
 
     h1 {
@@ -101,6 +106,30 @@
     .back-link:hover {
       text-decoration: underline;
     }
+
+            footer {
+      text-align: center;
+      padding: 15px;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+    }
+
+        /* 📱 Responsividade */
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+      form input[type="text"] {
+        font-size: 14px;
+        padding: 8px;
+      }
+      button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -116,9 +145,9 @@
   <div class="container">
     <h1>Cadastrar Novo Nutriente</h1>
 
-    <form action="index.php?controller=nutriente&action=cadastrar" method="POST">
+    <form id="formNutriente" action="index.php?controller=nutriente&action=cadastrar" method="POST">
       <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" required>
+      <input type="text" id="nome" name="nome" required minlength="3">
 
       <label for="tipo">Tipo / Unidade / Observação:</label>
       <input type="text" id="tipo" name="tipo">
@@ -128,5 +157,30 @@
 
     <a href="index.php?controller=nutriente&action=listar" class="back-link">Voltar à lista de nutrientes</a>
   </div>
+   <footer>
+    <p>&copy; 2025 SuplementosFacil - Painel ADM</p>
+  </footer>
+
+  <script>
+    // Validação extra em JS
+    document.getElementById("formNutriente").addEventListener("submit", function(e) {
+      const nome = document.getElementById("nome").value.trim();
+      const tipo = document.getElementById("tipo").value.trim();
+      let mensagens = [];
+
+      if (nome.length < 3) {
+        mensagens.push("O nome do nutriente deve ter pelo menos 3 caracteres.");
+      }
+      if (tipo.length > 0 && tipo.length < 2) {
+        mensagens.push("Se informado, o campo Tipo deve ter pelo menos 2 caracteres.");
+      }
+
+      if (mensagens.length > 0) {
+        e.preventDefault();
+        alert(mensagens.join("\n"));
+      }
+    });
+  </script>
 </body>
 </html>
+

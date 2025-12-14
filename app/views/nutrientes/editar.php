@@ -13,6 +13,9 @@
       background: #f4f6f9;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .navbar {
@@ -46,6 +49,7 @@
       padding: 30px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      flex: 1;
     }
 
     h1 {
@@ -105,6 +109,30 @@
     .back-link:hover {
       text-decoration: underline;
     }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    /* 📱 Responsividade */
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+      form input[type="text"] {
+        font-size: 14px;
+        padding: 8px;
+      }
+      button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -120,11 +148,11 @@
   <div class="container">
     <h1>Editar Nutriente: <?= htmlspecialchars($nutriente->getNome()) ?></h1>
 
-    <form action="index.php?controller=nutriente&action=atualizar" method="POST">
+    <form id="formEditarNutriente" action="index.php?controller=nutriente&action=atualizar" method="POST">
       <input type="hidden" name="id" value="<?= $nutriente->getId() ?>">
 
       <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($nutriente->getNome()) ?>" required>
+      <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($nutriente->getNome()) ?>" required minlength="3">
 
       <label for="tipo">Tipo / Categoria do nutriente (opcional):</label>
       <input type="text" id="tipo" name="tipo" value="<?= htmlspecialchars($nutriente->getTipo()) ?>">
@@ -134,5 +162,31 @@
 
     <a href="index.php?controller=nutriente&action=listar" class="back-link">Voltar à lista de nutrientes</a>
   </div>
+
+  <footer>
+    <p>&copy; 2025 SuplementosFacil - Painel ADM</p>
+  </footer>
+
+  <script>
+    // Validação extra em JS
+    document.getElementById("formEditarNutriente").addEventListener("submit", function(e) {
+      const nome = document.getElementById("nome").value.trim();
+      const tipo = document.getElementById("tipo").value.trim();
+      let mensagens = [];
+
+      if (nome.length < 3) {
+        mensagens.push("O nome do nutriente deve ter pelo menos 3 caracteres.");
+      }
+      if (tipo.length > 0 && tipo.length < 2) {
+        mensagens.push("Se informado, o campo Tipo deve ter pelo menos 2 caracteres.");
+      }
+
+      if (mensagens.length > 0) {
+        e.preventDefault();
+        alert(mensagens.join("\n"));
+      }
+    });
+  </script>
 </body>
 </html>
+

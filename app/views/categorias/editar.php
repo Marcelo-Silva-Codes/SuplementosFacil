@@ -12,6 +12,9 @@
       background: #f4f6f9;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .container {
@@ -21,6 +24,7 @@
       padding: 30px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      flex: 1;
     }
 
     h1 {
@@ -80,20 +84,65 @@
     .back-link:hover {
       text-decoration: underline;
     }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    /* 📱 Responsividade */
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+      form input[type="text"] {
+        font-size: 14px;
+        padding: 8px;
+      }
+      button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Editar Categoria: <?= htmlspecialchars($categoria->getNome()) ?></h1>
-    <form action="index.php?controller=categoria&action=atualizar" method="POST">
+    <form id="formEditarCategoria" action="index.php?controller=categoria&action=atualizar" method="POST">
       <input type="hidden" name="id" value="<?= $categoria->getId() ?>">
 
       <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($categoria->getNome()) ?>" required>
+      <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($categoria->getNome()) ?>" required minlength="3">
 
       <button type="submit">Salvar Alterações</button>
     </form>
     <a href="index.php?controller=categoria&action=listar" class="back-link">Voltar à lista de categorias</a>
   </div>
+
+  <footer>
+    <p>&copy; 2025 SuplementosFacil - Painel ADM</p>
+  </footer>
+
+  <script>
+    // Validação extra em JS
+    document.getElementById("formEditarCategoria").addEventListener("submit", function(e) {
+      const nome = document.getElementById("nome").value.trim();
+      let mensagens = [];
+
+      if (nome.length < 3) {
+        mensagens.push("O nome da categoria deve ter pelo menos 3 caracteres.");
+      }
+
+      if (mensagens.length > 0) {
+        e.preventDefault();
+        alert(mensagens.join("\n"));
+      }
+    });
+  </script>
 </body>
 </html>
