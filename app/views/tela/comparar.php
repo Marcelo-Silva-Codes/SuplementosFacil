@@ -7,33 +7,104 @@
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Comparação de Suplementos</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background:#f7f8fa; color:#333; }
-    h2 { text-align: center; margin-bottom: 20px; }
-    table { border-collapse: collapse; width: 100%; background:#fff; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; vertical-align: top; }
-    th { background:#f0f3f7; }
-    img { max-width: 120px; height: auto; border-radius:4px; }
-    ul { text-align: left; margin: 0; padding-left: 20px; list-style-type: none; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f7f8fa;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: #fff;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f0f3f7;
+    }
+
+    img {
+      max-width: 120px;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    ul {
+      text-align: left;
+      margin: 0;
+      padding-left: 20px;
+      list-style-type: none;
+    }
+
     .restricoes span {
-      display: inline-block; margin: 3px; background: #dff0d8;
-      padding: 2px 6px; border-radius: 4px; font-size: 12px;
+      display: inline-block;
+      margin: 3px;
+      background: #dff0d8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
     }
-    .actions { margin-top: 20px; text-align: center; }
+
+    .actions {
+      margin-top: 20px;
+      text-align: center;
+    }
+
     .btn {
-      background: #333; color: #fff; padding: 10px 16px;
-      border: none; cursor: pointer; border-radius: 4px;
+      background: #333;
+      color: #fff;
+      padding: 10px 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
     }
-    .btn:hover { background: #555; }
-    .maior { color: green; font-weight: bold; }
-    .menor { color: red; font-weight: bold; }
-    .igual { color: #555; }
-    .nota { font-size:12px; color:#666; text-align:center; margin-top:8px; }
+
+    .btn:hover {
+      background: #555;
+    }
+
+    .maior {
+      color: green;
+      font-weight: bold;
+    }
+
+    .menor {
+      color: red;
+      font-weight: bold;
+    }
+
+    .igual {
+      color: #555;
+    }
+
+    .nota {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      margin-top: 8px;
+    }
   </style>
 </head>
+
 <body>
   <h2>Comparação de Suplementos</h2>
 
@@ -68,54 +139,63 @@
           <?php endforeach; ?>
         </tr>
 
-       <tr>
-  <td>Nutrientes</td>
-  <?php foreach ($suplementosComparar as $s): ?>
-    <td>
-      <ul>
-        <?php foreach ($allNutrientes as $nutrienteId => $nutrienteNome): ?>
-          <?php
-            // procura se este suplemento tem esse nutriente
-            $found = null;
-            foreach ($s->getNutrientes() as $n) {
-              if ($n['nutriente_id'] == $nutrienteId) {
-                $found = $n;
-                break;
-              }
-            }
-          ?>
-          <?php if ($found): ?>
-            <li class="nutriente"
-                data-nome="<?= htmlspecialchars($found['nutriente_nome']) ?>"
-                data-valor="<?= (float)$found['quantidade'] ?>"
-                data-unidade="<?= htmlspecialchars($found['unidade_medida']) ?>">
-              <?= htmlspecialchars($found['nutriente_nome']) ?> —
-              <?= number_format((float)$found['quantidade'], 2, ',', '.') ?>
-              <?= htmlspecialchars($found['unidade_medida']) ?>
-            </li>
-          <?php else: ?>
-            <li class="nutriente"
-                data-nome="<?= htmlspecialchars($nutrienteNome) ?>"
-                data-valor=""
-                data-unidade="">
-              <?= htmlspecialchars($nutrienteNome) ?> — <em>Sem informação</em>
-            </li>
-          <?php endif; ?>
-        <?php endforeach; ?>
-      </ul>
-    </td>
-  <?php endforeach; ?>
-</tr>
+        <tr>
+          <td>Nutrientes</td>
+          <?php foreach ($suplementosComparar as $s): ?>
+            <td>
+              <ul>
+                <?php foreach ($allNutrientes as $nutrienteId => $nutrienteNome): ?>
+                  <?php
+                  // procura se este suplemento tem esse nutriente
+                  $found = null;
+                  foreach ($s->getNutrientes() as $n) {
+                    if ($n['nutriente_id'] == $nutrienteId) {
+                      $found = $n;
+                      break;
+                    }
+                  }
+                  ?>
+                  <?php if ($found): ?>
+                    <li class="nutriente"
+                      data-nome="<?= htmlspecialchars($found['nutriente_nome']) ?>"
+                      data-valor="<?= (float)$found['quantidade'] ?>"
+                      data-unidade="<?= htmlspecialchars($found['unidade_medida']) ?>">
+                      <?= htmlspecialchars($found['nutriente_nome']) ?> —
+                      <?= number_format((float)$found['quantidade'], 2, ',', '.') ?>
+                      <?= htmlspecialchars($found['unidade_medida']) ?>
+                    </li>
+                  <?php else: ?>
+                    <li class="nutriente"
+                      data-nome="<?= htmlspecialchars($nutrienteNome) ?>"
+                      data-valor=""
+                      data-unidade="">
+                      <?= htmlspecialchars($nutrienteNome) ?> — <em>Sem informação</em>
+                    </li>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              </ul>
+            </td>
+          <?php endforeach; ?>
+        </tr>
 
         <tr>
           <td>Restrições</td>
           <?php foreach ($suplementosComparar as $s): ?>
             <td class="restricoes">
               <?php
-                $temAlguma = false;
-                if ($s->isVegano()) { $temAlguma = true; echo "<span>Vegano</span>"; }
-                if ($s->isGluten()) { $temAlguma = true; echo "<span>Contém glúten</span>"; }
-                if ($s->isLactose()) { $temAlguma = true; echo "<span>Contém lactose</span>"; }
+              $temAlguma = false;
+              if ($s->isVegano()) {
+                $temAlguma = true;
+                echo "<span>Vegano</span>";
+              }
+              if ($s->isGluten()) {
+                $temAlguma = true;
+                echo "<span>Contém glúten</span>";
+              }
+              if ($s->isLactose()) {
+                $temAlguma = true;
+                echo "<span>Contém lactose</span>";
+              }
               ?>
               <?php if (!$temAlguma): ?>
                 <em>Sem restrições</em>
@@ -140,11 +220,16 @@
     function converterParaMg(valor, unidade) {
       if (valor === null || isNaN(valor)) return null;
       switch ((unidade || '').toLowerCase()) {
-        case "kg": return valor * 1e6;
-        case "g":  return valor * 1000;
-        case "mg": return valor;
-        case "mcg":return valor * 0.001;
-        default:   return valor; // mantém a unidade original se for algo como "IU", "kcal", etc.
+        case "kg":
+          return valor * 1e6;
+        case "g":
+          return valor * 1000;
+        case "mg":
+          return valor;
+        case "mcg":
+          return valor * 0.001;
+        default:
+          return valor; // mantém a unidade original se for algo como "IU", "kcal", etc.
       }
     }
 
@@ -165,7 +250,10 @@
         const valorMg = converterParaMg(valor, unidade);
 
         if (!grupos[nome]) grupos[nome] = [];
-        grupos[nome].push({ el: li, valor: valorMg });
+        grupos[nome].push({
+          el: li,
+          valor: valorMg
+        });
       });
 
       Object.keys(grupos).forEach(nome => {
@@ -197,4 +285,5 @@
     }
   </script>
 </body>
+
 </html>

@@ -153,7 +153,6 @@ class SuplementoController
         $s->setLactose(isset($_POST['lactose']) ? true : false);
 
 
-
         $this->dao->atualizar($s);
         $this->suplementoNutrienteDao->removerTodosPorSuplemento($id);
         if (!empty($_POST['nutrientes'])) {
@@ -163,8 +162,6 @@ class SuplementoController
                 $this->suplementoNutrienteDao->vincular($id, $nutrienteId, $qtd, $un);
             }
         }
-
-
 
         header("Location: index.php?controller=suplemento&action=listar");
         exit;
@@ -179,9 +176,6 @@ class SuplementoController
     }
     private function protegerPainel()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
         if (empty($_SESSION['usuario_id'])) {
             header("Location: index.php?controller=usuario&action=login");
             exit;

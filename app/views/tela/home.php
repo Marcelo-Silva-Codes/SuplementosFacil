@@ -41,6 +41,10 @@
     .cesta strong { margin-right:10px; }
     .cesta span { background:#ddd; padding:4px 8px; border-radius:4px; margin-right:8px; }
 
+    .cesta.over {
+  background: #cce5ff;
+  border: 2px dashed #546b83ff;
+}
     /* Grid */
     .grid {
       display:grid;
@@ -197,5 +201,49 @@ function abrirComparacao() {
     // Inicializar
     carregarCesta();
   </script>
+<script>
+  // Função de drag nos cards
+  function handleDragStart(e) {
+    const id = this.querySelector(".btn-add").dataset.id;
+    const nome = this.querySelector(".btn-add").dataset.nome;
+    e.dataTransfer.setData("id", id);
+    e.dataTransfer.setData("nome", nome);
+    e.dataTransfer.effectAllowed = "copy";
+    this.classList.add("dragElem");
+  }
+
+  function handleDragEnd() {
+    this.classList.remove("dragElem");
+  }
+
+  // Tornar cada card arrastável
+  document.querySelectorAll(".card").forEach(card => {
+    card.setAttribute("draggable", "true");
+    card.addEventListener("dragstart", handleDragStart);
+    card.addEventListener("dragend", handleDragEnd);
+  });
+
+  // Área da cesta como dropzone
+  const cesta = document.getElementById("cesta");
+
+  cesta.addEventListener("dragover", e => {
+    e.preventDefault(); // necessário para permitir o drop
+    cesta.classList.add("over");
+  });
+
+  cesta.addEventListener("dragleave", () => {
+    cesta.classList.remove("over");
+  });
+
+  cesta.addEventListener("drop", e => {
+    e.preventDefault();
+    cesta.classList.remove("over");
+    const id = parseInt(e.dataTransfer.getData("id"));
+    const nome = e.dataTransfer.getData("nome");
+    if (id && nome) {
+      adicionarItem(id, nome); // usa sua função já existente
+    }
+  });
+</script>
 </body>
 </html>
