@@ -299,7 +299,7 @@ select:focus {
   <input type="hidden" name="img" value="<?= htmlspecialchars($supl->getImg()); ?>">
 
 
-
+<br><br>
       <label>Link:</label>
       <input type="text" name="link" value="<?= htmlspecialchars($supl->getLink()) ?>">
 

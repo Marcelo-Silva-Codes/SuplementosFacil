@@ -88,19 +88,36 @@
       border-radius:4px;
       text-align:center;
     }
+
+     footer {
+      text-align:center;
+      padding:15px;
+      background:#333;
+      color:#fff;
+      font-size:14px;
+    }
+
+    /* 📱 Responsividade */
+    @media (max-width: 600px) {
+      h1 { font-size: 20px; margin:20px 0; }
+      .grid { grid-template-columns:1fr; margin:0 10px 20px; }
+      .card img { height:120px; }
+      .btn { font-size:14px; padding:6px 10px; }
+      .cesta { margin:10px; padding:8px; }
+    }
+
   </style>
 </head>
 <body>
   <nav class="navbar">
-    <div class="logo"><a href="index.php?controller=tela&action=home">SuplementosFácil</a></div>
+    <div class="logo"><a href="index.php?controller=tela&action=home">SuplementosFacil</a></div>
     <ul class="nav-links">
-      <li><a href="index.php?controller=tela&action=home">Home</a></li>
       <li><a href="index.php?controller=usuario&action=login">Login</a></li>
-      <li><a href="index.php?controller=usuario&action=cadastro">Registrar</a></li>
+      <li><a href="index.php?controller=usuario&action=cadastrarForm">Registrar</a></li>
     </ul>
   </nav>
 
-  <h1>Suplementos Disponíveis</h1>
+  <h1>Busque seus suplementos na tranquilidade</h1>
 
   <!-- Barra da cesta -->
 <div id="cesta" class="cesta">
@@ -138,6 +155,11 @@ function abrirComparacao() {
     <?php endforeach; ?>
   </div>
 
+<footer>
+    <p>&copy; 2025 SuplementosFacil</p>
+</footer>
+
+
   <script>
     // Carregar cesta
     function carregarCesta() {
@@ -154,17 +176,26 @@ function abrirComparacao() {
     }
 
     // Adicionar item
-    function adicionarItem(id, nome) {
-      let itens = JSON.parse(localStorage.getItem('comparador')) || [];
-      if (!itens.find(item => item.id === id)) {
-        itens.push({ id, nome });
-        localStorage.setItem('comparador', JSON.stringify(itens));
-        mostrarFeedback(`${nome} adicionado!`);
-        carregarCesta();
-      } else {
-        mostrarFeedback(`${nome} já está na cesta!`);
-      }
-    }
+function adicionarItem(id, nome) {
+  let itens = JSON.parse(localStorage.getItem('comparador')) || [];
+
+  // regra de negócio: máximo 3 suplementos
+  if (itens.length >= 3) {
+    mostrarFeedback("Você só pode comparar no máximo 3 suplementos!");
+    return;
+  }
+
+  if (!itens.find(item => item.id === id)) {
+    itens.push({ id, nome });
+    localStorage.setItem('comparador', JSON.stringify(itens));
+    mostrarFeedback(`${nome} adicionado!`);
+    carregarCesta();
+  } else {
+    mostrarFeedback(`${nome} já está na cesta!`);
+  }
+}
+
+
 
     // Remover item
     function removerItem(id) {

@@ -61,26 +61,16 @@ class SuplementoController
         $s->setPreco((float) $_POST['preco']);
         $s->setMarca($_POST['marca'] ?? null);
         // Upload da imagem
-        $imgPath = null;
-        if (!empty($_FILES['img']['name'])) {
-            $uploadDir = __DIR__ . '/../../public/imagens/'; // pasta onde salvar
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
+    $imgNome = null;
+    if (!empty($_POST['img'])) {
+        $imgNome = basename($_POST['img']); // ex.: whey.jpg
+    } elseif (!empty($_FILES['img']['name'])) {
+        // Se o form ainda está como file, usamos só o nome, sem mover
+        $imgNome = basename($_FILES['img']['name']);
+    }
+    $s->setImg($imgNome ? 'public/imagens/' . $imgNome : null);
 
-            $fileName = uniqid() . "_" . basename($_FILES['img']['name']); // evita conflito
-            $targetFile = $uploadDir . $fileName;
 
-            if (move_uploaded_file($_FILES['img']['tmp_name'], $targetFile)) {
-                // Caminho relativo para salvar no banco
-                $imgPath = 'public/imagens/' . $fileName;
-            } else {
-                echo "Erro ao enviar imagem.";
-            }
-        }
-
-        // Agora usa o caminho do upload
-        $s->setImg($imgPath);
 
 
         $s->setLink($_POST['link'] ?? null);
@@ -130,33 +120,30 @@ class SuplementoController
         $s->setPreco((float) $_POST['preco']);
         $s->setMarca($_POST['marca'] ?? null);
 
-        $imgPath = null;
-        if (!empty($_FILES['img']['name'])) {
-            $uploadDir = __DIR__ . '/../../public/imagens/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
+ $imgNome = null;
+    if (!empty($_POST['img'])) {
+        $imgNome = basename($_POST['img']);
+    } elseif (!empty($_FILES['img']['name'])) {
+        $imgNome = basename($_FILES['img']['name']);
+    }
 
-            $fileName = uniqid() . "_" . basename($_FILES['img']['name']);
-            $targetFile = $uploadDir . $fileName;
+    if ($imgNome) {
+        $s->setImg('public/imagens/' . $imgNome);
+    } else {
+        // Mantém imagem anterior do banco
+        $anterior = $this->dao->buscarPorId($id);
+        $s->setImg($anterior ? $anterior->getImg() : null);
+    }
 
-            if (move_uploaded_file($_FILES['img']['tmp_name'], $targetFile)) {
-                $imgPath = 'public/imagens/' . $fileName;
-            }
-        }
 
-        // Se não enviou nova imagem, mantém a antiga
-        if ($imgPath) {
-            $s->setImg($imgPath);
-        } else {
-            $s->setImg($_POST['img'] ?? null);
-        }
+
 
         $s->setLink($_POST['link'] ?? null);
         $s->setVegano(isset($_POST['vegano'])   ? true : false);
         $s->setGluten(isset($_POST['gluten'])  ? true : false);
         $s->setLactose(isset($_POST['lactose']) ? true : false);
 
+// Atualização dos nutrientes vinculados
 
         $this->dao->atualizar($s);
         $this->suplementoNutrienteDao->removerTodosPorSuplemento($id);

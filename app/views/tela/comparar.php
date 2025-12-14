@@ -12,12 +12,17 @@
   <meta charset="UTF-8">
   <title>Comparação de Suplementos</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f7f8fa;
-      color: #333;
-    }
+  body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f7f8fa;
+  color: #333;
+  min-height: 100vh;   /* ocupa toda a altura da tela */
+  display: flex;
+  flex-direction: column; /* organiza em coluna */
+}
+
+
 
     h2 {
       text-align: center;
@@ -102,6 +107,46 @@
       text-align: center;
       margin-top: 8px;
     }
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #333;
+  color: #fff;
+  font-size: 14px;
+  margin-top: auto;   /* garante que o footer vá para o fim */
+}
+
+
+    /* 📱 Responsividade */
+    @media (max-width: 700px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead {
+        display: none;
+      }
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 10px;
+        background: #fff;
+      }
+      td {
+        text-align: left;
+        border: none;
+        padding: 6px;
+      }
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+      }
+    }
+
+
   </style>
 </head>
 
@@ -216,74 +261,80 @@
     <button onclick="limparCesta()" class="btn">Limpar cesta</button>
   </div>
 
+    <footer>
+    <p>&copy; 2025 SuplementosFacil</p>
+  </footer>
+
   <script>
-    function converterParaMg(valor, unidade) {
-      if (valor === null || isNaN(valor)) return null;
-      switch ((unidade || '').toLowerCase()) {
-        case "kg":
-          return valor * 1e6;
-        case "g":
-          return valor * 1000;
-        case "mg":
-          return valor;
-        case "mcg":
-          return valor * 0.001;
-        default:
-          return valor; // mantém a unidade original se for algo como "IU", "kcal", etc.
-      }
+  // Função para converter valores para mg (quando aplicável)
+  function converterParaMg(valor, unidade) {
+    if (valor === null || isNaN(valor)) return null;
+    switch ((unidade || '').toLowerCase()) {
+      case "kg":
+        return valor * 1e6;
+      case "g":
+        return valor * 1000;
+      case "mg":
+        return valor;
+      case "mcg":
+        return valor * 0.001;
+      default:
+        return valor; // mantém a unidade original se for algo como "IU", "kcal", etc.
     }
+  }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      const itens = document.querySelectorAll(".nutriente");
-      const grupos = {};
+  // Comparação automática dos nutrientes ao carregar a página
+  document.addEventListener("DOMContentLoaded", function() {
+    const itens = document.querySelectorAll(".nutriente");
+    const grupos = {};
 
-      itens.forEach(li => {
-        const nome = (li.dataset.nome || '').trim();
-        const valorRaw = li.dataset.valor;
-        const unidade = (li.dataset.unidade || '').trim();
+    itens.forEach(li => {
+      const nome = (li.dataset.nome || '').trim();
+      const valorRaw = li.dataset.valor;
+      const unidade = (li.dataset.unidade || '').trim();
 
-        // Ignora registros sem nome ou sem quantidade válida
-        if (!nome) return;
-        const valor = parseFloat(valorRaw);
-        if (isNaN(valor)) return;
+      if (!nome) return;
+      const valor = parseFloat(valorRaw);
+      if (isNaN(valor)) return;
 
-        const valorMg = converterParaMg(valor, unidade);
+      const valorMg = converterParaMg(valor, unidade);
 
-        if (!grupos[nome]) grupos[nome] = [];
-        grupos[nome].push({
-          el: li,
-          valor: valorMg
-        });
-      });
-
-      Object.keys(grupos).forEach(nome => {
-        const grupo = grupos[nome];
-        if (grupo.length < 2) return; // só faz sentido comparar se há 2+ suplementos
-
-        const valores = grupo.map(g => g.valor);
-        const max = Math.max(...valores);
-        const min = Math.min(...valores);
-
-        grupo.forEach(g => {
-          if (max !== min) {
-            if (g.valor === max) {
-              g.el.classList.add("maior");
-            } else if (g.valor === min) {
-              g.el.classList.add("menor");
-            }
-          } else {
-            g.el.classList.add("igual");
-          }
-        });
+      if (!grupos[nome]) grupos[nome] = [];
+      grupos[nome].push({
+        el: li,
+        valor: valorMg
       });
     });
 
-    function limparCesta() {
-      localStorage.removeItem('comparador');
-      alert("Cesta limpa!");
-      window.location.href = "index.php?controller=tela&action=home";
-    }
-  </script>
+    Object.keys(grupos).forEach(nome => {
+      const grupo = grupos[nome];
+      if (grupo.length < 2) return; // só faz sentido comparar se há 2+ suplementos
+
+      const valores = grupo.map(g => g.valor);
+      const max = Math.max(...valores);
+      const min = Math.min(...valores);
+
+      grupo.forEach(g => {
+        if (max !== min) {
+          if (g.valor === max) {
+            g.el.classList.add("maior");
+          } else if (g.valor === min) {
+            g.el.classList.add("menor");
+          }
+        } else {
+          g.el.classList.add("igual");
+        }
+      });
+    });
+  });
+
+  // Função para limpar a cesta de comparação
+  function limparCesta() {
+    localStorage.removeItem('comparador');
+    alert("Cesta limpa!");
+    window.location.href = "index.php?controller=tela&action=home";
+  }
+</script>
 </body>
 
 </html>
