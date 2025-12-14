@@ -37,11 +37,11 @@ class SuplementoController
 
     public function cadastrarForm()
     {
-           $catDao = new CategoriaDAO();
-    $nutDao = new NutrienteDAO();
+        $catDao = new CategoriaDAO();
+        $nutDao = new NutrienteDAO();
 
-    $categorias = $catDao->listarTodos();
-    $nutrientes = $nutDao->listarTodos();
+        $categorias = $catDao->listarTodos();
+        $nutrientes = $nutDao->listarTodos();
 
         require __DIR__ . '/../views/suplementos/cadastrar.php';
     }
@@ -60,23 +60,23 @@ class SuplementoController
         $s->setSabor($_POST['sabor']);
         $s->setPreco((float) $_POST['preco']);
         $s->setMarca($_POST['marca'] ?? null);
-        // Upload da imagem
-    $imgNome = null;
-    if (!empty($_POST['img'])) {
-        $imgNome = basename($_POST['img']); // ex.: whey.jpg
-    } elseif (!empty($_FILES['img']['name'])) {
-        // Se o form ainda está como file, usamos só o nome, sem mover
-        $imgNome = basename($_FILES['img']['name']);
-    }
-    $s->setImg($imgNome ? 'public/imagens/' . $imgNome : null);
+
+        $imgNome = null;
+        if (!empty($_POST['img'])) {
+            $imgNome = basename($_POST['img']); // ex.: whey.jpg
+        } elseif (!empty($_FILES['img']['name'])) {
+            // Se o form ainda está como file, usamos só o nome, sem mover
+            $imgNome = basename($_FILES['img']['name']);
+        }
+        $s->setImg($imgNome ? 'public/imagens/' . $imgNome : null);
 
 
 
 
         $s->setLink($_POST['link'] ?? null);
-        $s->setVegano(isset($_POST['vegano'])   ? true : false);
-        $s->setGluten(isset($_POST['gluten'])  ? true : false);
-        $s->setLactose(isset($_POST['lactose']) ? true : false);
+        $s->setVegano(isset($_POST['vegano']) );
+        $s->setGluten(isset($_POST['gluten'])  );
+        $s->setLactose(isset($_POST['lactose']) );
 
         $this->dao->inserir($s);
         header("Location: index.php?controller=suplemento&action=listar");
@@ -105,7 +105,7 @@ class SuplementoController
 
     public function atualizar()
     {
-        $id = $_POST['id'];
+       
         $s = new Suplemento();
         $s->setId((int) $_POST['id']);
         $s->setNome($_POST['nome']);
@@ -120,38 +120,35 @@ class SuplementoController
         $s->setPreco((float) $_POST['preco']);
         $s->setMarca($_POST['marca'] ?? null);
 
- $imgNome = null;
-    if (!empty($_POST['img'])) {
-        $imgNome = basename($_POST['img']);
-    } elseif (!empty($_FILES['img']['name'])) {
-        $imgNome = basename($_FILES['img']['name']);
-    }
+        $imgNome = null;
+        if (!empty($_POST['img'])) {
+            $imgNome = basename($_POST['img']);
+        } elseif (!empty($_FILES['img']['name'])) {
+            $imgNome = basename($_FILES['img']['name']);
+        }
 
-    if ($imgNome) {
-        $s->setImg('public/imagens/' . $imgNome);
-    } else {
-        // Mantém imagem anterior do banco
-        $anterior = $this->dao->buscarPorId($id);
-        $s->setImg($anterior ? $anterior->getImg() : null);
-    }
-
-
-
+        if ($imgNome) {
+            $s->setImg('public/imagens/' . $imgNome);
+        } else {
+            // Mantém imagem anterior do banco
+            $anterior = $this->dao->buscarPorId($s->getId());
+            $s->setImg($anterior ? $anterior->getImg() : null);
+        }
 
         $s->setLink($_POST['link'] ?? null);
         $s->setVegano(isset($_POST['vegano'])   ? true : false);
         $s->setGluten(isset($_POST['gluten'])  ? true : false);
         $s->setLactose(isset($_POST['lactose']) ? true : false);
 
-// Atualização dos nutrientes vinculados
+        // Atualização dos nutrientes vinculados
 
         $this->dao->atualizar($s);
-        $this->suplementoNutrienteDao->removerTodosPorSuplemento($id);
+        $this->suplementoNutrienteDao->removerTodosPorSuplemento($s->getId());
         if (!empty($_POST['nutrientes'])) {
             foreach ($_POST['nutrientes'] as $nutrienteId) {
                 $qtd = $_POST['qtd_' . $nutrienteId] ?? null;
                 $un  = $_POST['un_' . $nutrienteId] ?? null;
-                $this->suplementoNutrienteDao->vincular($id, $nutrienteId, $qtd, $un);
+                $this->suplementoNutrienteDao->vincular($s->getId() , $nutrienteId, $qtd, $un);
             }
         }
 
