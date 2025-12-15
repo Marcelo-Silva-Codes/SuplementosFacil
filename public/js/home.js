@@ -1,7 +1,9 @@
 
 function abrirComparacao() {
   const itens = JSON.parse(localStorage.getItem('comparador')) || [];
-  if (itens.length === 0) { alert("Nenhum suplemento na cesta!"); return false; }
+  if (itens.length === 0) { 
+    alert("Nenhum suplemento na cesta!"); return false; 
+  }
   const ids = itens.map(i => i.id).join(",");
   window.location.href = "index.php?controller=tela&action=comparar&ids=" + ids;
   return false;
@@ -38,7 +40,7 @@ function adicionarItem(id, nome) {
     carregarCesta();
   }    
   else {
-    mostrarFeedback(`${nome} já está na cesta!`);
+    mostrarFeedback(`${nome} já está na cesta!`); //evita duplicatas
   }
 }
 
@@ -119,6 +121,6 @@ function mostrarFeedback(msg) {
     const id = parseInt(e.dataTransfer.getData("id"));
     const nome = e.dataTransfer.getData("nome");
     if (id && nome) {
-      adicionarItem(id, nome); // usa sua função já existente
+      adicionarItem(id, nome); // usa uma função já existente
     }
   });
