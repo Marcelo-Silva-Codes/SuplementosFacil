@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Painel ADM - Cadastro de Usuário</title>
-  <link rel="stylesheet" href="public/css/usuario/cadastro.css">
+  <link rel="stylesheet" href="public/css/usuario/cadastrar.css">
   <script src="public/js/usuario/cadastro.js" defer></script>
   
 </head>
