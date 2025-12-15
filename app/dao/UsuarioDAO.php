@@ -42,7 +42,7 @@ class UsuarioDAO {
     // Atualizar usuário
     public function atualizar(Usuario $usuario) {
         $sql = "UPDATE usuario 
-                   SET nome = ?, sobrenome = ?, email = ?, telefone = ?, senha = ?, papel = ?
+                   SET nome = ?, sobrenome = ?, email = ?, telefone = ?, senha = ?
                  WHERE id = ?";
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([
