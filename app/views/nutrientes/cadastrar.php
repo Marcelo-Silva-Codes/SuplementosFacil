@@ -25,7 +25,7 @@
       <label for="nome">Nome:</label>
       <input type="text" id="nome" name="nome" required minlength="3">
 
-      <label for="tipo">Tipo / Unidade / Observação:</label>
+      <label for="tipo">Tipo:</label>
       <input type="text" id="tipo" name="tipo">
 
       <button type="submit">Salvar Nutriente</button>

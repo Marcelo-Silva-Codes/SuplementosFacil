@@ -54,11 +54,12 @@ class SuplementoDAO
             $s->getSabor(),
             $s->getPreco(),
             $s->getImg(),
-            $s->getMarca(),
+            $s->getLink(),
+             $s->getMarca(),
             $s->isvegano() ? 1 : 0,
             $s->isgluten() ? 1 : 0,
-            $s->islactose() ? 1 : 0,
-            $s->getLink()
+            $s->islactose() ? 1 : 0
+            
         ]);
         $snDao = new SuplementoNutrienteDAO();
         $novoId = $this->conexao->lastInsertId();  // obtém o id gerado pelo auto_increment
@@ -101,12 +102,11 @@ class SuplementoDAO
         $s->setPreco((float)$row['preco']);
         $s->setImg($row['img']);
         $s->setMarca($row['marca']);
+        $s->setLink($row['link']);
         $s->setVegano((bool)$row['vegano']);
         $s->setGluten((bool)$row['gluten']);
         $s->setLactose((bool)$row['lactose']);
-        $s->setLink($row['link']);
-
-
+        
 
         return $s;
     }
@@ -131,10 +131,11 @@ class SuplementoDAO
             $s->setPreco((float)$row['preco']);
             $s->setImg($row['img']);
             $s->setMarca($row['marca']);
+            $s->setLink($row['link']);
             $s->setVegano((bool)$row['vegano']);
             $s->setGluten((bool)$row['gluten']);
             $s->setLactose((bool)$row['lactose']);
-            $s->setLink($row['link']);
+     
             $lista[] = $s;
         }
         return $lista;

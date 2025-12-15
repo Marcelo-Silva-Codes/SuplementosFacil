@@ -26,7 +26,7 @@
       <label for="nome">Nome:</label>
       <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($nutriente->getNome()) ?>" required minlength="3">
 
-      <label for="tipo">Tipo / Categoria do nutriente (opcional):</label>
+      <label for="tipo">Tipo:</label>
       <input type="text" id="tipo" name="tipo" value="<?= htmlspecialchars($nutriente->getTipo()) ?>">
 
       <button type="submit">Salvar Alterações</button>

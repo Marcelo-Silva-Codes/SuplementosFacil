@@ -1,7 +1,7 @@
 # SuplementosFacil
 
 O SuplementosFácil é um sistema web desenvolvido para facilitar o gerenciamento e a comparação de suplementos alimentares.
-Ele oferece um painel administrativo para cadastro e manutenção de suplementos, categorias e usuários, além de uma interface pública onde os visitantes podem buscar produtos e comparar suas características nutricionais.
+Ele oferece um painel administrativo para cadastro e manutenção de suplementos, categorias, nutrientes e usuários, além de uma interface pública onde os visitantes podem encontrar diversos produtos e comparar suas características nutricionais.
 
 Estrutura do Projeto
 
@@ -74,3 +74,7 @@ Principais Funcionalidades
 • 	Drag & Drop: suplementos podem ser arrastados para a cesta.
 • 	Validações em JavaScript nos formulários (nome, email, senha, telefone).
 • 	Footer padronizado em todas as páginas.
+
+
+O projeto contém um arquivo .sql com o banco e suas inserções, menos a da imagem que está
+localizada na propria maquina.

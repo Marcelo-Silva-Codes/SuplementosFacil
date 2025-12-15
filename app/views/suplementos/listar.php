@@ -92,7 +92,7 @@
                 <td>
                   <?php $url = $s->getLink(); ?>
                   <?php if (!empty($url)): ?>
-                    <a href="<?= htmlspecialchars($url) ?>" target="_blank" rel="noopener">Abrir</a>
+                    <a href="<?=$url ?>" target="_blank" rel="noopener">Abrir</a>
                   <?php else: ?>
                     <em>—</em>
                   <?php endif; ?>
