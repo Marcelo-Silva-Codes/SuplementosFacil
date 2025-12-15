@@ -86,7 +86,7 @@
       text-align: center;
     }
 
-    tr:nth-child(even) {
+   tr:nth-child(even) {
       background: #f9f9f9;
     }
 

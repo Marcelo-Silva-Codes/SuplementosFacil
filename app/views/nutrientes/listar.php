@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <title>Painel ADM - Nutrientes</title>
 
-  <link rel="stylesheet" href="public/css/nutriente/editar.css">
+  <link rel="stylesheet" href="public/css/nutriente/listar.css">
 </head>
 <body>
 
@@ -42,9 +42,9 @@
             <td data-label="Nome"><?= htmlspecialchars($n->getNome()) ?></td>
             <td data-label="Tipo"><?= htmlspecialchars($n->getTipo()) ?></td>
             <td data-label="Ações" class="table-actions">
-              <a href="index.php?controller=nutriente&action=editarForm&id=<?= $n->getId() ?>">✏️ Editar</a> |
+              <a href="index.php?controller=nutriente&action=editarForm&id=<?= $n->getId() ?>"> Editar</a> |
               <a href="index.php?controller=nutriente&action=deletar&id=<?= $n->getId() ?>"
-                 onclick="return confirm('Confirma exclusão?')">🗑️ Excluir</a>
+                 onclick="return confirm('Confirma exclusão?')"> Excluir</a>
             </td>
           </tr>
         <?php endforeach; ?>
