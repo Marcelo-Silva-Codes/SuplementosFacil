@@ -27,8 +27,8 @@ class SuplementoController
 
         foreach ($lista as $s) {
             $s->setNutrientes(
-    $this->suplementoNutrienteDao->buscarNutrientesPorSuplemento($s->getId())
-);
+                $this->suplementoNutrienteDao->buscarNutrientesPorSuplemento($s->getId())
+            );
         }
 
         require 'app/views/suplementos/listar.php';
@@ -62,26 +62,48 @@ class SuplementoController
         $s->setMarca($_POST['marca'] ?? null);
 
         $imgNome = null;
+
         if (!empty($_FILES['img']['name'])) {
+
+            // Tipos de imagem permitidos
+            $tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
+
+            // Verifica se houve erro no upload
+            if ($_FILES['img']['error'] !== UPLOAD_ERR_OK) {
+                die('Erro no upload da imagem.');
+            }
+
+            // Descobre o tipo real do arquivo
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, $_FILES['img']['tmp_name']);
+            finfo_close($finfo);
+
+            // Valida se é imagem
+            if (!in_array($mimeType, $tiposPermitidos)) {
+                die('Arquivo enviado não é uma imagem válida.');
+            }
+
+            // Se passou na validação, pega o nome
             $imgNome = basename($_FILES['img']['name']);
         }
+
         $s->setImg($imgNome ? 'public/imagens/' . $imgNome : null);
         $s->setLink($_POST['link'] ?? null);
 
-        $s->setVegano(isset($_POST['vegano']) );
-        $s->setGluten(isset($_POST['gluten'])  );
-        $s->setLactose(isset($_POST['lactose']) );
+        $s->setVegano(isset($_POST['vegano']));
+        $s->setGluten(isset($_POST['gluten']));
+        $s->setLactose(isset($_POST['lactose']));
 
         $novoId = $this->dao->inserir($s);
 
-if (!empty($_POST['nutrientes'])) {
-    foreach ($_POST['nutrientes'] as $nutrienteId) {
-        $qtd = $_POST['qtd_' . $nutrienteId] ?? null;
-        $un  = $_POST['un_' . $nutrienteId] ?? null;
-        $this->suplementoNutrienteDao
-             ->vincular($novoId, $nutrienteId, $qtd, $un);
-    }
-}
+        if (!empty($_POST['nutrientes'])) {
+            foreach ($_POST['nutrientes'] as $nutrienteId) {
+                $qtd = $_POST['qtd_' . $nutrienteId] ?? null;
+                $un  = $_POST['un_' . $nutrienteId] ?? null;
+                $this->suplementoNutrienteDao
+                    ->vincular($novoId, $nutrienteId, $qtd, $un);
+            }
+        }
         header("Location: index.php?controller=suplemento&action=listar");
         exit;
     }
@@ -99,14 +121,14 @@ if (!empty($_POST['nutrientes'])) {
         if (!$supl) {
             die("Suplemento não encontrado.");
         }
-        
+
 
         require __DIR__ . '/../views/suplementos/editar.php';
     }
 
     public function atualizar()
     {
-       
+
         $s = new Suplemento();
         $s->setId((int) $_POST['id']);
         $s->setNome($_POST['nome']);
@@ -121,18 +143,38 @@ if (!empty($_POST['nutrientes'])) {
         $s->setPreco((float) $_POST['preco']);
         $s->setMarca($_POST['marca'] ?? null);
 
+        /* -------------------------
+             TRATAMENTO DA IMAGEM
+        -------------------------- */
+
         $imgNome = null;
-        if (!empty($_POST['img'])) {
-            $imgNome = basename($_POST['img']);
-        } elseif (!empty($_FILES['img']['name'])) {
+
+        // Busca imagem atual uma única vez
+        $anterior = $this->dao->buscarPorId($s->getId());
+
+        if (!empty($_FILES['img']['name'])) {
+
+            $tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
+
+            if ($_FILES['img']['error'] !== UPLOAD_ERR_OK) {
+                die('Erro no upload da imagem.');
+            }
+
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, $_FILES['img']['tmp_name']);
+            finfo_close($finfo);
+
+            if (!in_array($mimeType, $tiposPermitidos)) {
+                die('Arquivo enviado não é uma imagem válida.');
+            }
+
             $imgNome = basename($_FILES['img']['name']);
         }
 
+        // Decide qual imagem usar
         if ($imgNome) {
             $s->setImg('public/imagens/' . $imgNome);
         } else {
-            // Mantém imagem anterior do banco
-            $anterior = $this->dao->buscarPorId($s->getId());
             $s->setImg($anterior ? $anterior->getImg() : null);
         }
 
@@ -149,7 +191,7 @@ if (!empty($_POST['nutrientes'])) {
             foreach ($_POST['nutrientes'] as $nutrienteId) {
                 $qtd = $_POST['qtd_' . $nutrienteId] ?? null;
                 $un  = $_POST['un_' . $nutrienteId] ?? null;
-                $this->suplementoNutrienteDao->vincular($s->getId() , $nutrienteId, $qtd, $un);
+                $this->suplementoNutrienteDao->vincular($s->getId(), $nutrienteId, $qtd, $un);
             }
         }
 

@@ -71,7 +71,8 @@
       <input type="text" name="marca">
 
       <label>Imagem:</label>
-      <input type="file" name="img" accept="image/*">
+      <input type="file" name="img" accept="image/png, image/jpeg, image/webp">
+>
       <br><br>
 
       <label>Link:</label>
