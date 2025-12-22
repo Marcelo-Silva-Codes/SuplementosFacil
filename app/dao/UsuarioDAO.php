@@ -40,19 +40,35 @@ class UsuarioDAO {
     }
 
     // Atualizar usuário
-    public function atualizar(Usuario $usuario) {
-        $sql = "UPDATE usuario 
-                   SET nome = ?, sobrenome = ?, email = ?, telefone = ?, senha = ?
-                 WHERE id = ?";
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->execute([
-            $usuario->getNome(),
-            $usuario->getSobrenome(),
-            $usuario->getEmail(),
-            $usuario->getTelefone(),
-            $usuario->getSenha(),
-            $usuario->getId()
-        ]);
+    public function atualizar(Usuario $u) {
+         if ($u->getSenha()) {
+        $sql = "UPDATE usuario SET
+                nome = ?, sobrenome = ?, email = ?, telefone = ?, senha = ?
+                WHERE id = ?";
+        $params = [
+            $u->getNome(),
+            $u->getSobrenome(),
+            $u->getEmail(),
+            $u->getTelefone(),
+            $u->getSenha(),
+            $u->getId()
+        ];
+        } 
+        else {
+            $sql = "UPDATE usuario SET
+                nome = ?, sobrenome = ?, email = ?, telefone = ?
+                WHERE id = ?";
+            $params = [
+                $u->getNome(),
+                $u->getSobrenome(),
+                $u->getEmail(),
+                $u->getTelefone(),
+                $u->getId()
+            ];
+        }
+
+    $stmt = $this->conexao->prepare($sql);
+    $stmt->execute($params);
     }
 
     // Excluir usuário

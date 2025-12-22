@@ -3,14 +3,16 @@
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Painel ADM - Editar Usuário</title>
-  
+
   <link rel="stylesheet" href="public/css/usuario/editar.css">
   <script src="public/js/usuario/editar.js" defer></script>
 
 </head>
+
 <body>
   <!-- Navbar -->
   <nav class="navbar">
@@ -24,7 +26,7 @@
 
   <div class="container">
     <h2>Editar Usuário</h2>
-    <form id="formEditarUsuario" action="index.php?controller=usuario&action=atualizar" method="POST">
+    <form id="formEditarUsuario" action="index.php?controller=usuario&action=atualizar" method="POST" >
       <!-- Campo oculto para enviar o ID -->
       <input type="hidden" name="id" value="<?= htmlspecialchars($usuario->getId()); ?>">
 
@@ -40,8 +42,9 @@
       <label for="telefone">Telefone:</label>
       <input type="text" name="telefone" id="telefone" value="<?= htmlspecialchars($usuario->getTelefone()); ?>" pattern="[0-9]{8,15}" placeholder="Somente números">
 
-      <label for="senha">Senha:</label>
-      <input type="password" name="senha" id="senha" value="<?= htmlspecialchars($usuario->getSenha()); ?>" required minlength="6">
+      <label for="senha">Nova senha (opcional):</label>
+      <input type="password" name="senha" id="senha" >
+      <small>Preencha apenas se quiser alterar a senha</small>
 
       <button type="submit">Salvar alterações</button>
     </form>
@@ -53,4 +56,5 @@
     <p>&copy; 2025 SuplementosFacil - Painel ADM</p>
   </footer>
 </body>
+
 </html>
