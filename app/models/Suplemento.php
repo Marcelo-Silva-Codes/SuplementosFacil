@@ -10,7 +10,7 @@ class Suplemento
     private string $formaApresentacao;
     private string $quantidadePorPorcao;
     private string $quantidadePorPorcaoUM;
-    private String $calorias;
+    private float $calorias;
     private string $sabor;
     private float $preco;
     private ?string $img;
@@ -95,7 +95,7 @@ public function addNutriente($nutrienteId, $quantidade, $unidade) {
     {
         return $this->calorias;
     }
-    public function setcalorias(string $calorias)
+    public function setcalorias(float $calorias)
     {
         $this->calorias = $calorias;
     }

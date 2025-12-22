@@ -8,23 +8,7 @@ class SuplementoNutrienteDAO
     private $conexao;
 
     public function __construct() {
-        $this->conexao = getConnection(); // usa a função do config/database.php
-    }
-
-    public function inserir(SuplementoNutriente $sn)
-    {
-        $sql = "INSERT INTO suplemento_nutriente 
-                (suplemento_id, nutriente_id, quantidade, unidadeMedida)
-               VALUES (?, ?, ?, ?)";
-
-        $stmt = $this->conexao->prepare($sql);
-
-        $stmt->execute ([
-            $sn -> getSuplementoId(),
-            $sn -> getNutrienteId(),
-            $sn -> getQuantidade(),
-            $sn -> getUnidadeMedida()
-        ]);
+        $this->conexao = getConnection(); 
     }
 
 
@@ -43,42 +27,6 @@ class SuplementoNutrienteDAO
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
- public function listarTodasRelacoes(): array
-    {
-        $sql = "
-          SELECT sn.suplemento_id, sn.nutriente_id,
-                 n.nome AS nutriente_nome,
-                 sn.quantidade,
-                 sn.unidade_medida
-          FROM suplemento_nutriente sn
-          JOIN nutriente n ON (n.id = sn.nutriente_id)
-          ORDER BY sn.suplemento_id
-        ";
-        $stmt = $this->conexao->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-public function inserirRelacao(int $suplementoId, int $nutrienteId, float $qtd, string $um) {
-    $sql = "INSERT INTO suplemento_nutriente (suplemento_id, nutriente_id, quantidade, unidade_medida)
-            VALUES (?, ?, ?, ?)";
-    $stmt = $this->conexao->prepare($sql);
-    $stmt->execute([$suplementoId, $nutrienteId, $qtd, $um]);
-}
-
-
-
-
-    public function buscarSuplementosPorNutriente($nutrienteId)
-{
-    $sql = "SELECT * 
-            FROM suplemento_nutriente
-            WHERE nutriente_id = ?";
-    
-    $stmt = $this->conexao->prepare($sql);
-    $stmt->execute([$nutrienteId]);
-
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'SuplementoNutriente');
-}
 
     public function vincular($suplementoId, $nutrienteId, $quantidade, $unidade) {
         $sql = "INSERT INTO suplemento_nutriente (suplemento_id, nutriente_id, quantidade, unidade_medida)

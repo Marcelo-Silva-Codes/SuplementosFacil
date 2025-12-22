@@ -15,9 +15,7 @@ class SuplementoDAO
         $this->conexao = getConnection();
     }
 
-    // -------------------------------
     //  INSERIR SUPLEMENTO
-    // -------------------------------
     public function inserir(Suplemento $s)
     {
         $sql = "INSERT INTO suplemento (
@@ -61,17 +59,8 @@ class SuplementoDAO
             $s->islactose() ? 1 : 0
             
         ]);
-        $snDao = new SuplementoNutrienteDAO();
-        $novoId = $this->conexao->lastInsertId();  // obtém o id gerado pelo auto_increment
-
-        if (!empty($_POST['nutrientes'])) {
-            foreach ($_POST['nutrientes'] as $nutrienteId) {
-                $quantidade = $_POST["qtd_$nutrienteId"];
-                $unidade    = $_POST["un_$nutrienteId"];
-                // chamar DAO para inserir na tabela intermediária:
-                $snDao->inserirRelacao($novoId, $nutrienteId, $quantidade, $unidade);
-            }
-        }
+        
+        return (int) $this->conexao->lastInsertId();
     }
 
     // -------------------------------
@@ -95,7 +84,7 @@ class SuplementoDAO
         $s->setQuantidadeTotalUM($row['quantidade_total_UM']);
         $s->setQuantidadePorPorcao($row['quantidade_por_porcao']);
         $s->setQuantidadePorPorcaoUM($row['quantidade_por_porcao_UM']);
-        $s->setCalorias($row['calorias']);
+        $s->setCalorias((float)$row['calorias']);
         $s->setSabor($row['sabor']);
         $s->setCategoriaId((int)$row['categoria_id']);
         $s->setFormaApresentacao($row['forma_apresentacao']);
@@ -110,6 +99,9 @@ class SuplementoDAO
 
         return $s;
     }
+
+        // LISTAR TODOS
+
     public function listarTodos(): array
     {
         $sql = "SELECT * FROM suplemento ORDER BY nome ASC";
@@ -124,7 +116,7 @@ class SuplementoDAO
             $s->setQuantidadeTotalUM($row['quantidade_total_UM']);
             $s->setQuantidadePorPorcao($row['quantidade_por_porcao']);
             $s->setQuantidadePorPorcaoUM($row['quantidade_por_porcao_UM']);
-            $s->setCalorias($row['calorias']);
+            $s->setCalorias((float)$row['calorias']);
             $s->setSabor($row['sabor']);
             $s->setCategoriaId((int)$row['categoria_id']);
             $s->setFormaApresentacao($row['forma_apresentacao']);
@@ -144,7 +136,7 @@ class SuplementoDAO
     public function listarTodosTUDO(): array
     {
         $sql = "SELECT s.* , sn.*, n.* FROM suplemento as s
-            join suplemento_nutriente as sn on (s.id = sn_id)
+            join suplemento_nutriente as sn on (s.id = sn.suplemento_id)
             join nutriente as n on (sn.nutriente_id = n.id)
              ORDER BY s.nome ASC";
         $stmt = $this->conexao->query($sql);

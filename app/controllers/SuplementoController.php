@@ -2,7 +2,6 @@
 require_once __DIR__ . '/../dao/SuplementoDAO.php';
 require_once __DIR__ . '/../dao/CategoriaDAO.php';
 require_once __DIR__ . '/../models/Suplemento.php';
-require_once __DIR__ . '/SuplementosNutrientesController.php';
 require_once __DIR__ . '/../dao/NutrienteDAO.php';
 require_once __DIR__ . '/../dao/SuplementoNutrienteDAO.php';
 
@@ -25,10 +24,11 @@ class SuplementoController
     {
         $this->protegerPainel();
         $lista = $this->dao->listarTodos();
-        $snController = new SuplementosNutrientesController();
 
         foreach ($lista as $s) {
-            $s->setNutrientes($snController->listarPorSuplemento($s->getId()));
+            $s->setNutrientes(
+    $this->suplementoNutrienteDao->buscarNutrientesPorSuplemento($s->getId())
+);
         }
 
         require 'app/views/suplementos/listar.php';
@@ -56,7 +56,7 @@ class SuplementoController
         $s->setQuantidadeTotalUM($_POST['quantidade_total_UM']);
         $s->setQuantidadePorPorcao($_POST['quantidade_por_porcao']);
         $s->setQuantidadePorPorcaoUM($_POST['quantidade_por_porcao_UM']);
-        $s->setCalorias($_POST['calorias']);
+        $s->setCalorias((float)$_POST['calorias']);
         $s->setSabor($_POST['sabor']);
         $s->setPreco((float) $_POST['preco']);
         $s->setMarca($_POST['marca'] ?? null);
@@ -65,20 +65,27 @@ class SuplementoController
         if (!empty($_POST['img'])) {
             $imgNome = basename($_POST['img']); // ex.: whey.jpg
         } elseif (!empty($_FILES['img']['name'])) {
-            // Se o form ainda está como file, usamos só o nome, sem mover
+           
             $imgNome = basename($_FILES['img']['name']);
         }
         $s->setImg($imgNome ? 'public/imagens/' . $imgNome : null);
-
-
-
-
         $s->setLink($_POST['link'] ?? null);
+
+//
         $s->setVegano(isset($_POST['vegano']) );
         $s->setGluten(isset($_POST['gluten'])  );
         $s->setLactose(isset($_POST['lactose']) );
 
-        $this->dao->inserir($s);
+        $novoId = $this->dao->inserir($s);
+
+if (!empty($_POST['nutrientes'])) {
+    foreach ($_POST['nutrientes'] as $nutrienteId) {
+        $qtd = $_POST['qtd_' . $nutrienteId] ?? null;
+        $un  = $_POST['un_' . $nutrienteId] ?? null;
+        $this->suplementoNutrienteDao
+             ->vincular($novoId, $nutrienteId, $qtd, $un);
+    }
+}
         header("Location: index.php?controller=suplemento&action=listar");
         exit;
     }
@@ -95,11 +102,9 @@ class SuplementoController
         $categorias = $categoriaDao->listarTodos();
         if (!$supl) {
             die("Suplemento não encontrado.");
-
-            if (!empty($categorias)) {
-                die("Categorias não encontradas.");
-            }
         }
+        
+
         require __DIR__ . '/../views/suplementos/editar.php';
     }
 
@@ -113,7 +118,7 @@ class SuplementoController
         $s->setQuantidadeTotalUM($_POST['quantidade_total_UM']);
         $s->setQuantidadePorPorcao($_POST['quantidade_por_porcao']);
         $s->setQuantidadePorPorcaoUM($_POST['quantidade_por_porcao_UM']);
-        $s->setCalorias($_POST['calorias']);
+        $s->setCalorias((float)$_POST['calorias']);
         $s->setSabor($_POST['sabor']);
         $s->setCategoriaId((int)$_POST['categoria_id']);
         $s->setFormaApresentacao($_POST['forma_apresentacao']);

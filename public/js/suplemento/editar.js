@@ -3,7 +3,7 @@ document.getElementById("formEditarSuplemento").addEventListener("submit", funct
     const preco = parseFloat(document.getElementById("preco").value);
     const qtdTotal = parseInt(document.getElementById("quantidade_total").value);
     const qtdPorcao = parseInt(document.getElementById("quantidade_por_porcao").value);
-    const calorias = parseInt(document.getElementById("calorias").value);
+    const calorias = parseFloat(document.getElementById("calorias").value);
 
     let mensagens = [];
 
@@ -19,7 +19,7 @@ document.getElementById("formEditarSuplemento").addEventListener("submit", funct
     if (!isNaN(qtdPorcao) && qtdPorcao <= 0) {
       mensagens.push("Quantidade por porção deve ser maior que zero.");
     }
-    if (!isNaN(calorias) && calorias < 0) {
+    if (!isNaN(calorias) || calorias < 0) {
       mensagens.push("Calorias não podem ser negativas.");
     }
 

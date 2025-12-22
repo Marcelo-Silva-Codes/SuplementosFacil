@@ -46,7 +46,7 @@
 
 
       <label>Calorias:</label>
-      <input type="number" id="calorias" name="calorias" value="<?= htmlspecialchars($supl->getCalorias()) ?>" min="0">
+      <input type="number" id="calorias" name="calorias" step="0.01" value="<?= htmlspecialchars($supl->getCalorias()) ?>" min="0">
 
 
       <label>Sabor:</label>

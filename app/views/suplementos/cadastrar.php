@@ -59,7 +59,7 @@
       <input type="text" name="quantidade_por_porcao_UM" required>
 
       <label>Calorias por Porção:</label>
-      <input type="number" name="calorias" required min="0">
+      <input type="number" name="calorias"  step="0.01" required min="0.01">
 
       <label>Sabor:</label>
       <input type="text" name="sabor" required>
