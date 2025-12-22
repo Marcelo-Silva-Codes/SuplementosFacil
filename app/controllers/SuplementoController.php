@@ -62,16 +62,12 @@ class SuplementoController
         $s->setMarca($_POST['marca'] ?? null);
 
         $imgNome = null;
-        if (!empty($_POST['img'])) {
-            $imgNome = basename($_POST['img']); // ex.: whey.jpg
-        } elseif (!empty($_FILES['img']['name'])) {
-           
+        if (!empty($_FILES['img']['name'])) {
             $imgNome = basename($_FILES['img']['name']);
         }
         $s->setImg($imgNome ? 'public/imagens/' . $imgNome : null);
         $s->setLink($_POST['link'] ?? null);
 
-//
         $s->setVegano(isset($_POST['vegano']) );
         $s->setGluten(isset($_POST['gluten'])  );
         $s->setLactose(isset($_POST['lactose']) );
