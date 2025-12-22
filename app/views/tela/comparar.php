@@ -66,7 +66,7 @@
                       data-valor="<?= (float)$found['quantidade'] ?>"
                       data-unidade="<?= htmlspecialchars($found['unidade_medida']) ?>">
                       <?= htmlspecialchars($found['nutriente_nome']) ?> —
-                      <?= number_format((float)$found['quantidade'], 2, ',', '.') ?>
+                      <?= number_format((float)$found['quantidade'], 1, ',', '.') ?>
                       <?= htmlspecialchars($found['unidade_medida']) ?>
                     </li>
                   <?php else: ?>
